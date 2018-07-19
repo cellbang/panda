@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<Patterns>
+		<Pattern name="js" contentType="text/javascript" charset="UTF-8"
+			mergeRequests='${configure["view.mergeJavaScript"]}' resourceSuffix=".js" />
+		<Pattern name="css" contentType="text/css" charset="UTF-8"
+			mergeRequests='${configure["view.mergeStyleSheet"]}' resourceSuffix=".css" />
+	</Patterns>
+
+	<Packages>
+		<Package name="colors" pattern="css" depends="colors-support">
+			static/css/colors
+		</Package>
+		<Package name="colors-support" pattern="css">
+			static/css/colors-support
+		</Package>
+		<Package name="jquery-cookie" pattern="js" depends="jquery">
+			static/js/jquery.cookie
+		</Package>
+		<Package name="font-awesome-new" pattern="css" depends="font-awesome-support">
+			static/icons/font-awesome/css/font-awesome
+		</Package>
+		<Package name="font-awesome-info" pattern="js" depends="font-awesome-new">
+			static/icons/font-awesome/info
+		</Package>
+		<Package name="entypo-info" pattern="js" depends="entypo">
+			static/icons/entypo/info
+		</Package>
+	</Packages>
+</config>

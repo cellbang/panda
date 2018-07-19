@@ -1,0 +1,10 @@
+package org.malagu.panda.security.orm;
+/**
+ * @author Kevin Yang (mailto:kevin.yang@bstek.com)
+ * @since 2016年8月13日
+ */
+public interface OrganizationSupport {
+	<T> T getOrganization();
+	<T> void setOrganization(T t);
+	
+}

@@ -1,0 +1,86 @@
+package org.malagu.panda.multitenant.ui.service;
+
+import java.util.List;
+
+import org.malagu.multitenant.MultitenantUtils;
+import org.malagu.multitenant.domain.DataSourceInfo;
+import org.malagu.multitenant.domain.Organization;
+import org.malagu.panda.dorado.linq.JpaUtil;
+import org.malagu.panda.dorado.linq.policy.SaveContext;
+import org.malagu.panda.dorado.linq.policy.impl.SmartSavePolicyAdapter;
+import org.malagu.panda.security.orm.User;
+import org.malagu.panda.security.ui.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.bstek.dorado.data.entity.EntityUtils;
+import com.bstek.dorado.data.provider.Criteria;
+import com.bstek.dorado.data.provider.Page;
+
+/**
+ * @author Kevin Yang (mailto:kevin.yang@bstek.com)
+ * @since 2017年1月9日
+ */
+@Service("ui.organizationService")
+@Transactional(readOnly = true)
+public class OrganizationServiceImpl implements OrganizationService {
+
+	@Autowired
+	private org.malagu.multitenant.service.OrganizationService organizationService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Override
+	public void load(Page<Organization> page, Criteria criteria) {
+		JpaUtil.linq(Organization.class)
+			.collect(DataSourceInfo.class, "dataSourceInfoId")
+			.collectSelect(DataSourceInfo.class, "id", "name")
+			.where(criteria)
+			.paging(page);
+	}
+
+	@Override
+	@Transactional
+	public void save(List<Organization> organizations) {
+		JpaUtil.save(organizations, new SmartSavePolicyAdapter() {
+
+			
+			@Override
+			public boolean beforeInsert(SaveContext context) {
+				Organization organization = context.getEntity();
+				organizationService.allocteResource(organization);
+				MultitenantUtils.doNonQuery(organization.getId(), () -> {
+					User user = new User();
+					user.setNickname("系统管理员");
+					user.setUsername(EntityUtils.getString(organization, "username"));
+					user.setPassword("123456");
+					user.setAdministrator(true);
+					user.setAccountNonExpired(true);
+					user.setAccountNonLocked(true);
+					user.setCredentialsNonExpired(true);
+					user.setCredentialsNonExpired(true);
+					user.setEnabled(true);
+					userService.save(user);
+				});
+				return true;
+			}
+
+			@Override
+			public void afterDelete(SaveContext context) {
+				Organization organization = context.getEntity();
+				organizationService.releaseResource(organization);
+			}
+
+		});
+
+	}
+
+	@Override
+	public boolean isExist(String organizationId) {
+		return JpaUtil.linq(Organization.class).equal("id", organizationId).exists();
+		
+	}
+
+}

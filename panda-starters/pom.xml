@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+		<groupId>org.malagu.panda</groupId>
+		<artifactId>panda-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+  <artifactId>panda-starters</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>panda-starter</module>
+  	<module>panda-starter-parent</module>
+  <!-- 	<module>panda-starter-war-parent</module> -->
+  	<module>panda-starter-jetty</module>
+  	<module>panda-starter-cola</module>
+  	<module>panda-starter-cola-jetty</module>
+  	<module>panda-starter-multitenant</module>
+  </modules>
+</project>

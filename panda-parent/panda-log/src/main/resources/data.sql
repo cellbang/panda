@@ -1,0 +1,1 @@
+INSERT INTO PANDA_URL (DESCRIPTION_, NAME_, ICON_, PATH_, NAVIGABLE_, ORDER_, PARENT_ID_, ID_) VALUES(NULL,'日志查询','fa fa-clock-o blue-text','panda.log.view.LogInfoMaintain.d',1,9,NULL,'6fd00879-07f0-4e30-8109-c405fead4d30')

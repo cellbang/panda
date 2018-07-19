@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="Url">
+      <ClientEvent name="onRemove">var i = 0;
+arg.entity.parent.each(function(u) {
+	if (u.get(&quot;order&quot;) != i) {
+		console.log(u)
+		u.set(&quot;order&quot;, i);
+	}
+	i++;
+});
+</ClientEvent>
+      <ClientEvent name="onInsert">var order = 0
+arg.entity.parent.each(function(item) {
+	if (item.get(&quot;order&quot;) > order) {
+		order = item.get(&quot;order&quot;);
+	}
+})
+arg.entity.set(&quot;order&quot;, order);
+</ClientEvent>
+      <Property name="creationType">com.bstek.bdf3.security.orm.Url</Property>
+      <PropertyDef name="id">
+        <Property></Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property></Property>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="icon">
+        <Property></Property>
+        <Property name="label">图标</Property>
+      </PropertyDef>
+      <PropertyDef name="path">
+        <Property></Property>
+        <Property name="label">路径</Property>
+      </PropertyDef>
+      <PropertyDef name="navigable">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">可导航</Property>
+        <Property name="defaultValue">true</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property></Property>
+      </PropertyDef>
+      <PropertyDef name="order">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">排序号</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="children">
+        <Property name="dataType">[SELF]</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View layout="regionPadding:15">
+    <ClientEvent name="onReady" signature="self,arg,dsUrl,dialogIcon">dialogIcon.addOnIconSelectedListener(function(self, arg) {
+	var url = dsUrl.getData(&quot;!currentNode&quot;);
+	url.set(&quot;icon&quot;, arg.iconClass);
+});
+</ClientEvent>
+    <Property name="packages">font-awesome-info,entypo-info,colors</Property>
+    <DataSet id="dsUrl">
+      <Property name="dataType">[Url]</Property>
+      <Property name="dataProvider">urlController#load</Property>
+    </DataSet>
+    <UpdateAction id="updateAction">
+      <Property name="dataResolver">urlController#save</Property>
+      <Property name="successMessage">保存成功。</Property>
+      <Property name="executingMessage">正在保存……</Property>
+      <UpdateItem>
+        <Property name="dataSet">dsUrl</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Panel layoutConstraint="left ">
+      <Property name="caption">菜单</Property>
+      <Property name="width">35%</Property>
+      <Buttons/>
+      <Children>
+        <DataTree id="dtUrl" layoutConstraint="padding:15">
+          <ClientEvent name="onContextMenu" signature="self,arg,menu">var url = self.get(&quot;currentEntity&quot;);
+if (!url) {
+	view.get(&quot;^op&quot;).set(&quot;disabled&quot;, true);
+} else {
+	view.get(&quot;^op&quot;).set(&quot;disabled&quot;, false);
+}
+menu.show({
+	position: {
+		left:arg.event.pageX,
+        top:arg.event.pageY
+	}
+});
+</ClientEvent>
+          <ClientEvent name="onDraggingSourceDrop" signature="self,arg,updateAction">var node = arg.draggingInfo.get(&quot;object&quot;);
+var url = node.get(&quot;data&quot;);
+if (url.parent.parent) {
+	url.set(&quot;parentId&quot;, url.parent.parent.get(&quot;id&quot;));
+} else {
+	url.set(&quot;parentId&quot;, null);
+}
+var i = 0;
+url.parent.each(function(u) {
+	if (u.get(&quot;order&quot;) != i) {
+		console.log(u)
+		u.set(&quot;order&quot;, i);
+	}
+	i++;
+});
+
+updateAction.execute();
+</ClientEvent>
+          <ClientEvent name="onRenderNode">var data = arg.node.get(&quot;data&quot;);
+var icon = data.get(&quot;icon&quot;) || &quot;&quot;;
+if (icon.indexOf(&quot;.png&quot;) == -1 &amp;&amp; icon.indexOf(&quot;.svg&quot;) == -1) {
+	if (icon != arg.node.get(&quot;iconClass&quot;)) {
+		arg.node.set(&quot;iconClass&quot;, icon);
+	}
+} else {
+	if (icon != arg.node.get(&quot;icon&quot;)) {
+		arg.node.set(&quot;icon&quot;, icon);
+	}
+}
+$(arg.dom).text(data.get(&quot;name&quot;) || &quot;&quot;);
+</ClientEvent>
+          <ClientEvent name="onDataNodeCreate">var data = arg.node.get(&quot;data&quot;);
+var icon = data.get(&quot;icon&quot;) || &quot;&quot;;
+if (icon.indexOf(&quot;.png&quot;) == -1 &amp;&amp; icon.indexOf(&quot;.svg&quot;) == -1) {
+	if (icon != arg.node.get(&quot;iconClass&quot;)) {
+		arg.node.set(&quot;iconClass&quot;, icon);
+	}
+} else {
+	if (icon != arg.node.get(&quot;icon&quot;)) {
+		arg.node.set(&quot;icon&quot;, icon);
+	}
+}
+
+$(arg.dom).text(data.get(&quot;name&quot;) || &quot;&quot;);
+</ClientEvent>
+          <ClientEvent name="onDataRowDoubleClick" signature="self,arg,dialogIcon">dialogIcon.show();
+</ClientEvent>
+          <Property name="dataSet">dsUrl</Property>
+          <Property name="currentNodeDataPath">currentNode</Property>
+          <Property name="droppable">true</Property>
+          <Property name="droppableTags">node</Property>
+          <Property name="draggable">true</Property>
+          <Property name="dragTags">node</Property>
+          <Property name="dropMode">onOrInsertItems</Property>
+          <Property name="showLines">true</Property>
+          <BindingConfigs>
+            <BindingConfig>
+              <Property name="childrenProperty">children</Property>
+              <Property name="labelProperty">name</Property>
+              <Property name="recursive">true</Property>
+              <Property name="tipProperty">description</Property>
+              <Property name="name">name</Property>
+            </BindingConfig>
+          </BindingConfigs>
+        </DataTree>
+      </Children>
+      <Tools>
+        <SimpleIconButton>
+          <Property name="iconClass">fa fa-plus-circle</Property>
+          <Property name="action">actionAddTop</Property>
+        </SimpleIconButton>
+        <SimpleIconButton>
+          <Property name="iconClass">fa fa-plus-circle</Property>
+          <Property name="action">actionAddSub</Property>
+        </SimpleIconButton>
+        <SimpleIconButton>
+          <Property name="iconClass">fa fa-minus-circle</Property>
+          <Property name="action">actionDel</Property>
+        </SimpleIconButton>
+      </Tools>
+    </Panel>
+    <Panel>
+      <Property name="caption">详情</Property>
+      <Buttons/>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dsUrl</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="width">550</Property>
+          <Property name="dataPath">!currentNode</Property>
+          <AutoFormElement>
+            <Property name="name">name</Property>
+            <Property name="property">name</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">icon</Property>
+            <Property name="property">icon</Property>
+            <Property name="trigger">trigger</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">path</Property>
+            <Property name="property">path</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">navigable</Property>
+            <Property name="property">navigable</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">description</Property>
+            <Property name="property">description</Property>
+            <Property name="editorType">TextArea</Property>
+            <Editor/>
+          </AutoFormElement>
+          <Button>
+            <Property name="caption">保存</Property>
+            <Property name="action">updateAction</Property>
+            <Property name="iconClass">fa fa-floppy-o</Property>
+            <Property name="style">
+              <Property name="float">right</Property>
+              <Property name="margin-right">25px</Property>
+            </Property>
+            <Property name="ui">highlight</Property>
+          </Button>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Panel>
+    <Menu id="menu">
+      <MenuItem>
+        <Property name="action">actionAddTop</Property>
+      </MenuItem>
+      <MenuItem>
+        <Property name="action">actionAddSub</Property>
+        <Property name="tags">op</Property>
+      </MenuItem>
+      <Separator/>
+      <MenuItem>
+        <Property name="action">actionDel</Property>
+        <Property name="tags">op</Property>
+      </MenuItem>
+    </Menu>
+    <Trigger id="trigger">
+      <ClientEvent name="onExecute" signature="self,arg,dialogIcon">dialogIcon.show();
+</ClientEvent>
+    </Trigger>
+    <Action id="actionAddTop">
+      <ClientEvent name="onExecute" signature="self,arg,dsUrl,dtUrl">var current = dsUrl.getData().insert();
+dtUrl.set(&quot;currentEntity&quot;, current);
+</ClientEvent>
+      <Property name="caption">添加顶级菜单</Property>
+      <Property name="iconClass">fa fa-plus-circle</Property>
+      <Property name="tip">添加顶级菜单</Property>
+    </Action>
+    <Action id="actionAddSub">
+      <ClientEvent name="onExecute" signature="self,arg,dsUrl,dtUrl">var url = dsUrl.getData(&quot;!currentNode&quot;);
+if (url) {
+	var current = url.createChild(&quot;children&quot;, {});
+	dtUrl.get(&quot;currentNode&quot;).expand();
+	dtUrl.set(&quot;currentEntity&quot;, current);
+} else {
+	dorado.MessageBox.alert(&quot;请选选择菜单。&quot;);
+}
+
+</ClientEvent>
+      <Property name="iconClass">fa fa-plus-circle</Property>
+      <Property name="caption">添加子级菜单</Property>
+      <Property name="tip">添加子级菜单</Property>
+    </Action>
+    <Action id="actionDel">
+      <ClientEvent name="onExecute" signature="self,arg,dsUrl">var url = dsUrl.getData(&quot;!currentNode&quot;);
+if (url) {
+	delUrl(url);
+} else {
+	dorado.MessageBox.alert(&quot;请选选择菜单。&quot;);
+}
+
+function delUrl(url) {
+	url.remove();
+	var children = url.get(&quot;children&quot;);
+	children.each(function(c) {
+		c.remove();
+		delUrl(c);
+	});
+}
+</ClientEvent>
+      <Property name="caption">删除菜单</Property>
+      <Property name="confirmMessage">确定要删除当前选中菜单？</Property>
+      <Property name="iconClass">fa fa-minus-circle</Property>
+      <Property name="tip">删除菜单</Property>
+    </Action>
+    <Import src="com.bstek.bdf3.dorado.template.DialogIcon#dialogIcon"/>
+  </View>
+</ViewConfig>

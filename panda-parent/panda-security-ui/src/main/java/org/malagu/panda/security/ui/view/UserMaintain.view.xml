@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="User">
+      <Property name="creationType">com.bstek.bdf3.security.orm.User</Property>
+      <PropertyDef name="username">
+        <Property></Property>
+        <Property name="label">用户名</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="nickname">
+        <Property></Property>
+        <Property name="label">昵称</Property>
+        <Property name="required">true</Property>
+      </PropertyDef>
+      <PropertyDef name="password">
+        <Property></Property>
+        <Property name="label">密码</Property>
+        <Property name="required">true</Property>
+        <Validator type="charLength">
+          <Property name="minLength">6</Property>
+          <Property name="name">validator</Property>
+        </Validator>
+      </PropertyDef>
+      <PropertyDef name="accountNonExpired">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">账户未过期</Property>
+        <Property name="defaultValue">true</Property>
+      </PropertyDef>
+      <PropertyDef name="accountNonLocked">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">账户未锁定</Property>
+        <Property name="defaultValue">true</Property>
+      </PropertyDef>
+      <PropertyDef name="credentialsNonExpired">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">证书未过期</Property>
+        <Property name="defaultValue">true</Property>
+      </PropertyDef>
+      <PropertyDef name="enabled">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">可用</Property>
+        <Property name="defaultValue">true</Property>
+      </PropertyDef>
+      <PropertyDef name="administrator">
+        <Property name="dataType">boolean</Property>
+        <Property name="label">是管理员</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View layout="padding:15">
+    <Property name="packages">font-awesome,colors</Property>
+    <DataSet id="dsUser">
+      <Property name="dataType">[User]</Property>
+      <Property name="dataProvider">userController#load</Property>
+      <Property name="pageSize">20</Property>
+    </DataSet>
+    <Panel layout="padding:5;regionPadding:10">
+      <Property name="showCaptionBar">false</Property>
+      <Buttons/>
+      <Children>
+        <ToolBar>
+          <DataPilot>
+            <ClientEvent name="onSubControlAction" signature="self,arg,dialogUser,updateAction,dsUser">if (arg.code == &quot;+&quot;) {
+	view.get(&quot;@User&quot;).getPropertyDef(&quot;password&quot;).set(&quot;readOnly&quot;, false);
+	dialogUser.show();
+} else if (arg.code == &quot;-&quot;) {
+	dorado.MessageBox.confirm(&quot;确认要删除当前记录吗？&quot;, function() {
+		dsUser.getData(&quot;#&quot;).remove();
+		updateAction.execute();
+	});
+	arg.processDefault = false;
+}
+</ClientEvent>
+            <Property name="dataSet">dsUser</Property>
+            <Property name="itemCodes">+,-</Property>
+          </DataPilot>
+          <ToolBarButton>
+            <ClientEvent name="onClick" signature="self,arg,dialogUser,dialogUser">view.get(&quot;@User&quot;).getPropertyDef(&quot;password&quot;).set(&quot;readOnly&quot;, true);
+dialogUser.show()
+</ClientEvent>
+            <Property name="caption">修改</Property>
+            <Property name="iconClass">fa fa-pencil</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">var user = dsUser.getData(&quot;#&quot;);
+if (user) {
+	dorado.MessageBox.confirm(&quot;您确定要重置【&quot; + user.get(&quot;nickname&quot;) + &quot;】的密码吗？&quot;, function() {
+		var newPassword = &quot;${configure['bdf3.resetPassword']}&quot;;
+		if (!newPassword) {
+			newPassword = Math.round(Math.random()*1000000) + &quot;&quot;;
+		} 
+		ajaxActionResetPassword.set(&quot;parameter&quot;, {
+			username: user.get(&quot;username&quot;),
+			newPassword: newPassword
+		}).execute(function() {
+			dorado.MessageBox.alert(&quot;新的密码为：&quot; + newPassword);
+		});
+	});
+	
+} else {
+	dorado.MessageBox.alert(&quot;请先选择用户。&quot;);
+}
+</ClientEvent>
+            <Property name="caption">重置密码</Property>
+            <Property name="iconClass">fa fa-key yellow-text</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <ClientEvent name="onClick" signature="self,arg,updateAction,dsUser">var user = dsUser.getData(&quot;#&quot;);
+if (!user.get(&quot;administrator&quot;)) {
+	dorado.MessageBox.confirm(&quot;您确定要赋予【&quot; + user.get(&quot;nickname&quot;) + &quot;】管理员身份吗？&quot;, function() {
+	 	user.set(&quot;administrator&quot;, true);
+		updateAction.execute();
+	});
+} else {
+	dorado.MessageBox.alert(&quot;当前选择的用户已经是管理员了。&quot;);
+}
+</ClientEvent>
+            <Property name="caption">赋予管理员身份</Property>
+            <Property name="iconClass">fa fa-graduation-cap green-text</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <ClientEvent name="onClick" signature="self,arg,updateAction,dsUser">var user = dsUser.getData(&quot;#&quot;);
+if (user.get(&quot;administrator&quot;)) {
+	dorado.MessageBox.confirm(&quot;您确定要取消【&quot; + user.get(&quot;nickname&quot;) + &quot;】的管理员身份吗？&quot;, function() {
+		user.set(&quot;administrator&quot;, false);
+		updateAction.execute();
+	});
+} else {
+	dorado.MessageBox.alert(&quot;当前选择的用户已经不是管理员了。&quot;);
+}
+</ClientEvent>
+            <Property name="caption">取消管理员身份</Property>
+            <Property name="iconClass">fa fa-ban red-text</Property>
+          </ToolBarButton>
+          <ToolBarButton>
+            <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">var user = dsUser.getData(&quot;#&quot;);
+if (user) {
+	if (parent.openTab) {
+		parent.openTab(user.get(&quot;nickname&quot;) + &quot;详情&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['bdf3.personCenter']}&quot; + &quot;?username=&quot; + user.get(&quot;username&quot;));
+	}
+} else {
+	dorado.MessageBox.alert(&quot;请先选择用户。&quot;);
+}
+</ClientEvent>
+            <Property name="caption">查看详情</Property>
+            <Property name="iconClass">fa fa-file-text blue-text</Property>
+          </ToolBarButton>
+          <Fill/>
+          <TextEditor>
+            <ClientEvent name="onKeyDown" signature="self,arg,dgUser">if (arg.keyCode === 13) {
+	return;
+}
+window.clearTimeout(self.urlQueryTimeout);
+self.urlQueryTimeout = window.setTimeout(function() {
+	var key = self.get(&quot;value&quot;);
+	if (!key) {
+		dgUser.filter();
+	} else {
+		dgUser.filter([{
+			junction: &quot;or&quot;,
+			criterions: [{
+				property: &quot;username&quot;,
+				operator: &quot;like&quot;,
+				value: key
+			}, {
+				property: &quot;nickname&quot;,
+				operator: &quot;like&quot;,
+				value: key
+			}]
+		}]);
+	}
+}, 250);</ClientEvent>
+            <Property name="trigger">triggerClear</Property>
+            <Property name="blankText">按用户名或昵称</Property>
+          </TextEditor>
+        </ToolBar>
+        <DataGrid id="dgUser">
+          <Property name="dataSet">dsUser</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="showFilterBar">false</Property>
+          <Property name="sortMode">serverSide</Property>
+          <Property name="filterMode">serverSide</Property>
+          <Property name="allowNoCurrent">false</Property>
+          <RowNumColumn/>
+          <DataColumn name="username">
+            <Property name="property">username</Property>
+          </DataColumn>
+          <DataColumn>
+            <Property name="property">nickname</Property>
+            <Property name="name">nickname</Property>
+          </DataColumn>
+          <DataColumn name="administrator">
+            <Property name="property">administrator</Property>
+          </DataColumn>
+          <DataColumn name="accountNonExpired">
+            <Property name="property">accountNonExpired</Property>
+          </DataColumn>
+          <DataColumn name="accountNonLocked">
+            <Property name="property">accountNonLocked</Property>
+          </DataColumn>
+          <DataColumn name="credentialsNonExpired">
+            <Property name="property">credentialsNonExpired</Property>
+          </DataColumn>
+          <DataColumn name="enabled">
+            <Property name="property">enabled</Property>
+          </DataColumn>
+        </DataGrid>
+        <ToolBar layoutConstraint="bottom">
+          <DataPilot>
+            <Property name="dataSet">dsUser</Property>
+            <Property name="itemCodes">pages,pageSize</Property>
+          </DataPilot>
+        </ToolBar>
+        <AjaxAction id="ajaxActionResetPassword">
+          <Property name="service">userController#changePassword</Property>
+          <Property name="executingMessage">正在执行……</Property>
+          <Property name="successMessage">密码重置成功。</Property>
+        </AjaxAction>
+      </Children>
+      <Tools/>
+    </Panel>
+    <UpdateAction id="updateAction">
+      <ClientEvent name="onSuccess" signature="self,arg,dialogUser">dialogUser.hide()
+</ClientEvent>
+      <Property name="dataResolver">userController#save</Property>
+      <Property name="successMessage">保存成功。</Property>
+      <Property name="executingMessage">正在保存……</Property>
+      <UpdateItem>
+        <Property name="dataSet">dsUser</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <Dialog id="dialogUser">
+      <ClientEvent name="onHide" signature="self,arg,dsUser">dsUser.getData().cancel();
+</ClientEvent>
+      <Property name="caption">用户维护</Property>
+      <Property name="width">500</Property>
+      <Property name="height">400</Property>
+      <Property name="maximizeable">true</Property>
+      <Property name="minimizeable">false</Property>
+      <Buttons>
+        <Button>
+          <ClientEvent name="onClick">self.get(&quot;parent&quot;).hide()
+</ClientEvent>
+          <Property name="caption">取消</Property>
+        </Button>
+        <Button>
+          <Property name="caption">保存</Property>
+          <Property name="action">updateAction</Property>
+        </Button>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dsUser</Property>
+          <Property name="cols">*</Property>
+          <Property name="labelPosition">left</Property>
+          <Property name="labelAlign">right</Property>
+          <AutoFormElement>
+            <Property name="name">username</Property>
+            <Property name="property">username</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">nickname</Property>
+            <Property name="property">nickname</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">password</Property>
+            <Property name="property">password</Property>
+            <Property name="editorType">PasswordEditor</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">accountNonExpired</Property>
+            <Property name="property">accountNonExpired</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">accountNonLocked</Property>
+            <Property name="property">accountNonLocked</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">credentialsNonExpired</Property>
+            <Property name="property">credentialsNonExpired</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">enabled</Property>
+            <Property name="property">enabled</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+  </View>
+</ViewConfig>

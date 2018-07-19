@@ -1,0 +1,22 @@
+# Initializers
+
+# Application Listeners
+
+# Run Listeners
+org.springframework.boot.SpringApplicationRunListener=\
+org.malagu.panda.autoconfigure.PandaSpringApplicationRunListener,\
+org.malagu.panda.autoconfigure.dorado.DoradoPreloadSpringApplicationRunListener
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.malagu.panda.autoconfigure.dorado.DoradoAutoConfiguration,\
+org.malagu.panda.autoconfigure.cola.ColaAutoConfiguration,\
+org.malagu.panda.autoconfigure.dorado.jpa.JpaAutoConfiguration,\
+org.malagu.panda.autoconfigure.log.LogAutoConfiguration,\
+org.malagu.panda.autoconfigure.profile.ProfileAutoConfiguration,\
+org.malagu.panda.autoconfigure.dbconsole.DbConsoleAutoConfiguration,\
+org.malagu.panda.autoconfigure.dictionary.DictionaryAutoConfiguration,\
+org.malagu.panda.autoconfigure.importer.ImporterAutoConfiguration,\
+org.malagu.panda.autoconfigure.security.SecurityAutoConfiguration,\
+org.malagu.panda.autoconfigure.multitenant.MultitenantAutoConfiguration,\
+org.malagu.panda.autoconfigure.notice.NoticeAutoConfiguration
