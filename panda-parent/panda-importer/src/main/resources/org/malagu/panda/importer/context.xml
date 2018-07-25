@@ -4,53 +4,53 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	">
-	<bean id="importer.excelUploadFileProcessor" class="org.malagu.panda.importexcel.controller.ExcelUploadFileProcessor"></bean>
-	<bean id="importer.xssfExcelPolicy" class="org.malagu.panda.importexcel.policy.impl.XSSFExcelPolicy">
+	<bean id="importer.excelUploadFileProcessor" class="org.malagu.panda.importer.controller.ExcelUploadFileProcessor"></bean>
+	<bean id="importer.xssfExcelPolicy" class="org.malagu.panda.importer.policy.impl.XSSFExcelPolicy">
 		<property name="sheetPolicy" ref="importer.xssfSheetPolicy"></property>
 		<property name="parseRecordPolicy" ref="importer.parseRecordPolicy"></property>
 	</bean>
-	<bean class="org.malagu.panda.importexcel.handler.XSSFSheetHandler" scope="prototype"></bean>
+	<bean class="org.malagu.panda.importer.handler.XSSFSheetHandler" scope="prototype"></bean>
 	
 	<!--相关解析策略  -->
-	<bean id="importer.xssfSheetPolicy" class="org.malagu.panda.importexcel.policy.impl.XSSFSheetPolicy"></bean>
-	<bean id="importer.parseRecordPolicy" class="org.malagu.panda.importexcel.policy.impl.ParseRecordPolicyImpl"></bean>
+	<bean id="importer.xssfSheetPolicy" class="org.malagu.panda.importer.policy.impl.XSSFSheetPolicy"></bean>
+	<bean id="importer.parseRecordPolicy" class="org.malagu.panda.importer.policy.impl.ParseRecordPolicyImpl"></bean>
 	
-	<bean id="importer.importerSolutionMaintain" class="org.malagu.panda.importexcel.controller.ImporterSolutionController">
+	<bean id="importer.importerSolutionMaintain" class="org.malagu.panda.importer.controller.ImporterSolutionController">
 		<property name="autoCreateMappingRulePolicy" ref="importer.autoCreateMappingRulePolicy"></property>
 	</bean>
 	
 	<!--会话工厂和实体类过滤器  -->
-	<bean class="org.malagu.panda.importexcel.filter.impl.EmptyEntityTypeFilter"></bean>
-	<bean class="org.malagu.panda.importexcel.filter.impl.EmptyEntityManagerFactoryFilter"></bean>
+	<bean class="org.malagu.panda.importer.filter.impl.EmptyEntityTypeFilter"></bean>
+	<bean class="org.malagu.panda.importer.filter.impl.EmptyEntityManagerFactoryFilter"></bean>
 	
 	<!--单元格解析器  -->
-	 <bean id="importer.defaultCellPreParser" class="org.malagu.panda.importexcel.parser.impl.DefaultCellPreParser"></bean>
-    <bean id="importer.defaultCellPostParser" class="org.malagu.panda.importexcel.parser.impl.DefaultCellPostParser"></bean>
-	<bean id="importer.elCellPreParser" class="org.malagu.panda.importexcel.parser.impl.ELCellPreParser">
+	 <bean id="importer.defaultCellPreParser" class="org.malagu.panda.importer.parser.impl.DefaultCellPreParser"></bean>
+    <bean id="importer.defaultCellPostParser" class="org.malagu.panda.importer.parser.impl.DefaultCellPostParser"></bean>
+	<bean id="importer.elCellPreParser" class="org.malagu.panda.importer.parser.impl.ELCellPreParser">
 		<property name="expressionHandler" ref="dorado.expressionHandler"></property>
 	</bean>
-	<bean id="importer.elCellPostParser" class="org.malagu.panda.importexcel.parser.impl.ELCellPostParser">
+	<bean id="importer.elCellPostParser" class="org.malagu.panda.importer.parser.impl.ELCellPostParser">
 		<property name="expressionHandler" ref="dorado.expressionHandler"></property>
 	</bean>
 	
 	<!--单元格生命周期处理器  -->
-	<bean class="org.malagu.panda.importexcel.processor.impl.EmptyCellPreprocessor"></bean>
-	<bean class="org.malagu.panda.importexcel.processor.impl.DefaultCellProcessor"></bean>
-	<bean class="org.malagu.panda.importexcel.processor.impl.EmptyCellPostprocessor"></bean>
+	<bean class="org.malagu.panda.importer.processor.impl.EmptyCellPreprocessor"></bean>
+	<bean class="org.malagu.panda.importer.processor.impl.DefaultCellProcessor"></bean>
+	<bean class="org.malagu.panda.importer.processor.impl.EmptyCellPostprocessor"></bean>
 	
 	<!--单元格生命周期处理器  -->
-	<bean class="org.malagu.panda.importexcel.converter.impl.BooleanTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.ByteTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.CharTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.EnumTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.FloatTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.IntegerTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.LongTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.ShortTypeConverter"></bean>
-	<bean class="org.malagu.panda.importexcel.converter.impl.StringTypeConverter"></bean>
-	<bean id="importer.bigDecimalTypeConverter" class="org.malagu.panda.importexcel.converter.impl.BigDecimalTypeConverter"></bean>
-	<bean id="importer.dateTypeConverter" class="org.malagu.panda.importexcel.converter.impl.DateTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.BooleanTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.ByteTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.CharTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.EnumTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.FloatTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.IntegerTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.LongTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.ShortTypeConverter"></bean>
+	<bean class="org.malagu.panda.importer.converter.impl.StringTypeConverter"></bean>
+	<bean id="importer.bigDecimalTypeConverter" class="org.malagu.panda.importer.converter.impl.BigDecimalTypeConverter"></bean>
+	<bean id="importer.dateTypeConverter" class="org.malagu.panda.importer.converter.impl.DateTypeConverter"></bean>
 	
-	<bean id="importer.autoCreateMappingRulePolicy" class="org.malagu.panda.importexcel.policy.impl.AutoCreateMappingRulePolicyImpl"></bean>
+	<bean id="importer.autoCreateMappingRulePolicy" class="org.malagu.panda.importer.policy.impl.AutoCreateMappingRulePolicyImpl"></bean>
 
 </beans>
