@@ -25,11 +25,6 @@
 
 	<repositories>
 		<repository>
-			<id>ezhiyang-maven-repository</id>
-			<url>http://172.16.0.13:8081/repository/public/</url>
-		</repository>
-
-		<repository>
 			<id>bsdn-maven-repository</id>
 			<url>http://nexus.bsdn.org/content/groups/public/</url>
 		</repository>
