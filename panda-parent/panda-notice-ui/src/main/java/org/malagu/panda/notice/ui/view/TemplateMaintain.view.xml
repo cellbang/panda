@@ -27,7 +27,7 @@ if (template) {
 htmlSource.set(&quot;readOnly&quot;, false);
 jsSource.set(&quot;readOnly&quot;, false);
 cssSource.set(&quot;readOnly&quot;, false);</ClientEvent>
-      <Property name="creationType">com.bstek.bdf3.notice.domain.Template</Property>
+      <Property name="creationType">org.malagu.panda.notice.domain.Template</Property>
       <PropertyDef name="id">
         <Property></Property>
       </PropertyDef>
@@ -77,7 +77,7 @@ cssSource.set(&quot;readOnly&quot;, false);</ClientEvent>
       </PropertyDef>
     </DataType>
     <DataType name="Url">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Url</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Url</Property>
       <Property name="defaultDisplayProperty">name</Property>
       <PropertyDef name="id">
         <Property></Property>
@@ -401,7 +401,7 @@ if (template) {
       <Property name="iconClass">fa fa-minus-circle</Property>
       <Property name="tip">删除模版</Property>
     </Action>
-    <Import src="com.bstek.bdf3.dorado.template.DialogIcon#dialogIcon"/>
+    <Import src="org.malagu.panda.dorado.template.DialogIcon#dialogIcon"/>
     <Dialog id="dialogUrl">
       <Property name="caption">选择菜单（双击选择）</Property>
       <Property name="width">400</Property>

@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="Url">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Url</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Url</Property>
       <Property name="defaultDisplayProperty">name</Property>
       <PropertyDef name="id">
         <Property></Property>
@@ -245,7 +245,7 @@ Chat.addChatCloseListener(function() {
     <ClientEvent name="onClick" signature="self,arg,personalCenter">personalCenter.hide();
 </ClientEvent>
     <Property name="packages">chat,jquery-cookie,font-awesome-new,entypo,colors</Property>
-    <Property name="skin">${bdf3.framework.skin}</Property>
+    <Property name="skin">${panda.framework.skin}</Property>
     <Property name="exClassName">main</Property>
     <Property name="cache">
       <Property name="mode">clientSide</Property>
@@ -284,12 +284,12 @@ setTimeout(function() {
       <Container layout="native">
         <Property name="exClassName">banner</Property>
         <Property name="style">
-          <Property name="background">${configure['bdf3.logo']}</Property>
+          <Property name="background">${configure['panda.logo']}</Property>
         </Property>
         <Label id="appName">
-          <Property name="text">${empty loginUser.organization.name ? configure['bdf3.appName'] : loginUser.organization.name}</Property>
+          <Property name="text">${empty loginUser.organization.name ? configure['panda.appName'] : loginUser.organization.name}</Property>
           <Property name="exClassName">app-name</Property>
-          <Property name="userData">${empty loginUser.organization.name ? configure['bdf3.appName'] : loginUser.organization.name}</Property>
+          <Property name="userData">${empty loginUser.organization.name ? configure['panda.appName'] : loginUser.organization.name}</Property>
         </Label>
         <Control>
           <ClientEvent name="onClick" signature="self,arg,personalCenter">personalCenter.show({
@@ -369,7 +369,7 @@ if (c instanceof dorado.widget.IFrame) {
                   <Property name="exClassName">username</Property>
                 </Label>
                 <Button>
-                  <ClientEvent name="onClick" signature="self,arg,personalCenter">window.openTab(&quot;个人中心&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['bdf3.personCenter']}&quot;);
+                  <ClientEvent name="onClick" signature="self,arg,personalCenter">window.openTab(&quot;个人中心&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['panda.personCenter']}&quot;);
 personalCenter.hide();
 </ClientEvent>
                   <Property name="caption">个人中心</Property>
@@ -388,7 +388,7 @@ dialogPassword.show();
                 <Property name="caption">修改密码</Property>
               </Button>
               <Button layoutConstraint="right">
-                <ClientEvent name="onClick">window.location.href = &quot;${configure['bdf3.logoutPath']}&quot;
+                <ClientEvent name="onClick">window.location.href = &quot;${configure['panda.logoutPath']}&quot;
 </ClientEvent>
                 <Property name="caption">退出</Property>
               </Button>
@@ -410,20 +410,20 @@ dialogPassword.show();
 }
 </ClientEvent>
           <SubViewHolder>
-            <Property name="subView">${configure['bdf3.welcomePath']}</Property>
-            <Property name="ignored">${empty configure['bdf3.welcomePath']}</Property>
+            <Property name="subView">${configure['panda.welcomePath']}</Property>
+            <Property name="ignored">${empty configure['panda.welcomePath']}</Property>
           </SubViewHolder>
           <SubViewHolder>
-            <Property name="subView">${configure['bdf3.welcomePath1']}</Property>
-            <Property name="ignored">${empty configure['bdf3.welcomePath1']}</Property>
+            <Property name="subView">${configure['panda.welcomePath1']}</Property>
+            <Property name="ignored">${empty configure['panda.welcomePath1']}</Property>
           </SubViewHolder>
           <SubViewHolder>
-            <Property name="subView">${configure['bdf3.welcomePath2']}</Property>
-            <Property name="ignored">${empty configure['bdf3.welcomePath2']}</Property>
+            <Property name="subView">${configure['panda.welcomePath2']}</Property>
+            <Property name="ignored">${empty configure['panda.welcomePath2']}</Property>
           </SubViewHolder>
           <SubViewHolder>
-            <Property name="subView">${configure['bdf3.welcomePath3']}</Property>
-            <Property name="ignored">${empty configure['bdf3.welcomePath3']}</Property>
+            <Property name="subView">${configure['panda.welcomePath3']}</Property>
+            <Property name="ignored">${empty configure['panda.welcomePath3']}</Property>
           </SubViewHolder>
           <Container id="portal" layout="padding:10">
             <Control id="colorLine" layoutConstraint="top">
@@ -592,7 +592,7 @@ if (url.get(&quot;path&quot;)) {
       </Children>
       <Tools/>
     </FloatPanel>
-    <Import src="com.bstek.bdf3.notice.ui.view.Chat#Chat"/>
+    <Import src="org.malagu.panda.notice.ui.view.Chat#Chat"/>
     <FloatPanel id="dialogPassword" layout="padding:20">
       <Property name="caption">密码修改</Property>
       <Property name="center">true</Property>

@@ -6,7 +6,7 @@
 		<artifactId>panda-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>panda-import</artifactId>
+	<artifactId>panda-importer</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>

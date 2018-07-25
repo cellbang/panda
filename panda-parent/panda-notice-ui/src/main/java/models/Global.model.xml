@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Model>
   <DataType name="ActiveGroup">
-    <Property name="creationType">com.bstek.bdf3.notice.domain.Group</Property>
+    <Property name="creationType">org.malagu.panda.notice.domain.Group</Property>
     <PropertyDef name="id">
       <Property></Property>
     </PropertyDef>
@@ -88,7 +88,7 @@ if (data.getLast()) {
     </Reference>
   </DataType>
   <DataType name="Group">
-    <Property name="creationType">com.bstek.bdf3.notice.domain.Group</Property>
+    <Property name="creationType">org.malagu.panda.notice.domain.Group</Property>
     <PropertyDef name="id">
       <Property></Property>
     </PropertyDef>
@@ -180,7 +180,7 @@ if (data.getLast()) {
     </PropertyDef>
   </DataType>
   <DataType name="GroupMember">
-    <Property name="creationType">com.bstek.bdf3.notice.domain.GroupMember</Property>
+    <Property name="creationType">org.malagu.panda.notice.domain.GroupMember</Property>
     <PropertyDef name="id">
       <Property></Property>
     </PropertyDef>
@@ -210,7 +210,7 @@ if (data.getLast()) {
     </PropertyDef>
   </DataType>
   <DataType name="Notice">
-    <Property name="creationType">com.bstek.bdf3.notice.domain.Notice</Property>
+    <Property name="creationType">org.malagu.panda.notice.domain.Notice</Property>
     <PropertyDef name="id">
       <Property></Property>
     </PropertyDef>
@@ -253,7 +253,7 @@ if (data.getLast()) {
     </PropertyDef>
   </DataType>
   <DataType name="User">
-    <Property name="creationType">com.bstek.bdf3.security.orm.User</Property>
+    <Property name="creationType">org.malagu.panda.security.orm.User</Property>
     <PropertyDef name="username">
       <Property></Property>
     </PropertyDef>
@@ -262,7 +262,7 @@ if (data.getLast()) {
     </PropertyDef>
   </DataType>
   <DataType name="Template">
-    <Property name="creationType">com.bstek.bdf3.notice.domain.Template</Property>
+    <Property name="creationType">org.malagu.panda.notice.domain.Template</Property>
     <PropertyDef name="id">
       <Property></Property>
     </PropertyDef>

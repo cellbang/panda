@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="Role">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Role</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Role</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>
@@ -37,7 +37,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="User">
-      <Property name="creationType">com.bstek.bdf3.security.orm.User</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.User</Property>
       <PropertyDef name="username">
         <Property></Property>
         <Property name="label">用户名</Property>
@@ -83,7 +83,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="RoleGrantedAuthority">
-      <Property name="creationType">com.bstek.bdf3.security.orm.RoleGrantedAuthority</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.RoleGrantedAuthority</Property>
       <PropertyDef name="id">
         <Property></Property>
       </PropertyDef>

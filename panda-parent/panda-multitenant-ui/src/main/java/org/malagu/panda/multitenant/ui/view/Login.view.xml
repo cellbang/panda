@@ -7,8 +7,8 @@
       <PropertyDef name="organization">
         <Property name="label">公司ID</Property>
         <Validator name="validator1" type="regExp">
-          <Property name="whiteRegExp">${configure['bdf3.organizationIdRegExp']}</Property>
-          <Property name="resultMessage">${configure['bdf3.organizationIdRegExpResultMessage']}</Property>
+          <Property name="whiteRegExp">${configure['panda.organizationIdRegExp']}</Property>
+          <Property name="resultMessage">${configure['panda.organizationIdRegExpResultMessage']}</Property>
         </Validator>
         <Validator type="required">
           <Property name="name">validator</Property>
@@ -40,7 +40,7 @@
     </Property>
     <Container>
       <Property name="style">
-        <Property name="background-image">url(&quot;${configure['bdf3.loginImageBg']}&quot;)</Property>
+        <Property name="background-image">url(&quot;${configure['panda.loginImageBg']}&quot;)</Property>
         <Property name="background-repeat">no-repeat</Property>
         <Property name="background-size">cover</Property>
       </Property>
@@ -64,7 +64,7 @@
                 <Property name="height">64</Property>
               </Control>
               <Label>
-                <Property name="text">${configure['bdf3.appName']}</Property>
+                <Property name="text">${configure['panda.appName']}</Property>
                 <Property name="exClassName">app-name</Property>
               </Label>
             </Container>
@@ -115,8 +115,8 @@
                 </Label>
                 <Link layoutConstraint="align:right">
                   <Property name="text">没有账户，注册一个</Property>
-                  <Property name="href">${configure['bdf3.registerPath']}</Property>
-                  <Property name="visible">${!configure['bdf3.disableRegister']}</Property>
+                  <Property name="href">${configure['panda.registerPath']}</Property>
+                  <Property name="visible">${!configure['panda.disableRegister']}</Property>
                 </Link>
                 <Button layoutConstraint="colSpan:3">
                   <Property name="caption">登 录</Property>
@@ -146,7 +146,7 @@ if (entity.validate() == &quot;ok&quot;) {
 	arg.processDefault = false;
 }
 </ClientEvent>
-      <Property name="action">${configure['bdf3.loginPath']}</Property>
+      <Property name="action">${configure['panda.loginPath']}</Property>
       <Property name="hotkey">return</Property>
     </FormSubmitAction>
   </View>

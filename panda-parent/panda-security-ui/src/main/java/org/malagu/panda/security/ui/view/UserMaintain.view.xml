@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="User">
-      <Property name="creationType">com.bstek.bdf3.security.orm.User</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.User</Property>
       <PropertyDef name="username">
         <Property></Property>
         <Property name="label">用户名</Property>
@@ -88,7 +88,7 @@ dialogUser.show()
             <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">var user = dsUser.getData(&quot;#&quot;);
 if (user) {
 	dorado.MessageBox.confirm(&quot;您确定要重置【&quot; + user.get(&quot;nickname&quot;) + &quot;】的密码吗？&quot;, function() {
-		var newPassword = &quot;${configure['bdf3.resetPassword']}&quot;;
+		var newPassword = &quot;${configure['panda.resetPassword']}&quot;;
 		if (!newPassword) {
 			newPassword = Math.round(Math.random()*1000000) + &quot;&quot;;
 		} 
@@ -139,7 +139,7 @@ if (user.get(&quot;administrator&quot;)) {
             <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">var user = dsUser.getData(&quot;#&quot;);
 if (user) {
 	if (parent.openTab) {
-		parent.openTab(user.get(&quot;nickname&quot;) + &quot;详情&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['bdf3.personCenter']}&quot; + &quot;?username=&quot; + user.get(&quot;username&quot;));
+		parent.openTab(user.get(&quot;nickname&quot;) + &quot;详情&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['panda.personCenter']}&quot; + &quot;?username=&quot; + user.get(&quot;username&quot;));
 	}
 } else {
 	dorado.MessageBox.alert(&quot;请先选择用户。&quot;);

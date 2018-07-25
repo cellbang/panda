@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="Url">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Url</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Url</Property>
       <Property name="defaultDisplayProperty">name</Property>
       <PropertyDef name="id">
         <Property></Property>
@@ -219,7 +219,7 @@ Chat.addChatCloseListener(function() {
     <ClientEvent name="onClick" signature="self,arg,personalCenter">personalCenter.hide();
 </ClientEvent>
     <Property name="packages">jquery-cookie,font-awesome-info,entypo-info,colors,chat</Property>
-    <Property name="skin">${bdf3.framework.skin}</Property>
+    <Property name="skin">${panda.framework.skin}</Property>
     <Property name="exClassName">main</Property>
     <Property name="cache">
       <Property name="mode">clientSide</Property>
@@ -258,10 +258,10 @@ setTimeout(function() {
       <Container layout="native">
         <Property name="exClassName">banner</Property>
         <Property name="style">
-          <Property name="background">${configure['bdf3.logo']}</Property>
+          <Property name="background">${configure['panda.logo']}</Property>
         </Property>
         <Label>
-          <Property name="text">${empty loginUser.organization.name ? configure['bdf3.appName'] : loginUser.organization.name}</Property>
+          <Property name="text">${empty loginUser.organization.name ? configure['panda.appName'] : loginUser.organization.name}</Property>
           <Property name="exClassName">app-name</Property>
         </Label>
         <Control>
@@ -326,7 +326,7 @@ arg.returnValue = false;
                   <Property name="exClassName">username</Property>
                 </Label>
                 <Button>
-                  <ClientEvent name="onClick" signature="self,arg,personalCenter">window.openTab(&quot;个人中心&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['bdf3.personCenter']}&quot;);
+                  <ClientEvent name="onClick" signature="self,arg,personalCenter">window.openTab(&quot;个人中心&quot;, &quot;fa fa-tachometer red-text&quot;, &quot;${configure['panda.personCenter']}&quot;);
 personalCenter.hide();
 </ClientEvent>
                   <Property name="caption">个人中心</Property>
@@ -345,7 +345,7 @@ dialogPassword.show();
                 <Property name="caption">修改密码</Property>
               </Button>
               <Button layoutConstraint="right">
-                <ClientEvent name="onClick" signature="self,arg,Chat">window.location.href = &quot;${configure['bdf3.logoutPath']}&quot;;
+                <ClientEvent name="onClick" signature="self,arg,Chat">window.location.href = &quot;${configure['panda.logoutPath']}&quot;;
 </ClientEvent>
                 <Property name="caption">退出</Property>
               </Button>
@@ -357,7 +357,7 @@ dialogPassword.show();
     </Container>
     <CardBook id="cardBook">
       <ClientEvent name="onCreate">var openUrlTree = $.cookie(&quot;openUrlTree&quot;);
-var hasWelcomePage = !!&quot;${configure['bdf3.welcomePath']}&quot;;
+var hasWelcomePage = !!&quot;${configure['panda.welcomePath']}&quot;;
 if (openUrlTree != &quot;false&quot; || hasWelcomePage) {
 	self.set(&quot;currentIndex&quot;, 1);
 }
@@ -472,39 +472,39 @@ $(arg.dom).xCreate({
                   <Property name="showMenuButton">true</Property>
                   <Property name="tabPlacement">top</Property>
                   <ControlTab>
-                    <Property name="iconClass">${configure['bdf3.welcomeIcon']}</Property>
-                    <Property name="caption">${configure['bdf3.welcomeTitle']}</Property>
-                    <Property name="ignored">${empty configure['bdf3.welcomePath']}</Property>
+                    <Property name="iconClass">${configure['panda.welcomeIcon']}</Property>
+                    <Property name="caption">${configure['panda.welcomeTitle']}</Property>
+                    <Property name="ignored">${empty configure['panda.welcomePath']}</Property>
                     <Property name="closeable">true</Property>
                     <SubViewHolder>
-                      <Property name="subView">${configure['bdf3.welcomePath']}</Property>
+                      <Property name="subView">${configure['panda.welcomePath']}</Property>
                     </SubViewHolder>
                   </ControlTab>
                   <ControlTab>
-                    <Property name="iconClass">${configure['bdf3.welcomeIcon1']}</Property>
-                    <Property name="caption">${configure['bdf3.welcomeTitle1']}</Property>
-                    <Property name="ignored">${empty configure['bdf3.welcomePath1']}</Property>
+                    <Property name="iconClass">${configure['panda.welcomeIcon1']}</Property>
+                    <Property name="caption">${configure['panda.welcomeTitle1']}</Property>
+                    <Property name="ignored">${empty configure['panda.welcomePath1']}</Property>
                     <Property name="closeable">true</Property>
                     <SubViewHolder>
-                      <Property name="subView">${configure['bdf3.welcomePath1']}</Property>
+                      <Property name="subView">${configure['panda.welcomePath1']}</Property>
                     </SubViewHolder>
                   </ControlTab>
                   <ControlTab>
-                    <Property name="iconClass">${configure['bdf3.welcomeIcon2']}</Property>
-                    <Property name="caption">${configure['bdf3.welcomeTitle2']}</Property>
-                    <Property name="ignored">${empty configure['bdf3.welcomePath2']}</Property>
+                    <Property name="iconClass">${configure['panda.welcomeIcon2']}</Property>
+                    <Property name="caption">${configure['panda.welcomeTitle2']}</Property>
+                    <Property name="ignored">${empty configure['panda.welcomePath2']}</Property>
                     <Property name="closeable">true</Property>
                     <SubViewHolder>
-                      <Property name="subView">${configure['bdf3.welcomePath2']}</Property>
+                      <Property name="subView">${configure['panda.welcomePath2']}</Property>
                     </SubViewHolder>
                   </ControlTab>
                   <ControlTab>
-                    <Property name="iconClass">${configure['bdf3.welcomeIcon3']}</Property>
-                    <Property name="caption">${configure['bdf3.welcomeTitle3']}</Property>
-                    <Property name="ignored">${empty configure['bdf3.welcomePath3']}</Property>
+                    <Property name="iconClass">${configure['panda.welcomeIcon3']}</Property>
+                    <Property name="caption">${configure['panda.welcomeTitle3']}</Property>
+                    <Property name="ignored">${empty configure['panda.welcomePath3']}</Property>
                     <Property name="closeable">true</Property>
                     <SubViewHolder>
-                      <Property name="subView">${configure['bdf3.welcomePath3']}</Property>
+                      <Property name="subView">${configure['panda.welcomePath3']}</Property>
                     </SubViewHolder>
                   </ControlTab>
                 </TabControl>
@@ -861,6 +861,6 @@ if (url.get(&quot;path&quot;)) {
       </Children>
       <Tools/>
     </FloatPanel>
-    <Import src="com.bstek.bdf3.notice.ui.view.Chat#Chat"/>
+    <Import src="org.malagu.panda.notice.ui.view.Chat#Chat"/>
   </View>
 </ViewConfig>

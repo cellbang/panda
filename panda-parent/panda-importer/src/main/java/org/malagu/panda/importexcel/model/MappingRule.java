@@ -25,7 +25,7 @@ import com.bstek.dorado.annotation.PropertyDef;
  *@since 2015年8月22日
  */
 @Entity
-@Table(name = "BDF3_MAPPING_RULE")
+@Table(name = "PANDA_MAPPING_RULE")
 public class MappingRule implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

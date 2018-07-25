@@ -8,6 +8,6 @@ package org.malagu.panda.importexcel;
  */
 public final class Constants {
 
-	public final static String DATE_FORMATS_PROP = "bdf3.importer.dateFormats";
+	public final static String DATE_FORMATS_PROP = "panda.importer.dateFormats";
 	public final static Object IGNORE_ERROR_FORMAT_DATA = new Object();
 }

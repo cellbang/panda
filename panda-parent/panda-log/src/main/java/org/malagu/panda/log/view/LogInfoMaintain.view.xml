@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="LogInfo">
-      <Property name="creationType">com.bstek.bdf3.log.model.LogInfo</Property>
+      <Property name="creationType">org.malagu.panda.log.model.LogInfo</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>

@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="User">
-      <Property name="creationType">com.bstek.bdf3.security.orm.User</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.User</Property>
       <PropertyDef name="username">
         <Property></Property>
         <Property name="label">用户名</Property>
@@ -48,7 +48,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="Role">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Role</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Role</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>
@@ -63,7 +63,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="Url">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Url</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Url</Property>
       <PropertyDef name="id">
         <Property></Property>
       </PropertyDef>
@@ -99,7 +99,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="Permission">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Permission</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Permission</Property>
       <PropertyDef name="id">
         <Property></Property>
       </PropertyDef>
@@ -146,7 +146,7 @@ if (attribute) {
       </PropertyDef>
     </DataType>
     <DataType name="Component">
-      <Property name="creationType">com.bstek.bdf3.security.orm.Component</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.Component</Property>
       <PropertyDef name="id">
         <Property></Property>
       </PropertyDef>

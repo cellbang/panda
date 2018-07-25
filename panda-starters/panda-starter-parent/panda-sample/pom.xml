@@ -3,17 +3,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<!-- 继承的父项目 -->
 	<parent>
-		<groupId>com.bstek.bdf3</groupId>
-		<artifactId>bdf3-starter-parent</artifactId>
+		<groupId>org.malagu.panda</groupId>
+		<artifactId>panda-starter-parent</artifactId>
 		<version>2.0.0.RELEASE</version>
 	</parent>
-	<artifactId>bdf3-sample</artifactId>
+	<artifactId>panda-sample</artifactId>
 
 	<dependencies>
-		<!-- bdf3预定义依赖，简化依赖的复杂度 -->
+		<!-- Panda预定义依赖，简化依赖的复杂度 -->
 		<dependency>
-			<groupId>com.bstek.bdf3</groupId>
-			<artifactId>bdf3-starter</artifactId>
+			<groupId>org.malagu.panda</groupId>
+			<artifactId>panda-starter</artifactId>
 		</dependency>
 		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -34,7 +34,7 @@
 		</dependency>
 
 	</dependencies>
-	<!-- bdf3项目jar存放的maven私服 -->
+	<!-- Panda项目jar存放的maven私服 -->
 	<repositories>
 		<repository>
 			<id>bsdn-maven-repository</id>
