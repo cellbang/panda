@@ -113,44 +113,44 @@ spring.datasource.initialization-mode=ALWAYS
 
 ## 界面截图
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/panda.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/panda.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/2.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/2.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/3.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/3.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/4.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/4.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/5.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/5.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/6.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/6.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/7.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/7.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/8.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/8.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/9.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/9.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/10.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/10.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/11.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/11.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/12.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/12.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/13.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/13.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/14.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/14.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/15.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/15.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/16.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/16.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/17.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/17.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/18.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/18.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/19.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/19.png)
 
-![](https://raw.githubusercontent.com/muxiangqiu/Panda/master/screenshot/20.png)
+![](https://raw.githubusercontent.com/malagu-org/Panda/master/screenshot/20.png)
 
 
