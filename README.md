@@ -86,7 +86,7 @@ public class SampleApplication {
 #服务器端口设置
 server.port = 8080
 #项目路径
-server.context-path=/bdf
+server.servlet.context-path=/panda
 #是否打印sql语句
 spring.jpa.showSql=true
 #hibernate反向创建表设置，update启动时更新表结构，create 启动时重新创建表结构，none 启动时不检查
