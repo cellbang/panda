@@ -6,7 +6,7 @@
 		<artifactId>panda-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>bdf3-starter-cola-jetty</artifactId>
+	<artifactId>panda-starter-cola-jetty</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.malagu.linq</groupId>

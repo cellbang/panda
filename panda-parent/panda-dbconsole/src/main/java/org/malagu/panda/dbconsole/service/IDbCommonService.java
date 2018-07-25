@@ -12,7 +12,7 @@ import org.malagu.panda.dbconsole.model.TableInfo;
 
 public interface IDbCommonService {
 
-	public static final String BEAN_ID = "bdf3.dbconsole.dbCommonService";
+	public static final String BEAN_ID = "panda.dbconsole.dbCommonService";
 
 	/**
 	 * 查询所有的表信息

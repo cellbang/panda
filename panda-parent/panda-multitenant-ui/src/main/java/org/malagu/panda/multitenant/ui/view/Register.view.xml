@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="User">
-      <Property name="creationType">com.bstek.bdf3.security.orm.User</Property>
+      <Property name="creationType">org.malagu.panda.security.orm.User</Property>
       <PropertyDef name="username">
         <Property name="label">用户名</Property>
         <Validator type="required">
@@ -31,8 +31,8 @@
       </PropertyDef>
       <PropertyDef name="organizationId">
         <Validator name="validator1" type="regExp">
-          <Property name="whiteRegExp">${configure['bdf3.organizationIdRegExp']}</Property>
-          <Property name="resultMessage">${configure['bdf3.organizationIdRegExpResultMessage']}</Property>
+          <Property name="whiteRegExp">${configure['panda.organizationIdRegExp']}</Property>
+          <Property name="resultMessage">${configure['panda.organizationIdRegExpResultMessage']}</Property>
         </Validator>
         <Validator type="required">
           <Property name="name">validator</Property>
@@ -53,7 +53,7 @@
     </Property>
     <Container>
       <Property name="style">
-        <Property name="background-image">url(&quot;${configure['bdf3.loginImageBg']}&quot;)</Property>
+        <Property name="background-image">url(&quot;${configure['panda.loginImageBg']}&quot;)</Property>
         <Property name="background-repeat">no-repeat</Property>
         <Property name="background-size">cover</Property>
       </Property>
@@ -178,7 +178,7 @@ if (organizationId &amp;&amp; username) {
 	success: function() {
 		tip.set(&quot;text&quot;, &quot;公司注册成功。&quot;).show();
 		 setTimeout(function() {
-			window.location.href = &quot;${configure['bdf3.loginPath']}&quot;;
+			window.location.href = &quot;${configure['panda.loginPath']}&quot;;
 	    }, 1000);
 	}
 };
@@ -191,7 +191,7 @@ if (autoFormRegisterOrg.get(&quot;entity&quot;).validate() === &quot;ok&quot;) {
                 </Button>
                 <Link layoutConstraint="align:right">
                   <Property name="text">现在登录</Property>
-                  <Property name="href">${configure['bdf3.loginPath']}</Property>
+                  <Property name="href">${configure['panda.loginPath']}</Property>
                 </Link>
               </AutoForm>
             </Container>
@@ -327,7 +327,7 @@ if (organizationId &amp;&amp; username) {
 	success: function() {
 		tip.set(&quot;text&quot;, &quot;用户注册成功。&quot;).show();
 		setTimeout(function() {
-			window.location.href = &quot;${configure['bdf3.loginPath']}&quot;;
+			window.location.href = &quot;${configure['panda.loginPath']}&quot;;
 	    }, 1000);
 	}
 };
@@ -341,7 +341,7 @@ if (autoFormRegisterUser.get(&quot;entity&quot;).validate()) {
                 </Button>
                 <Link layoutConstraint="align:right">
                   <Property name="text">现在登录</Property>
-                  <Property name="href">${configure['bdf3.loginPath']}</Property>
+                  <Property name="href">${configure['panda.loginPath']}</Property>
                 </Link>
               </AutoForm>
             </Container>

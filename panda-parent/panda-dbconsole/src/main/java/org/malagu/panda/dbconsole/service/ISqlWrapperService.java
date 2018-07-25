@@ -5,7 +5,7 @@ import java.util.Map;
 import org.malagu.panda.dbconsole.model.SqlWrapper;
 
 public interface ISqlWrapperService {
-	public static final String BEAN_ID = "bdf3.dbconsole.sqlWrapperService";
+	public static final String BEAN_ID = "panda.dbconsole.sqlWrapperService";
 
 	/**
 	 * 添加数据浏览器记录sql

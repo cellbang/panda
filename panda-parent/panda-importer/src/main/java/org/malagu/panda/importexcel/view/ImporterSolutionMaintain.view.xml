@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="ImporterSolution">
-      <Property name="creationType">com.bstek.bdf3.importer.model.ImporterSolution</Property>
+      <Property name="creationType">org.malagu.panda.importer.model.ImporterSolution</Property>
       <Reference name="mappingRules">
         <Property name="dataType">[MappingRule]</Property>
         <Property name="dataProvider">importer.importerSolutionMaintain#loadMappingRules</Property>
@@ -45,7 +45,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="MappingRule">
-      <Property name="creationType">com.bstek.bdf3.importer.model.MappingRule</Property>
+      <Property name="creationType">org.malagu.panda.importer.model.MappingRule</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>
@@ -104,7 +104,7 @@
     <DataType name="Entry">
       <ClientEvent name="onInsert">arg.entity.set(&quot;mappingRuleId&quot;, arg.entity.parent.parent.get(&quot;id&quot;));
 </ClientEvent>
-      <Property name="creationType">com.bstek.bdf3.importer.model.Entry</Property>
+      <Property name="creationType">org.malagu.panda.importer.model.Entry</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>

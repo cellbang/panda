@@ -12,7 +12,7 @@ public class StaticCategoryProvider implements CategoryProvider {
 
 	@Override
 	public String provide() {
-		return "bdf3";
+		return "Panda";
 	}
 
 }

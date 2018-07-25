@@ -35,7 +35,7 @@ import org.springframework.util.StringUtils;
 @Service(DbService.BEAN_ID)
 public class DbService extends DbCommonServiceImpl {
 
-	public static final String BEAN_ID = "bdf3.dbconsole.dbService";
+	public static final String BEAN_ID = "panda.dbconsole.dbService";
 
 	
 	@Autowired

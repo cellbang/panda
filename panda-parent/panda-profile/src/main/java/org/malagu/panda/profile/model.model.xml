@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Model>
   <DataType name="ComponentConfig">
-    <Property name="creationType">com.bstek.bdf3.profile.domain.ComponentConfig</Property>
+    <Property name="creationType">org.malagu.panda.profile.domain.ComponentConfig</Property>
     <PropertyDef name="id">
       <Property name="dataType">String</Property>
     </PropertyDef>
@@ -28,7 +28,7 @@
     </PropertyDef>
   </DataType>
   <DataType name="ComponentConfigMember">
-    <Property name="creationType">com.bstek.bdf3.profile.domain.ComponentConfigMember</Property>
+    <Property name="creationType">org.malagu.panda.profile.domain.ComponentConfigMember</Property>
     <PropertyDef name="id">
       <Property name="dataType">String</Property>
     </PropertyDef>

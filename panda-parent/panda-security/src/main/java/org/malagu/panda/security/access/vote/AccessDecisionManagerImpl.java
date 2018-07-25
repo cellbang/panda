@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccessDecisionManagerImpl extends AbstractAccessDecisionManager {
 
-	@Value("${bdf3.allowIfAllAbstainDecisions:true}")
+	@Value("${panda.allowIfAllAbstainDecisions:true}")
 	private boolean allowIfAllAbstainDecisions;
 	
 	@Autowired

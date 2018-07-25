@@ -11,7 +11,7 @@ import com.bstek.dorado.view.AbstractViewElement;
 @org.springframework.stereotype.Component
 public class DefaultBuilder implements Builder<AbstractViewElement> {
 
-	@Value("${bdf3.componentPermissionFlat}")
+	@Value("${panda.componentPermissionFlat}")
 	private boolean componentPermissionFlat;
 
 	@Override

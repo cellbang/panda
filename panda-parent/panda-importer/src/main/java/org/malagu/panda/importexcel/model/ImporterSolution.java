@@ -18,7 +18,7 @@ import com.bstek.dorado.annotation.PropertyDef;
  *@since 2015年8月22日
  */
 @Entity
-@Table(name = "BDF3_IMPORTER_SOLUTION")
+@Table(name = "PANDA_IMPORTER_SOLUTION")
 public class ImporterSolution implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

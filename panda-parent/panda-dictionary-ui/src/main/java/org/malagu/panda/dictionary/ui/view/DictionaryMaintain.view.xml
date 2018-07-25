@@ -4,7 +4,7 @@
   <Context/>
   <Model>
     <DataType name="Dictionary">
-      <Property name="creationType">com.bstek.bdf3.dictionary.domain.Dictionary</Property>
+      <Property name="creationType">org.malagu.panda.dictionary.domain.Dictionary</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>
@@ -41,7 +41,7 @@
       </Reference>
     </DataType>
     <DataType name="DictionaryItem">
-      <Property name="creationType">com.bstek.bdf3.dictionary.domain.DictionaryItem</Property>
+      <Property name="creationType">org.malagu.panda.dictionary.domain.DictionaryItem</Property>
       <PropertyDef name="id">
         <Property></Property>
         <Property name="label">ID</Property>
