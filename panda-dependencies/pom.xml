@@ -249,11 +249,6 @@
 	</scm>
 	<repositories>
 		<repository>
-			<id>ezhiyang-maven-repository</id>
-			<url>http://172.16.0.13:8081/repository/public/</url>
-		</repository>
-
-		<repository>
 			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
