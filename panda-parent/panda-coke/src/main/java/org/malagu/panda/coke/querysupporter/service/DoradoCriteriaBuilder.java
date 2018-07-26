@@ -15,25 +15,42 @@ import com.bstek.dorado.data.provider.Criterion;
  * 
  */
 public interface DoradoCriteriaBuilder {
-  public static final String BEAN_ID = "coke.doradoCriteriaBuilder";
+	public static final String BEAN_ID = "coke.doradoCriteriaBuilder";
 
-  /**
-   * @param queryParameter
-   * @param propertyOperatorMap
-   * @param criteria
-   * @param entityClass
-   * @return
-   */
-  Criteria mergeQueryParameterCriteria(Map<String, Object> queryParameter,
-      Map<String, PropertyWrapper> propertyOperatorMap, Criteria criteria, Class<?> entityClass);
+	/**
+	 * @param entityClass
+	 * @param queryParameter
+	 * @param criteria
+	 * @param propertyOperatorMap
+	 * @return
+	 */
+	Criteria mergeQueryParameterCriteria(Class<?> entityClass, Map<String, Object> queryParameter, Criteria criteria);
 
-  /**
-   * @param queryParameter
-   * @param propertyOperatorMap
-   * @param entityClass
-   * @return
-   */
-  List<Criterion> extractQueryParameter(Map<String, Object> queryParameter,
-      Map<String, PropertyWrapper> propertyOperatorMap, Class<?> entityClass);
+	/**
+	 * @param entityClass
+	 * @param queryParameter
+	 * @param propertyOperatorMap
+	 * @return
+	 */
+	List<Criterion> extractQueryParameter(Class<?> entityClass, Map<String, Object> queryParameter);
+
+	/**
+	 * @param entityClass
+	 * @param queryParameter
+	 * @param criteria
+	 * @param propertyOperatorMap
+	 * @return
+	 */
+	Criteria mergeQueryParameterCriteria(Class<?> entityClass, Map<String, Object> queryParameter, Criteria criteria,
+			Map<String, PropertyWrapper> propertyOperatorMap);
+
+	/**
+	 * @param entityClass
+	 * @param queryParameter
+	 * @param propertyOperatorMap
+	 * @return
+	 */
+	List<Criterion> extractQueryParameter(Class<?> entityClass, Map<String, Object> queryParameter,
+			Map<String, PropertyWrapper> propertyOperatorMap);
 
 }

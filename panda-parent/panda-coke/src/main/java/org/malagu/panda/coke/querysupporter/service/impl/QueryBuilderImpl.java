@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
 import org.malagu.panda.coke.querysupporter.model.QueryResolver;
+import org.malagu.panda.coke.querysupporter.service.QueryBuilder;
 import org.malagu.panda.coke.querysupporter.service.SynonymService;
-import org.malagu.panda.coke.querysupporter.service.XqlBuilder;
 import org.springframework.stereotype.Service;
 
 import com.bstek.dorado.data.provider.Criteria;
@@ -20,8 +20,8 @@ import com.bstek.dorado.data.provider.Order;
 import com.bstek.dorado.data.provider.filter.FilterOperator;
 import com.bstek.dorado.data.provider.filter.SingleValueFilterCriterion;
 
-@Service(XqlBuilder.BEAN_ID)
-public class SqlBuilderImpl implements XqlBuilder {
+@Service(QueryBuilder.BEAN_ID)
+public class QueryBuilderImpl implements QueryBuilder {
 
 	@Resource(name = DoradoCriteriaBuilderImpl.BEAN_ID)
 	private DoradoCriteriaBuilderImpl doradoCriteriaBuilder;
@@ -136,7 +136,7 @@ public class SqlBuilderImpl implements XqlBuilder {
 	@Override
 	public QueryResolver extractQuery(Class<?> clazz, Criteria criteria, Map<String, Object> queryParameter,
 			String alias) {
-		criteria = doradoCriteriaBuilder.mergeQueryParameterCriteria(queryParameter, null, criteria, clazz);
+		criteria = doradoCriteriaBuilder.mergeQueryParameterCriteria(clazz, queryParameter, criteria);
 		return extractQuery(clazz, criteria, alias);
 	}
 
@@ -168,14 +168,30 @@ public class SqlBuilderImpl implements XqlBuilder {
 		sb.append(" :" + prepareName + " ");
 
 		if (value instanceof String) {
-			if (operator.equals("like")) {
+			String strValue = String.valueOf(value);
+			if (FilterOperator.like.toString().equals(operator)) {
+				if (strValue.indexOf("*") < 0 && strValue.indexOf("?") < 0) {
+					value = value + "%";
+				} else {
+					value = strValue.replaceAll("\\*", "%").replaceAll("\\?", "_");
+				}
+			} else if (FilterOperator.likeStart.toString().equals(operator)) {
 				value = value + "%";
-			} else if (operator.startsWith("*")) {
+			} else if (FilterOperator.likeEnd.toString().equals(operator)) {
 				value = "%" + value;
 			}
-			value = ((String) value).replaceAll("\\*", "%").replaceAll("\\?", "_");
 		}
 		valueMap.put(prepareName, value);
+	}
+
+	@Override
+	public QueryResolver extractQuery(Class<?> clazz, Criteria criteria) {
+		return doExtractQuery(clazz, criteria, null);
+	}
+
+	@Override
+	public QueryResolver extractQuery(Class<?> clazz, Criteria criteria, Map<String, Object> queryParameter) {
+		return extractQuery(clazz, criteria, queryParameter, null);
 	}
 
 }

@@ -109,7 +109,7 @@ public class QueryPreLoadPropertyWrapperServiceImpl implements QueryPropertyWrap
 		return propertyDataType;
 	}
 
-	public static final String[] initOperator = new String[] { /* "Eq", */"Ge", "Gt", "In", "Le", "Like", "LikeEnd",
+	public static final String[] QUERY_OPERATOR = new String[] { /* "Eq", */"Ge", "Gt", "In", "Le", "Like", "LikeEnd",
 			"Lt", "Ne", "Between" };
 
 	@Override
@@ -119,7 +119,7 @@ public class QueryPreLoadPropertyWrapperServiceImpl implements QueryPropertyWrap
 		Class<?> type = field.getType();
 		if (!type.equals(Object.class)) {
 			classPropertyWrapper.put(property, new PropertyWrapper(property, type, FilterOperator.eq));
-			for (String operator : initOperator) {
+			for (String operator : QUERY_OPERATOR) {
 				String newProperty = property + operator;
 				classPropertyWrapper.put(newProperty, new PropertyWrapper(property, type, getFilterOperator(operator)));
 			}
@@ -138,7 +138,7 @@ public class QueryPreLoadPropertyWrapperServiceImpl implements QueryPropertyWrap
 		}
 		if (!type.equals(Object.class)) {
 			classPropertyWrapper.put(name, new PropertyWrapper(name, type, FilterOperator.eq));
-			for (String operator : initOperator) {
+			for (String operator : QUERY_OPERATOR) {
 				String newProperty = name + operator;
 				classPropertyWrapper.put(newProperty, new PropertyWrapper(name, type, getFilterOperator(operator)));
 			}

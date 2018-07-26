@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
-import org.malagu.panda.coke.querysupporter.model.CokeFilterCriterion;
 import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
 import org.malagu.panda.coke.querysupporter.service.QueryPropertyWrapperService;
@@ -19,6 +18,7 @@ import org.springframework.util.StringUtils;
 import com.bstek.dorado.data.provider.Criteria;
 import com.bstek.dorado.data.provider.Criterion;
 import com.bstek.dorado.data.provider.filter.FilterOperator;
+import com.bstek.dorado.data.provider.filter.SingleValueFilterCriterion;
 
 @Service(DoradoCriteriaBuilderImpl.BEAN_ID)
 public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
@@ -28,18 +28,18 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
 	private QueryPropertyWrapperService propertyWrapperService;
 
 	@Override
-	public Criteria mergeQueryParameterCriteria(Map<String, Object> queryParameter,
-			Map<String, PropertyWrapper> propertyOperatorMap, Criteria criteria, Class<?> entityClass) {
+	public Criteria mergeQueryParameterCriteria(Class<?> entityClass, Map<String, Object> queryParameter,
+			Criteria criteria, Map<String, PropertyWrapper> propertyOperatorMap) {
 		if (criteria == null) {
 			criteria = new Criteria();
 		}
-		criteria.getCriterions().addAll(extractQueryParameter(queryParameter, propertyOperatorMap, entityClass));
+		criteria.getCriterions().addAll(extractQueryParameter(entityClass, queryParameter, propertyOperatorMap));
 		return criteria;
 	}
 
 	@Override
-	public List<Criterion> extractQueryParameter(Map<String, Object> queryParameter,
-			Map<String, PropertyWrapper> propertyOperatorMap, Class<?> entityClass) {
+	public List<Criterion> extractQueryParameter(Class<?> entityClass, Map<String, Object> queryParameter,
+			Map<String, PropertyWrapper> propertyOperatorMap) {
 
 		List<Criterion> criterions = new ArrayList<Criterion>();
 		if (queryParameter == null) {
@@ -54,13 +54,15 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
 				continue;
 			}
 
-			PropertyWrapper propertyWrapper = propertyWrapperService.find(entityClass, property, propertyOperatorMap);
+			PropertyWrapper propertyWrapper = propertyOperatorMap.get(property);
+			if (propertyWrapper != null)
+				propertyWrapper = propertyWrapperService.find(entityClass, property, propertyOperatorMap);
 
 			if (propertyWrapper == null) {
 				continue;
 			}
 
-			CokeFilterCriterion criterion = new CokeFilterCriterion();
+			SingleValueFilterCriterion criterion = new SingleValueFilterCriterion();
 			criterion.setProperty(propertyWrapper.getProperty());
 			criterion.setFilterOperator(propertyWrapper.getFilterOperator());
 			value = propertyWrapper.parseValue(value);
@@ -105,5 +107,16 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
+	}
+
+	@Override
+	public Criteria mergeQueryParameterCriteria(Class<?> entityClass, Map<String, Object> queryParameter,
+			Criteria criteria) {
+		return mergeQueryParameterCriteria(entityClass, queryParameter, criteria, null);
+	}
+
+	@Override
+	public List<Criterion> extractQueryParameter(Class<?> entityClass, Map<String, Object> queryParameter) {
+		return extractQueryParameter(entityClass, queryParameter, null);
 	}
 }
