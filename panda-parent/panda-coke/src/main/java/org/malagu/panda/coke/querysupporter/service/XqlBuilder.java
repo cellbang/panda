@@ -13,9 +13,4 @@ public interface XqlBuilder {
 
 	QueryResolver extractQuery(Class<?> clazz, Criteria criteria, Map<String, Object> queryParameter, String alias);
 
-	QueryResolver extractNativeQuery(Class<?> clazz, Criteria criteria, String alias);
-
-	QueryResolver extractNativeQuery(Class<?> clazz, Criteria criteria, Map<String, Object> queryParameter,
-			String alias);
-
 }

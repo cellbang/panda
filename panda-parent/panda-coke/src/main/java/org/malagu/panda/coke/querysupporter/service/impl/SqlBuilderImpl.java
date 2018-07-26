@@ -7,11 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 import org.malagu.panda.coke.querysupporter.model.QueryResolver;
-import org.malagu.panda.coke.querysupporter.service.XqlBuilder;
-import org.malagu.panda.coke.querysupporter.service.QueryPropertyWrapperService;
 import org.malagu.panda.coke.querysupporter.service.SynonymService;
+import org.malagu.panda.coke.querysupporter.service.XqlBuilder;
 import org.springframework.stereotype.Service;
 
 import com.bstek.dorado.data.provider.Criteria;
@@ -31,12 +29,8 @@ public class SqlBuilderImpl implements XqlBuilder {
 	@Resource(name = SynonymService.BEAN_ID)
 	private SynonymService synonymService;
 
-	@Resource(name = QueryPropertyWrapperService.BEAN_ID)
-	private QueryPropertyWrapperService propertyWrapperService;
-
 	private int buildCriterion(Class<?> clazz, StringBuilder sb, Criterion c, Map<String, Object> valueMap,
-			int parameterNameCount, String alias, boolean transalteColumn,
-			Map<String, PropertyWrapper> propertyWrapperMap) {
+			int parameterNameCount, String alias) {
 		if (c instanceof SingleValueFilterCriterion) {
 			parameterNameCount++;
 			SingleValueFilterCriterion fc = (SingleValueFilterCriterion) c;
@@ -46,8 +40,7 @@ public class SqlBuilderImpl implements XqlBuilder {
 			Collection<String> unionPropertyList = synonymService.find(clazz, propertyName);
 
 			if (unionPropertyList.isEmpty()) {
-				String columnName = buildFieldName(propertyWrapperMap, fc.getProperty(), transalteColumn);
-				singleValueFilterCriterion(sb, valueMap, parameterNameCount, alias, columnName, operator,
+				singleValueFilterCriterion(sb, valueMap, parameterNameCount, alias, propertyName, operator,
 						fc.getValue());
 			} else {
 				sb.append(" ( ");
@@ -58,8 +51,7 @@ public class SqlBuilderImpl implements XqlBuilder {
 					} else {
 						first = false;
 					}
-					String columnName = buildFieldName(propertyWrapperMap, property, transalteColumn);
-					singleValueFilterCriterion(sb, valueMap, parameterNameCount, alias, columnName, operator,
+					singleValueFilterCriterion(sb, valueMap, parameterNameCount, alias, property, operator,
 							fc.getValue());
 				}
 				sb.append(" ) ");
@@ -80,18 +72,12 @@ public class SqlBuilderImpl implements XqlBuilder {
 						sb.append(junction);
 					}
 					count++;
-					parameterNameCount = buildCriterion(clazz, sb, criterion, valueMap, parameterNameCount, alias,
-							transalteColumn, propertyWrapperMap);
+					parameterNameCount = buildCriterion(clazz, sb, criterion, valueMap, parameterNameCount, alias);
 				}
 				sb.append(" ) ");
 			}
 		}
 		return parameterNameCount;
-	}
-
-	protected String buildFieldName(Map<String, PropertyWrapper> propertyWrapperMap, String name,
-			boolean transalteColumn) {
-		return name;
 	}
 
 	protected String buildOperator(FilterOperator filterOperator) {
@@ -102,15 +88,13 @@ public class SqlBuilderImpl implements XqlBuilder {
 		return operator;
 	}
 
-	public QueryResolver doExtractQuery(Class<?> clazz, Criteria criteria, String alias, boolean transalteColumnName) {
+	public QueryResolver doExtractQuery(Class<?> clazz, Criteria criteria, String alias) {
 		int parameterNameCount = 0;
 		QueryResolver result = new QueryResolver();
 
 		if (criteria == null) {
 			return result;
 		}
-
-		Map<String, PropertyWrapper> propertyWrapperMap = propertyWrapperService.findClassPropertyWrapper(clazz);
 
 		// build where
 		if (!criteria.getCriterions().isEmpty()) {
@@ -122,8 +106,7 @@ public class SqlBuilderImpl implements XqlBuilder {
 					whereCondition.append(" and ");
 				}
 				count++;
-				parameterNameCount = buildCriterion(clazz, whereCondition, c, valueMap, parameterNameCount, alias,
-						transalteColumnName, propertyWrapperMap);
+				parameterNameCount = buildCriterion(clazz, whereCondition, c, valueMap, parameterNameCount, alias);
 			}
 		}
 
@@ -151,18 +134,6 @@ public class SqlBuilderImpl implements XqlBuilder {
 	}
 
 	@Override
-	public QueryResolver extractNativeQuery(Class<?> clazz, Criteria criteria, Map<String, Object> queryParameter,
-			String alias) {
-		criteria = doradoCriteriaBuilder.mergeQueryParameterCriteria(queryParameter, null, criteria, clazz);
-		return extractNativeQuery(clazz, criteria, alias);
-	}
-
-	@Override
-	public QueryResolver extractNativeQuery(Class<?> clazz, Criteria criteria, String alias) {
-		return doExtractQuery(clazz, criteria, alias, true);
-	}
-
-	@Override
 	public QueryResolver extractQuery(Class<?> clazz, Criteria criteria, Map<String, Object> queryParameter,
 			String alias) {
 		criteria = doradoCriteriaBuilder.mergeQueryParameterCriteria(queryParameter, null, criteria, clazz);
@@ -171,7 +142,7 @@ public class SqlBuilderImpl implements XqlBuilder {
 
 	@Override
 	public QueryResolver extractQuery(Class<?> clazz, Criteria criteria, String alias) {
-		return doExtractQuery(clazz, criteria, alias, false);
+		return doExtractQuery(clazz, criteria, alias);
 	}
 
 	private String processLike(String operator) {
