@@ -12,7 +12,7 @@ public class StaticKeyGenerator implements KeyGenerator {
 	
 	@Override
 	public Object generate(Object target, Method method, Object... params) {
-		return "BDF3_SECURITY";
+		return "PANDA_SECURITY";
 	}
 
 }

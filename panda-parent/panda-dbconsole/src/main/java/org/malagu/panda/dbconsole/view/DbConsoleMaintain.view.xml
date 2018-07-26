@@ -7,7 +7,7 @@
   <Context/>
   <Model>
     <DataType name="dataTypeDb">
-      <Property name="creationType">com.bstek.bdf3.dbconsole.model.DbInfo</Property>
+      <Property name="creationType">org.malagu.panda.dbconsole.model.DbInfo</Property>
       <Reference name="tableInfos">
         <Property name="dataType">[dataTypeTable]</Property>
         <Property name="dataProvider">dbConsoleController#loadTableInfos</Property>
@@ -48,7 +48,7 @@
       </PropertyDef>
     </DataType>
     <DataType name="dataTypeTable">
-      <Property name="creationType">com.bstek.bdf3.dbconsole.model.TableInfo</Property>
+      <Property name="creationType">org.malagu.panda.dbconsole.model.TableInfo</Property>
       <PropertyDef name="dbInfo">
         <Property name="dataType"></Property>
       </PropertyDef>
@@ -115,7 +115,7 @@ else &#xD;
 </ClientEvent>
       <ClientEvent name="onStateChange">&#xD;
 </ClientEvent>
-      <Property name="creationType">com.bstek.bdf3.dbconsole.model.ColumnInfo</Property>
+      <Property name="creationType">org.malagu.panda.dbconsole.model.ColumnInfo</Property>
       <PropertyDef name="tableName">
         <Property name="dataType">String</Property>
       </PropertyDef>
@@ -179,7 +179,7 @@ self.flushTabData = function(){&#xD;
         var tableName = entity.get(&quot;tableName&quot;);&#xD;
 		&#xD;
         if (name == &quot;dataTab&quot;) {&#xD;
-            var path = &quot;bdf3.dbconsole.view.datatab.DataTabMaintain.d?type=1&amp;dbInfoId=&quot; + dbInfoId + &quot;&amp;tableName=&quot; + tableName + &quot;&quot;;&#xD;
+            var path = &quot;panda.dbconsole.view.datatab.DataTabMaintain.d?type=1&amp;dbInfoId=&quot; + dbInfoId + &quot;&amp;tableName=&quot; + tableName + &quot;&quot;;&#xD;
             tab.set(&quot;path&quot;, path);&#xD;
         } else if (name == &quot;columnTab&quot;) {&#xD;
             dataSetColumn.set(&quot;parameter&quot;, {&#xD;
@@ -193,7 +193,7 @@ self.flushTabData = function(){&#xD;
         var dbInfoId = entity.get(&quot;id&quot;);&#xD;
         if (dbInfoId) {&#xD;
             if (name == &quot;dataTab&quot;) {&#xD;
-                tab.set(&quot;path&quot;, &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
+                tab.set(&quot;path&quot;, &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
             } else if (name == &quot;columnTab&quot;) {&#xD;
                 dataSetColumn.set(&quot;parameter&quot;, {&#xD;
                     dbInfoId: dbInfoId,&#xD;
@@ -204,7 +204,7 @@ self.flushTabData = function(){&#xD;
         }&#xD;
 	} else {&#xD;
 		 if (name == &quot;dataTab&quot;) {&#xD;
-		 	tab.set(&quot;path&quot;, &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
+		 	tab.set(&quot;path&quot;, &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
 		 }&#xD;
 	}&#xD;
     &#xD;
@@ -318,7 +318,7 @@ if (currentNode) {&#xD;
 		var dbInfoId = entity.get(&quot;dbInfoId&quot;);&#xD;
 		var tableName = entity.get(&quot;tableName&quot;);&#xD;
 		if (name == &quot;dataTab&quot;) {&#xD;
-			var path = &quot;bdf3.dbconsole.view.datatab.DataTabMaintain.d?type=1&amp;dbInfoId=&quot; + dbInfoId + &quot;&amp;tableName=&quot; + tableName + &quot;&quot;;&#xD;
+			var path = &quot;panda.dbconsole.view.datatab.DataTabMaintain.d?type=1&amp;dbInfoId=&quot; + dbInfoId + &quot;&amp;tableName=&quot; + tableName + &quot;&quot;;&#xD;
 			tab.set(&quot;path&quot;, path);&#xD;
 		} else if (name == &quot;columnTab&quot;) {&#xD;
 			dataSetColumn.set(&quot;parameter&quot;, {&#xD;
@@ -332,7 +332,7 @@ if (currentNode) {&#xD;
 		var dbInfoId = entity.get(&quot;id&quot;);&#xD;
 		if (dbInfoId) {&#xD;
 			if (name == &quot;dataTab&quot;) {&#xD;
-				var path = &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;;&#xD;
+				var path = &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;;&#xD;
 				tab.set(&quot;path&quot;, path);&#xD;
 			} else if (name == &quot;columnTab&quot;) {&#xD;
 				dataSetColumn.set(&quot;parameter&quot;, {&#xD;
@@ -343,7 +343,7 @@ if (currentNode) {&#xD;
 			}&#xD;
 		}&#xD;
 	} else {&#xD;
-		var path = &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;;&#xD;
+		var path = &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;;&#xD;
 		tab.set(&quot;path&quot;, path);&#xD;
 	}&#xD;
 }</ClientEvent>
@@ -551,16 +551,16 @@ if (level == 1) {&#xD;
 }&#xD;
 if (sql &amp;&amp; dbInfoId) {&#xD;
     if (sql.toLowerCase().indexOf(&quot;select&quot;) == -1) {&#xD;
-        var path = &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d?sql=&quot; + sql + &quot;&amp;dbInfoId=&quot; + dbInfoId;&#xD;
+        var path = &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d?sql=&quot; + sql + &quot;&amp;dbInfoId=&quot; + dbInfoId;&#xD;
         iFrameTable.set(&quot;path&quot;, path);&#xD;
     } else if (sql.toLowerCase().indexOf(&quot;select&quot;) != -1) {&#xD;
-        var path = &quot;bdf3.dbconsole.view.datatab.DataTabMaintain.d?type=2&amp;sql=&quot; + sql + &quot;&amp;dbInfoId=&quot; + dbInfoId;&#xD;
+        var path = &quot;panda.dbconsole.view.datatab.DataTabMaintain.d?type=2&amp;sql=&quot; + sql + &quot;&amp;dbInfoId=&quot; + dbInfoId;&#xD;
         iFrameTable.set(&quot;path&quot;, path);&#xD;
     } else {&#xD;
-        iFrameTable.set(&quot;path&quot;, &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
+        iFrameTable.set(&quot;path&quot;, &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
     }&#xD;
 } else {&#xD;
-	iFrameTable.set(&quot;path&quot;, &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
+	iFrameTable.set(&quot;path&quot;, &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
 }&#xD;
 &#xD;
 if (splitPanelSql.get(&quot;collapsed&quot;)) {&#xD;
@@ -591,17 +591,17 @@ if (level == 1) {&#xD;
 }&#xD;
 if (sql &amp;&amp; dbInfoId) {&#xD;
     if (sql.toLowerCase().indexOf(&quot;select&quot;) == -1) {&#xD;
-       var path=&quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d?sql=&quot;+sql+&quot;&amp;dbInfoId=&quot;+dbInfoId;&#xD;
+       var path=&quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d?sql=&quot;+sql+&quot;&amp;dbInfoId=&quot;+dbInfoId;&#xD;
 	   iFrameTable.set(&quot;path&quot;,path);&#xD;
     } else if(sql.toLowerCase().indexOf(&quot;select&quot;) != -1) {&#xD;
-			var path=&quot;bdf3.dbconsole.view.datatab.DataTabMaintain.d?type=2&amp;sql=&quot;+sql+&quot;&amp;dbInfoId=&quot;+dbInfoId;&#xD;
+			var path=&quot;panda.dbconsole.view.datatab.DataTabMaintain.d?type=2&amp;sql=&quot;+sql+&quot;&amp;dbInfoId=&quot;+dbInfoId;&#xD;
 			iFrameTable.set(&quot;path&quot;,path);&#xD;
 &#xD;
 	 } else {&#xD;
-        iFrameTable.set(&quot;path&quot;, &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
+        iFrameTable.set(&quot;path&quot;, &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
     }&#xD;
 } else {&#xD;
-	iFrameTable.set(&quot;path&quot;, &quot;bdf3.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
+	iFrameTable.set(&quot;path&quot;, &quot;panda.dbconsole.view.messagetab.MessageTabMaintain.d&quot;);&#xD;
 }&#xD;
 if (splitPanelSql.get(&quot;collapsed&quot;)) {&#xD;
 	splitPanelSql.set(&quot;collapsed&quot;, false);&#xD;
@@ -630,7 +630,7 @@ if (splitPanelSql.get(&quot;collapsed&quot;)) {&#xD;
                     <SideControl>
                       <Container>
                         <IFrame id="iFrameTable">
-                          <Property name="path">bdf3.dbconsole.view.messagetab.MessageTabMaintain.d</Property>
+                          <Property name="path">panda.dbconsole.view.messagetab.MessageTabMaintain.d</Property>
                           <Property name="ignored">false</Property>
                         </IFrame>
                       </Container>

@@ -58,7 +58,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-import</artifactId>
+			<artifactId>panda-importer</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>

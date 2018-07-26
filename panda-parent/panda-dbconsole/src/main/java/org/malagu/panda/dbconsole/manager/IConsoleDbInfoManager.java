@@ -9,7 +9,7 @@ import org.malagu.panda.dbconsole.model.DbInfo;
  * 
  */
 public interface IConsoleDbInfoManager {
-	public static final String BEAN_ID = "bdf3.consoleDbInfoManager";
+	public static final String BEAN_ID = "panda.consoleDbInfoManager";
 
 	/**
 	 * 根据用户名查找数据库连接配置文件

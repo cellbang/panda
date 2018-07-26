@@ -1,7 +1,7 @@
 package org.malagu.panda.autoconfigure.importer;
 
 import org.malagu.panda.autoconfigure.security.SecurityAutoConfiguration;
-import org.malagu.panda.importexcel.ImporterConfiguration;
+import org.malagu.panda.importer.ImporterConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

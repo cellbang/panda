@@ -25,7 +25,7 @@ import com.bstek.dorado.util.TempFileUtils;
  */
 public class DbInfoConfig {
 	private static String FILE_PATH;
-	private static final String FILE_NAME = "bdf3-dbconsole.xml";
+	private static final String FILE_NAME = "panda-dbconsole.xml";
 	protected static final Logger log = Logger.getLogger(DbInfoConfig.class);
 	
 	static {

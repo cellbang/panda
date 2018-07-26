@@ -10,8 +10,8 @@
         <Property name="label">公司ID</Property>
         <Property name="readOnly">false</Property>
         <Validator name="validator1" type="regExp">
-          <Property name="whiteRegExp">${configure['bdf3.organizationIdRegExp']}</Property>
-          <Property name="resultMessage">${configure['bdf3.organizationIdRegExpResultMessage']}</Property>
+          <Property name="whiteRegExp">${configure['panda.organizationIdRegExp']}</Property>
+          <Property name="resultMessage">${configure['panda.organizationIdRegExpResultMessage']}</Property>
         </Validator>
         <Validator type="ajax">
           <Property name="name">validator</Property>

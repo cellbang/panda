@@ -52,7 +52,7 @@ public abstract class ControlUtils {
 		if (componentPermissionSupportTypes != null) {
 			return componentPermissionSupportTypes;
 		}
-		String componentPermissionSupportType = Configure.getString("bdf3.componentPermissionSupportType");
+		String componentPermissionSupportType = Configure.getString("panda.componentPermissionSupportType");
 		if (!StringUtils.isEmpty(componentPermissionSupportType)) {
 			String[] types = StringUtils.commaDelimitedListToStringArray(componentPermissionSupportType);
 			componentPermissionSupportTypes = new HashSet<>();

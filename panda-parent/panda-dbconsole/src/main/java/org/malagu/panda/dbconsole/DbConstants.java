@@ -6,7 +6,7 @@ public class DbConstants {
 	 */
 	public static final String DEFAULTDATASOURCE = "db_console_default_datasource";
 	
-	public static final String DEFAULT_LOGIN_USERNAME_ATTR = "bdf3.dbconsole.defaultLoginUsernameAttr";
+	public static final String DEFAULT_LOGIN_USERNAME_ATTR = "panda.dbconsole.defaultLoginUsernameAttr";
 
 
 }

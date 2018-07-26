@@ -41,7 +41,7 @@
 				<groupId>org.malagu.linq</groupId>
 				<artifactId>spring-boot-linq</artifactId>
 				<version>1.1.1.RELEASE</version>
-			</dependency> 
+			</dependency>
 			<dependency>
 				<groupId>org.malagu.multitenant</groupId>
 				<artifactId>multitenant</artifactId>
@@ -94,7 +94,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
-				<artifactId>panda-import</artifactId>
+				<artifactId>panda-importer</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
@@ -240,7 +240,7 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-	
+
 	<scm>
 		<connection>scm:git:https://github.com/malagu-org/panda.git</connection>
 		<developerConnection>scm:git:https://github.com/malagu-org/panda.git</developerConnection>
@@ -248,6 +248,11 @@
 		<tag>v${project.version}</tag>
 	</scm>
 	<repositories>
+		<repository>
+			<id>ezhiyang-maven-repository</id>
+			<url>http://172.16.0.13:8081/repository/public/</url>
+		</repository>
+
 		<repository>
 			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
@@ -297,5 +302,5 @@
 			</resource>
 		</resources>
 	</build>
-	
+
 </project>

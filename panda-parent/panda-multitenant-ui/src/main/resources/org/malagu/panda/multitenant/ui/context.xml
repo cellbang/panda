@@ -9,7 +9,7 @@
 	<bean parent="dorado.expressionVarsInitializerRegister">
 		<property name="contextInitializer">
 			<bean
-				class="com.bstek.bdf3.multitenant.ui.context.MultitenantContextVarsInitializer" />
+				class="org.malagu.panda.multitenant.ui.context.MultitenantContextVarsInitializer" />
 		</property>
 	</bean>
 
