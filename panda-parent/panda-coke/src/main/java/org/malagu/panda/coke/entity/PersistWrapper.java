@@ -3,11 +3,9 @@ package org.malagu.panda.coke.entity;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.malagu.panda.coke.dataType.ListMap;
 import org.malagu.panda.coke.service.PersistAction;
 import org.malagu.panda.coke.service.impl.NopPersistAction;
-
 import javassist.util.proxy.ProxyObject;
 
 public class PersistWrapper {

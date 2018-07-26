@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.TreeNode;
@@ -53,8 +52,7 @@ public class JSONUtil {
    */
   public static <T> List<T> jsonToList(String json, Class<T> clazz) {
     ObjectMapper mapper = buildObjectMapper();
-    JavaType javaType =
-        mapper.getTypeFactory().constructCollectionType(List.class, clazz);
+    JavaType javaType = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
     try {
       return mapper.readValue(json, javaType);
     } catch (IOException e) {
@@ -169,8 +167,7 @@ public class JSONUtil {
     }
     ObjectMapper mapper = buildObjectMapper();
     try {
-      JavaType javaType = mapper.getTypeFactory()
-          .constructCollectionType(List.class, clazz);
+      JavaType javaType = mapper.getTypeFactory().constructCollectionType(List.class, clazz);
       return mapper.readValue(json, javaType);
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -185,9 +182,8 @@ public class JSONUtil {
    */
   public static Map<String, Object> toMap(Object obj) {
     ObjectMapper mapper = buildObjectMapper();
-    JavaType javaType =
-        mapper.getTypeFactory().constructParametrizedType(LinkedHashMap.class, Map.class,
-            String.class, Object.class);
+    JavaType javaType = mapper.getTypeFactory().constructParametrizedType(LinkedHashMap.class,
+        Map.class, String.class, Object.class);
     Map<String, Object> props = mapper.convertValue(obj, javaType);
     return props;
   }
@@ -206,9 +202,8 @@ public class JSONUtil {
     }
     ObjectMapper mapper = buildObjectMapper();
     try {
-      JavaType javaType =
-          mapper.getTypeFactory().constructParametrizedType(LinkedHashMap.class, Map.class,
-              String.class, Object.class);
+      JavaType javaType = mapper.getTypeFactory().constructParametrizedType(LinkedHashMap.class,
+          Map.class, String.class, Object.class);
       return mapper.readValue(json, javaType);
     } catch (Exception e) {
       throw new RuntimeException(e);

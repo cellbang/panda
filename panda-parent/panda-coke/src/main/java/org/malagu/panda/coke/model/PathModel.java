@@ -2,7 +2,6 @@ package org.malagu.panda.coke.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-
 import com.bstek.dorado.annotation.PropertyDef;
 
 @MappedSuperclass

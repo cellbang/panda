@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
  * 
  */
 public interface ReflectionRegister {
-	void register(Class<?> clazz, Field field);
+  void register(Class<?> clazz, Field field);
 
-	void register(Class<?> clazz, String name, AccessibleObject accessibleObject, String columnName);
+  void register(Class<?> clazz, String name, AccessibleObject accessibleObject, String columnName);
 }

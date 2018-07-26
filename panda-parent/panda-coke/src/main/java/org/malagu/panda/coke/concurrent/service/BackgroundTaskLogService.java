@@ -2,7 +2,6 @@ package org.malagu.panda.coke.concurrent.service;
 
 import java.util.Collection;
 import java.util.Map;
-
 import org.malagu.panda.coke.concurrent.domain.BackgroundTaskLog;
 
 

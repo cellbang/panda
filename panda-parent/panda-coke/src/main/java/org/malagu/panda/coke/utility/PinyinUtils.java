@@ -6,11 +6,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.malagu.panda.coke.model.Pinyin;
 import org.springframework.util.StringUtils;
-
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 

@@ -3,9 +3,7 @@ package org.malagu.panda.coke.utility;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-
 import com.bstek.dorado.view.widget.grid.Column;
 import com.bstek.dorado.view.widget.grid.ColumnGroup;
 import com.bstek.dorado.view.widget.grid.DataGrid;

@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.sql.Clob;
 import java.sql.SQLException;
-
 import org.apache.commons.io.IOUtils;
 
 public class ClobUtil {

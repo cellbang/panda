@@ -1,7 +1,6 @@
 package org.malagu.panda.coke.querysupporter.service;
 
 import org.hibernate.criterion.DetachedCriteria;
-
 import com.bstek.dorado.data.provider.Criteria;
 
 public interface HibernateCriteriaBuilder {

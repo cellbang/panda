@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
@@ -179,14 +178,13 @@ public class CriteriaImplHelper {
         Mehtod_OrderEntry_getCriteria = orderEntry.getClass().getMethod("getCriteria");
       }
 
-      org.hibernate.Criteria orderCriteria = (org.hibernate.Criteria) Mehtod_OrderEntry_getCriteria
-          .invoke(orderEntry);
+      org.hibernate.Criteria orderCriteria =
+          (org.hibernate.Criteria) Mehtod_OrderEntry_getCriteria.invoke(orderEntry);
       if (criteriaImpl.equals(orderCriteria)) {
         if (Method_OrderEntry_getOrder == null) {
           Method_OrderEntry_getOrder = orderEntry.getClass().getDeclaredMethod("getOrder");
           org.hibernate.criterion.Order order =
-              (org.hibernate.criterion.Order) Method_OrderEntry_getOrder
-                  .invoke(orderEntry);
+              (org.hibernate.criterion.Order) Method_OrderEntry_getOrder.invoke(orderEntry);
           oldOrderMap.put(getPropertyName(order), order);
           oldOrderEntryItr.remove();
         }

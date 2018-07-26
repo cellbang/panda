@@ -1,9 +1,7 @@
 package org.malagu.panda.coke.querysupporter.service.impl;
 
 import java.util.Collection;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -15,7 +13,6 @@ import org.malagu.panda.coke.querysupporter.service.HibernateCriteriaBuilder;
 import org.malagu.panda.coke.querysupporter.service.SynonymService;
 import org.malagu.panda.coke.service.impl.ObjectRelationQuery;
 import org.springframework.stereotype.Service;
-
 import com.bstek.dorado.data.provider.And;
 import com.bstek.dorado.data.provider.Criteria;
 import com.bstek.dorado.data.provider.Junction;

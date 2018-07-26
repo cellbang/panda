@@ -14,10 +14,8 @@ package org.malagu.panda.coke.service.impl.datatype;
 
 import java.text.ParseException;
 import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-
 import com.bstek.dorado.data.type.DataConvertException;
 import com.bstek.dorado.util.Assert;
 import com.bstek.dorado.util.DateUtils;
@@ -119,8 +117,8 @@ public class DateDataType extends AbstractDataTypeConverter {
    */
   protected Date convertObject2Date(Object value) throws DataConvertException {
     Class<?> targetType = getMatchType();
-    if (targetType != null && targetType.isAssignableFrom(value.getClass()) || targetType == null
-        && value instanceof Date) {
+    if (targetType != null && targetType.isAssignableFrom(value.getClass())
+        || targetType == null && value instanceof Date) {
       return (Date) value;
     } else if (value instanceof String) {
       return convertText2Date((String) value);

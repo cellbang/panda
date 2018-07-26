@@ -3,7 +3,6 @@ package org.malagu.panda.coke.filestorage.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStorageProvider {

@@ -8,9 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.malagu.panda.coke.filestorage.domain.CokeBlob;
@@ -45,8 +43,7 @@ public class DatabaseStorageProvider implements FileStorageProvider {
   }
 
   @Override
-  public String put(MultipartFile file)
-      throws IllegalStateException, IOException {
+  public String put(MultipartFile file) throws IllegalStateException, IOException {
     return put(file.getInputStream());
   }
 

@@ -3,7 +3,6 @@ package org.malagu.panda.coke.utility;
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class SHACheckSumExample {
@@ -35,9 +34,8 @@ public class SHACheckSumExample {
 
     System.out.println("Hex format : " + hexString.toString());
 
-    System.out.println(
-        "Hex format : "
-            + DigestUtils.sha1Hex(new FileInputStream("/Users/Bing/Downloads.rar.dmg")));
+    System.out.println("Hex format : "
+        + DigestUtils.sha1Hex(new FileInputStream("/Users/Bing/Downloads.rar.dmg")));
 
   }
 }

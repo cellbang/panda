@@ -11,12 +11,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -39,13 +37,11 @@ public class FileController {
 
 
   @RequestMapping(value = "/upload.k", produces = "application/json")
-  public @ResponseBody Object handleFileUpload(HttpServletRequest request)
-      throws IOException {
+  public @ResponseBody Object handleFileUpload(HttpServletRequest request) throws IOException {
 
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
-    Map<String, Object> result =
-        new LinkedHashMap<String, Object>();
+    Map<String, Object> result = new LinkedHashMap<String, Object>();
 
     Collection<Map<String, Object>> otherFiles = new ArrayList<Map<String, Object>>();
     if (isMultipart) {

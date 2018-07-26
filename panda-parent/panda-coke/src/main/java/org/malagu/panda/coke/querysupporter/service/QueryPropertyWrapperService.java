@@ -1,7 +1,6 @@
 package org.malagu.panda.coke.querysupporter.service;
 
 import java.util.Map;
-
 import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 
 public interface QueryPropertyWrapperService {
@@ -11,5 +10,5 @@ public interface QueryPropertyWrapperService {
   PropertyWrapper find(Class<?> clazz, String property,
       Map<String, PropertyWrapper> propertyWrapperMap);
 
-	Map<String, PropertyWrapper> findClassPropertyWrapper(Class<?> clazz);
+  Map<String, PropertyWrapper> findClassPropertyWrapper(Class<?> clazz);
 }

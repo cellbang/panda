@@ -2,7 +2,6 @@ package org.malagu.panda.coke.model;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.beanutils.BeanUtils;
 
 public class ObjectWrapper {

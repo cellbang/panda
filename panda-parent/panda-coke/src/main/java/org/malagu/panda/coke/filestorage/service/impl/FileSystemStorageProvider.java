@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.malagu.panda.coke.filestorage.service.FileStorageProvider;
@@ -34,8 +33,7 @@ public class FileSystemStorageProvider implements FileStorageProvider {
   }
 
   @Override
-  public String put(MultipartFile file)
-      throws IllegalStateException, IOException {
+  public String put(MultipartFile file) throws IllegalStateException, IOException {
 
     String relativePath = getRelativPath();
     File targetFile = getTargetFile(fileSystemStorageLocation, relativePath);

@@ -1,9 +1,7 @@
 package org.malagu.panda.coke.model;
 
 import java.util.Date;
-
 import javax.persistence.MappedSuperclass;
-
 import com.bstek.dorado.annotation.PropertyDef;
 
 @MappedSuperclass
