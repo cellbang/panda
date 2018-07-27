@@ -1,5 +1,5 @@
-$namespace("org.malagu.panda.coke");
-org.malagu.panda.coke.renderDataGridError = function(arg, errorColor) {
+$namespace("coke");
+coke.renderDataGridError = function(arg, errorColor) {
 	var entity = arg.data;
 	var column = arg.column;
 	var property = column.get("property");
@@ -13,8 +13,7 @@ org.malagu.panda.coke.renderDataGridError = function(arg, errorColor) {
 			}
 		});
 	}
-	
-	
+
 	qdom = $fly(arg.dom);
 	entity.originalBackgroundColor = entity.originalBackgroundColor || qdom.css("background-color");
 	var finalColor = arg.finalColor || entity.originalBackgroundColor;
@@ -27,7 +26,7 @@ org.malagu.panda.coke.renderDataGridError = function(arg, errorColor) {
 	arg.processDefault = true;
 }
 
-org.malagu.panda.coke.smartExecute = function(action, parameter, executeCallback, cacheCallback) {
+coke.smartExecute = function(action, parameter, executeCallback, cacheCallback) {
 	var strParameter = dorado.JSON.stringify(parameter);
 	if (action.strParameter != strParameter) {
 		action.strParameter = strParameter;
@@ -47,7 +46,7 @@ org.malagu.panda.coke.smartExecute = function(action, parameter, executeCallback
 		}
 	}
 }
-function $xa_insertItem(dataSet, dataPath, dialog, data) {
+coke.insertItem = function(dataSet, dataPath, dialog, data) {
 	if (!data) {
 		data = {
 			xybz : true,
@@ -66,7 +65,7 @@ function $xa_insertItem(dataSet, dataPath, dialog, data) {
 	}
 }
 
-function $xa_insertChildItem(dataTree, childrenName, dialog, data) {
+coke.insertChildItem = function(dataTree, childrenName, dialog, data) {
 	childrenName = childrenName || "children";
 	data = data || {};
 
@@ -85,7 +84,7 @@ function $xa_insertChildItem(dataTree, childrenName, dialog, data) {
 	}
 }
 
-function $xa_isItemEditable(toolbarEditId) {
+coke.isItemEditable = function(toolbarEditId) {
 	if (toolbarEditId) {
 		var toolbarEdit = view.id(toolbarEditId);
 		return toolbarEdit && !toolbarEdit.get("disabled");
@@ -94,8 +93,8 @@ function $xa_isItemEditable(toolbarEditId) {
 	}
 }
 
-function $xa_editItem(dataSet, dataPath, dialog, toolbarEditId) {
-	if ($xa_isItemEditable(toolbarEditId)) {
+coke.editItem = function(dataSet, dataPath, dialog, toolbarEditId) {
+	if (coke.isItemEditable(toolbarEditId)) {
 		var entity = dataSet.getData(dataPath);
 		if (entity) {
 			dialog.show();
@@ -104,8 +103,10 @@ function $xa_editItem(dataSet, dataPath, dialog, toolbarEditId) {
 		}
 	}
 }
-
-function $xa_deleteItem(dataSet, dataPath, updateAction, callBack) {
+/*
+ * coke.deleteItem(dataSet, dataPath, updateAction, callBack);
+ */
+coke.deleteItem = function(dataSet, dataPath, updateAction, callBack) {
 	var entity = dataSet.getData(dataPath);
 	if (entity) {
 		dorado.MessageBox.confirm("确认要删除选中的记录么？", {
@@ -120,8 +121,10 @@ function $xa_deleteItem(dataSet, dataPath, updateAction, callBack) {
 		dorado.widget.NotifyTipManager.notify('没有可删除的记录。');
 	}
 }
-
-function $xa_deleteItems(dataGrid, updateAction, config) {
+/*
+ * coke.deleteItems(dataGrid, updateAction, config);
+ */
+coke.deleteItems = function(dataGrid, updateAction, config) {
 	var callBack;
 	if (!config) {
 		config = {};
@@ -177,7 +180,7 @@ function $xa_deleteItems(dataGrid, updateAction, config) {
 	});
 }
 
-function $xa_dialogSaveItem(dataSet, dataPath, updateAction, dialog, callback) {
+coke.dialogSaveItem = function(dataSet, dataPath, updateAction, dialog, callback) {
 	var entity = dataSet.getData(dataPath);
 	if (updateAction.get("hasUpdateData")) {
 		updateAction.execute(function() {
@@ -194,7 +197,7 @@ function $xa_dialogSaveItem(dataSet, dataPath, updateAction, dialog, callback) {
 	}
 }
 
-function $xa_dialogCancelItem(dataSet, dataPath, dialog) {
+coke.dialogCancelItem = function(dataSet, dataPath, dialog) {
 	var entity = dataSet.getData(dataPath);
 	if (entity && entity.isDirty()) {
 		dorado.MessageBox.confirm("确认放弃当前修改？", {
@@ -209,11 +212,11 @@ function $xa_dialogCancelItem(dataSet, dataPath, dialog) {
 	}
 }
 
-function $xa_queryItem(dataSet, autoformQuery, dataPath) {
-	dataSet.set("parameter", autoformQuery.get("entity").toJSON()).flushAsync();
+coke.queryItem = function(dataSet, dataSetQuery, dataPath) {
+	dataSet.set("parameter", dataSetQuery.getData().toJSON()).flushAsync();
 }
 
-function $xa_queryReferenceItem(entity, reference, autoformQuery) {
+coke.queryReferenceItem = function(entity, reference, autoformQuery) {
 	var queryJson = autoformQuery.get("entity").toJSON();
 	var parameter = reference.get("parameter");
 	var lastQueryJson = autoformQuery.lastQueryJson;
@@ -227,14 +230,11 @@ function $xa_queryReferenceItem(entity, reference, autoformQuery) {
 	autoformQuery.lastQueryJson = queryJson;
 }
 
-function $xa_resetQueryform(dataSetQuery, config) {
-	if (!config) {
-		config = {};
-	}
-	dataSetQuery.set("data", config);
+coke.resetQuery = function(dataSetQuery) {
+	dataSetQuery.getData().cancel();
 }
 
-function $xa_getSelections(dataGrid, type) {
+coke.getSelections = function(dataGrid, type) {
 	if (!type) {
 		type = "current";
 	}
@@ -255,15 +255,7 @@ function $xa_getSelections(dataGrid, type) {
 	return list;
 }
 
-function $xa_openUrl(link, title) {
-	if (top.openUrlInFrameTab) {
-		top.openUrlInFrameTab(link, title);
-	} else {
-		window.open(link, "_blank");
-	}
-}
-
-function $xa_dataRowClick(rowList, clickCallback, doubleClickCallback) {
+coke.dataRowClick = function(rowList, clickCallback, doubleClickCallback) {
 	var timer;
 
 	var singleClick = function() {
@@ -285,6 +277,128 @@ function $xa_dataRowClick(rowList, clickCallback, doubleClickCallback) {
 	rowList.addListener("onDataRowClick", singleClick);
 	rowList.addListener("onDataRowDoubleClick", doubleClick);
 }
+
+coke.autoAction = function(view, config) {
+	if (typeof config === "string") {
+		config = {
+			name : config
+		}
+	}
+	
+	var dateSetId;
+	var updateActionId;
+	var currentPath;
+	var listPath;
+	var dataSetQueryId = "dataSet" + config.name + "Query"; 
+	
+	if (config.parentName) {
+		dateSetId = "dataSet" + config.parentName; 
+		updateActionId = "updateAction" + config.parentName;
+		var childname = config.name.substr(0,1).toLowerCase() + config.name.substr(1) + "s";
+		currentPath = "#.#" + childname;
+		listPath = "#." + childname;
+	} else {
+		dateSetId = "dataSet" + config.name; 
+		updateActionId = "updateAction" + config.name;
+		currentPath = "#";
+		listPaht = "";
+	}
+	var dataSet = config.dataSet || view.id(dateSetId);
+	var dataSetQuery = config.dataSetQuery || view.id(dataSetQueryId);
+	var updateAction = config.updateAction || view.id(updateActionId);
+	
+	var dialog = config.dialog || view.id("dialog" + config.name);
+	var dataGrid = config.dataGrid || view.id("dataGrid" + config.name);
+	var dialog = config.dialog || view.id("dialog" + config.name);
+
+	currentPath = config.currentPath || currentPath;
+	listPath = config.listPath || listPath;
+
+	view["insert" + config.name] = view["insert" + config.name] || function() {
+		coke.insertItem(dataSet, listPath, dialog);
+	};
+
+	view["edit" + config.name] = view["edit" + config.name] || function() {
+		coke.editItem(dataSet, currentPath, dialog);
+	};
+
+	view["del" + config.name] = view["del" + config.name] || function() {
+		coke.deleteItems(dataGrid, updateAction);
+	};
+
+	view["save" + config.name] = view["save" + config.name] || function() {
+		coke.dialogSaveItem(dataSet, currentPath, updateAction, dialog);
+	};
+
+	view["cancel" + config.name] = view["cancel" + config.name] || function() {
+		coke.dialogCancelItem(dataSet, currentPath, dialog);
+	};
+
+	view["query" + config.name] = view["query" + config.name] || function() {
+		coke.queryItem(dataSet, dataSetQuery, listPath);
+	};
+	
+	view["queryReset" + config.name] = view["queryReset" + config.name] || function() {
+		coke.resetQuery(dataSetQuery);
+	};
+
+	var actions = {
+		"Insert" : {
+			"iconClass" : "fa fa-plus",
+			"caption" : "添加"
+		},
+		"Edit" : {
+			"iconClass" : "fa fa-pencil",
+			"caption" : "编辑"
+		},
+		"Del" : {
+			"iconClass" : "fa fa-minus",
+			"caption" : "删除"
+		},
+		"Save" : {
+			"iconClass" : "fa fa-check",
+			"caption" : "保存"
+		},
+		"Cancel" : {
+			"iconClass" : "fa fa-times",
+			"caption" : "取消"
+		},
+		"Query" : {
+			"iconClass" : "fa fa-search",
+			"caption" : "查询"
+		},
+		"QueryReset" : {
+			"iconClass" : "fa fa-undo",
+			"caption" : "重置"
+		}
+
+	};
+	for ( var action in actions) {
+		var component = view.id("button" + action + config.name);
+		var actionFunction = view[action.toLowerCase() + config.name];
+		if (!component) {
+			continue;
+		}
+
+		var configs = actions[action];
+		for ( var p in configs) {
+			var value = component.get(p);
+			if (!value) {
+				component.set(p, configs[p]);
+			}
+		}
+		if (actionFunction) {
+			component.bind("onClick", actionFunction);
+		}
+	}
+
+	if (dialog) {
+		dialog.bind("beforeClose", function(arg) {
+			view["cancel" + config.name]();
+			arg.processDefault = false;
+		});
+	}
+};
 
 function travelObject(parent, property, callback) {
 	var value;
