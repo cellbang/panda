@@ -19,7 +19,7 @@ import com.bstek.dorado.data.provider.filter.SingleValueFilterCriterion;
 
 @Service(DoradoCriteriaBuilderImpl.BEAN_ID)
 public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
-  public static final String BEAN_ID = "coke.parameterToDcriteria";
+  public static final String BEAN_ID = "coke.doradoCriteriaBuilder";
 
   @Resource(name = QueryPropertyWrapperService.BEAN_ID)
   private QueryPropertyWrapperService propertyWrapperService;
@@ -53,9 +53,8 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
         continue;
       }
 
-      PropertyWrapper propertyWrapper = propertyOperatorMap.get(property);
-      if (propertyWrapper != null)
-        propertyWrapper = propertyWrapperService.find(entityClass, property, propertyOperatorMap);
+      PropertyWrapper propertyWrapper =
+          propertyWrapperService.find(entityClass, property, propertyOperatorMap);
 
       if (propertyWrapper == null) {
         continue;
@@ -68,8 +67,7 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
 
       if (value instanceof Date) {
         if (FilterOperator.le == propertyWrapper.getFilterOperator()) {
-          value = getTomorrowDate((Date) value);
-          criterion.setFilterOperator(FilterOperator.lt);
+          value = getLastMillisecond((Date) value);
         }
       }
       criterion.setValue(value);
@@ -97,7 +95,7 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
     return wordBuilder.toString();
   }
 
-  private Date getTomorrowDate(Date date) {
+  public static Date getTomorrowDate(Date date) {
     Calendar cal = Calendar.getInstance();
     cal.setTime(date);
     cal.add(Calendar.DATE, 1);
@@ -105,7 +103,24 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
     cal.set(Calendar.MINUTE, 0);
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
+    cal.add(Calendar.MILLISECOND, -1);
     return cal.getTime();
+  }
+
+  public static Date getLastMillisecond(Date date) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    cal.add(Calendar.DATE, 1);
+    cal.set(Calendar.HOUR_OF_DAY, 0);
+    cal.set(Calendar.MINUTE, 0);
+    cal.set(Calendar.SECOND, 0);
+    cal.set(Calendar.MILLISECOND, 0);
+    cal.add(Calendar.MILLISECOND, -1);
+    return cal.getTime();
+  }
+
+  public static void main(String[] args) {
+    System.out.println(getLastMillisecond(new Date()));
   }
 
   @Override

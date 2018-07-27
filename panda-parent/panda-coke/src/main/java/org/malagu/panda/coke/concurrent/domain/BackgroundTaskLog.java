@@ -110,7 +110,6 @@ public class BackgroundTaskLog {
   }
 
   @Column(name = "OPERATOR")
-  @Index(name = "IDX_OPERATOR")
   public String getOperator() {
     return operator;
   }
@@ -120,7 +119,6 @@ public class BackgroundTaskLog {
   }
 
   @Column(name = "PROCESS_BY")
-  @Index(name = "IDX_PROCESS_BY")
   public String getProcessBy() {
     return processBy;
   }
