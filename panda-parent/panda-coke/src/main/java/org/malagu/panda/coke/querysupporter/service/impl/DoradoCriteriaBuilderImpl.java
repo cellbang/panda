@@ -1,11 +1,17 @@
 package org.malagu.panda.coke.querysupporter.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+
 import javax.annotation.Resource;
 import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
@@ -16,6 +22,7 @@ import com.bstek.dorado.data.provider.Criteria;
 import com.bstek.dorado.data.provider.Criterion;
 import com.bstek.dorado.data.provider.filter.FilterOperator;
 import com.bstek.dorado.data.provider.filter.SingleValueFilterCriterion;
+import com.bstek.dorado.data.type.StringDataType;
 
 @Service(DoradoCriteriaBuilderImpl.BEAN_ID)
 public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
@@ -36,6 +43,7 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
     return criteria;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Criterion> extractQueryParameter(Class<?> entityClass,
       Map<String, Object> queryParameter, Map<String, PropertyWrapper> propertyOperatorMap) {
@@ -63,7 +71,24 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
       SingleValueFilterCriterion criterion = new SingleValueFilterCriterion();
       criterion.setProperty(propertyWrapper.getProperty());
       criterion.setFilterOperator(propertyWrapper.getFilterOperator());
-      value = propertyWrapper.parseValue(value);
+      if (FilterOperator.in == propertyWrapper.getFilterOperator()) {
+        Collection<Object> collection = null;
+        if (value instanceof Collection) {
+          collection = (Collection<Object>) value;
+        } else {
+          String[] str = Objects.toString(value, "").split(",");
+          collection = Arrays.asList(str);
+        }
+
+        Collection<Object> list = new HashSet<>();
+        for (Object obj : collection) {
+          list.add(propertyWrapper.parseValue(obj));
+        }
+        value = list;
+        // propertyWrapper.setDataType(new StringDataType());
+      } else {
+        value = propertyWrapper.parseValue(value);
+      }
 
       if (value instanceof Date) {
         if (FilterOperator.le == propertyWrapper.getFilterOperator()) {
