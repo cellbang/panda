@@ -5,6 +5,7 @@ import java.util.List;
 import org.malagu.panda.dictionary.domain.DictionaryItem;
 import org.malagu.panda.dictionary.service.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,7 @@ public class DictionaryExpressionObject {
 	@Autowired
 	private DictionaryService dictionaryService;
 	
+    @Cacheable(cacheNames = "test")
 	public List<DictionaryItem> items(String code) {		
 		return dictionaryService.getDictionaryItemsBy(code);
 	}

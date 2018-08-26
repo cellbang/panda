@@ -11,6 +11,7 @@ import org.malagu.panda.dictionary.domain.DictionaryItem;
  * @since 2017年2月7日
  */
 public interface DictionaryService {
+  String CACHE_KEY = "DICTIONARY";
 	
 	/**
 	 * 根据字典编码获取字典

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.malagu.linq.JpaUtil;
 import org.malagu.panda.dictionary.domain.Dictionary;
 import org.malagu.panda.dictionary.domain.DictionaryItem;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	}
 
 	@Override
+    @Cacheable(CACHE_KEY)
 	public List<DictionaryItem> getDictionaryItemsBy(String code) {
 		List<DictionaryItem> list = JpaUtil
 				.linq(DictionaryItem.class)
