@@ -25,8 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     try {
-      JpaUtil.linq(User.class).equal("username", username).equal("deleted", 0).findOne();
-
       User user = JpaUtil.getOne(User.class, username);
       user.setAuthorities(grantedAuthorityService.getGrantedAuthorities(user));
       return user;
