@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       user.setAuthorities(grantedAuthorityService.getGrantedAuthorities(user));
       return user;
     } catch (Exception e) {
-      throw new UsernameNotFoundException("Not Found");
+      throw new UsernameNotFoundException("Not Found", e);
     }
 
 
