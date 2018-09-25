@@ -34,8 +34,7 @@ public class FileSystemStorageProvider implements FileStorageProvider {
 
   @Override
   public String put(MultipartFile file) throws IllegalStateException, IOException {
-
-    String relativePath = getRelativPath();
+    String relativePath = getRelativPath() + getFileSuffix(file.getOriginalFilename());
     File targetFile = getTargetFile(fileSystemStorageLocation, relativePath);
     file.transferTo(targetFile);
 
@@ -73,4 +72,14 @@ public class FileSystemStorageProvider implements FileStorageProvider {
     File targetFile = getTargetFile(fileSystemStorageLocation, relativePath);
     return targetFile.getAbsolutePath();
   }
+  
+  public static String getFileSuffix(String fileName){
+    String suffix = "";
+    int index = fileName.lastIndexOf(".");
+    if(index != -1){
+      suffix = fileName.substring(index);
+    }
+    return suffix;
+  }
+  
 }
