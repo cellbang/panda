@@ -65,6 +65,16 @@ public class FileStorageServiceImpl implements FileStorageService {
   public CokeFileInfo get(String fileNo) throws FileNotFoundException {
     CokeFileInfo cokeFileInfo = JpaUtil.linq(CokeFileInfo.class).equal("fileNo", fileNo).findOne();
 
+    return buildAbsolutePath(cokeFileInfo);
+  }
+
+  @Override
+  public CokeFileInfo get(Integer fileId) throws FileNotFoundException {
+    CokeFileInfo cokeFileInfo = JpaUtil.linq(CokeFileInfo.class).idEqual(fileId).findOne();
+    return buildAbsolutePath(cokeFileInfo);
+  }
+
+  CokeFileInfo buildAbsolutePath(CokeFileInfo cokeFileInfo) throws FileNotFoundException {
     if (cokeFileInfo != null) {
       String absolutePath = getFileStorageProvider(cokeFileInfo.getFileStorageType())
           .getAbsolutePath(cokeFileInfo.getRelativePath());
@@ -119,5 +129,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     CokeFileInfo cokeFileInfo = get(fileNo);
     return cokeFileInfo != null ? cokeFileInfo.getAbsolutePath() : null;
   }
+
+
 
 }

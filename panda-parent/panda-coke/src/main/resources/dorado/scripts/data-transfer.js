@@ -15,8 +15,11 @@
 		this.importObject(object);
 	}
 	
+	function exportSingle() {
+		return exportObject(true)[0];
+	}
 
-	function exportObject() {
+	function exportObject(single) {
 		var dataSet = this.dataControl.get("dataSet");
 		var dataPath = this.dataControl.get("dataPath");
 
@@ -26,6 +29,10 @@
 		}
 		var result = [];
 		var self = this;
+		if (single && selections.length>1){
+			dorado.MessageBox.alert("请选择一个");
+			return;
+		}
 		if (selections.length) {
 			selections.each(function(entity) {
 				self.references.each(function(p){
@@ -137,6 +144,7 @@
 	prototype.exportBase64 = exportBase64;
 	prototype.importBase64 = importBase64;
 	prototype.exportObject = exportObject;
+	prototype.exportSingle = exportSingle;
 	prototype.importObject = importObject;
 	prototype.setData = setData;
 	prototype.setEntityState = setEntityState;

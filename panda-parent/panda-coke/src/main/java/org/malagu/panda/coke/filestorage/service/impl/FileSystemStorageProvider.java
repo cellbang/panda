@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageProvider implements FileStorageProvider {
   public static final String ProviderType = "FileSystem";
 
-  @Value("${coke.fileSystemStorageLocation}")
+  @Value("${coke.fileSystemStorageLocation:fileStorage/}")
   private String fileSystemStorageLocation;
 
   @Override
@@ -57,7 +57,7 @@ public class FileSystemStorageProvider implements FileStorageProvider {
     String absolutePath = location + relativePath;
     File targetFile = new File(absolutePath);
     File parent = targetFile.getParentFile();
-    if (!parent.exists()) {
+    if (parent != null && !parent.exists()) {
       parent.mkdirs();
     }
     return targetFile;
