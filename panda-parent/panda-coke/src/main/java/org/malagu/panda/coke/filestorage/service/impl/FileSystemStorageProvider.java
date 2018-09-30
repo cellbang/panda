@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileSystemStorageProvider implements FileStorageProvider {
   public static final String ProviderType = "FileSystem";
 
-  @Value("${coke.fileSystemStorageLocation:fileStorage/}")
+  @Value("${coke.fileSystemStorageLocation}")
   private String fileSystemStorageLocation;
 
   @Override
