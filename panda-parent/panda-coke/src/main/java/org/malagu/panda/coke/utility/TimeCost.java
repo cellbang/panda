@@ -6,12 +6,12 @@ public class TimeCost {
   private long timeEnd;
 
   public TimeCost() {
-    timeStart = System.nanoTime();
+    timeStart = System.currentTimeMillis();
   }
 
   public TimeCost(String name) {
     this.name = name;
-    this.timeStart = System.nanoTime();
+    this.timeStart = System.currentTimeMillis();
   }
 
   public long end() {
@@ -24,7 +24,10 @@ public class TimeCost {
     if (name == null) {
       name = "";
     }
-    return name + " cost " + ((timeEnd - timeStart) / 1000.0) + "ms";
+    if (timeEnd == 0) {
+      end();
+    }
+    return name + " cost " + (timeEnd - timeStart) + "ms";
   }
 
 

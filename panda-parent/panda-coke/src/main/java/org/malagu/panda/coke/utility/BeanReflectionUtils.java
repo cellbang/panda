@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -21,8 +22,8 @@ public class BeanReflectionUtils {
    * @param clazz
    * @return
    */
-  public static Collection<Field> loadClassFields(Class<?> clazz) {
-    Collection<Field> fields = new ArrayList<Field>();
+  public static List<Field> loadClassFields(Class<?> clazz) {
+    List<Field> fields = new ArrayList<Field>();
     Class<?> currentClazz = clazz;
     while (!currentClazz.equals(Object.class)) {
       fields.addAll(Arrays.asList(currentClazz.getDeclaredFields()));
