@@ -100,6 +100,10 @@
         <Property name="dataType">boolean</Property>
         <Property name="label">忽略错误格式数据</Property>
       </PropertyDef>
+      <PropertyDef name="excelTitle">
+        <Property/>
+        <Property name="label">Excel表头</Property>
+      </PropertyDef>
     </DataType>
     <DataType name="Entry">
       <ClientEvent name="onInsert">arg.entity.set(&quot;mappingRuleId&quot;, arg.entity.parent.parent.get(&quot;id&quot;));
@@ -122,8 +126,38 @@
         <Property name="label">映射规则ID</Property>
       </PropertyDef>
     </DataType>
+    <DataType name="PojoInfo">
+      <PropertyDef name="index">
+        <Property name="label">列号</Property>
+      </PropertyDef>
+      <PropertyDef name="property"/>
+      <PropertyDef name="label">
+        <Property name="label">列头</Property>
+      </PropertyDef>
+      <PropertyDef name="value">
+        <Property name="label">值</Property>
+      </PropertyDef>
+    </DataType>
   </Model>
   <View>
+    <ClientEvent name="onReady">view.loadPojoInfo = function(){
+	var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);
+	var entityClass = dsImporterSolution.getData(&quot;#.entityClass&quot;);
+	var mappingRules = dsImporterSolution.getData(&quot;mappingRules&quot;);
+	
+	var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
+	
+	dataSetPojoInfo.set(&quot;parameter&quot;, entityClass).flushAsync(function(list){
+		list.each(function(item){
+			var name = 
+			mappingRules.insert({
+				name: item.label || item.property,
+				propertyName: item.property
+			})
+		})
+	});
+};
+</ClientEvent>
     <Property name="packages">font-awesome</Property>
     <SplitPanel>
       <Property name="position">50%</Property>
@@ -171,6 +205,17 @@
                   <Property name="caption">修改</Property>
                   <Property name="iconClass">fa fa-pencil</Property>
                 </ToolBarButton>
+                <Fill/>
+                <ToolBarButton>
+                  <Property name="caption">加载模版头</Property>
+                  <Property name="action">uploadActionTemplate</Property>
+                  <Property name="iconClass">fa fa-file-excel-o</Property>
+                </ToolBarButton>
+                <ToolBarButton>
+                  <Property name="caption">上传Excel数据</Property>
+                  <Property name="action">uploadActionData</Property>
+                  <Property name="iconClass">icon-upload</Property>
+                </ToolBarButton>
               </ToolBar>
               <DataGrid id="dgMappingRule">
                 <ClientEvent name="onDraggingSourceDrop" signature="self,arg,updateActionImporterSolution">var rules = self.get(&quot;dataSet&quot;).getData(self.get(&quot;dataPath&quot;));
@@ -202,7 +247,7 @@ updateActionImporterSolution.execute();
 </ClientEvent>
                 <Property name="dataSet">dsImporterSolution</Property>
                 <Property name="filterMode">serverSide</Property>
-                <Property name="readOnly">true</Property>
+                <Property name="readOnly">false</Property>
                 <Property name="dataPath">#.mappingRules</Property>
                 <Property name="selectionMode">multiRows</Property>
                 <Property name="dragTags">rule</Property>
@@ -217,6 +262,12 @@ updateActionImporterSolution.execute();
                 <DataColumn name="excelColumn">
                   <Property name="property">excelColumn</Property>
                   <Property name="width">60</Property>
+                  <Property name="trigger">dataSetDropDownPojoInfo</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="name">excelTitle</Property>
+                  <Property name="property">excelTitle</Property>
+                  <Editor/>
                 </DataColumn>
                 <DataColumn name="propertyName">
                   <Property name="property">propertyName</Property>
@@ -251,6 +302,42 @@ updateActionImporterSolution.execute();
                   <Property name="itemCodes">pages,pageSize</Property>
                 </DataPilot>
               </ToolBar>
+              <UploadAction id="uploadActionTemplate">
+                <ClientEvent name="onFileUploaded">console.log(arg);
+arg.returnValue;
+
+var data = dorado.JSON.parse(arg.returnValue);
+var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
+dataSetPojoInfo.setData(data);
+</ClientEvent>
+                <Property name="fileResolver">importer.excelUploadFileProcessor#uploadTemplate</Property>
+                <Filters>
+                  <Filter>
+                    <Property name="extensions">xlsx</Property>
+                  </Filter>
+                </Filters>
+              </UploadAction>
+              <UploadAction id="uploadActionData">
+                <ClientEvent name="onFileUploaded">console.log(arg);
+arg.returnValue;
+
+var data = dorado.JSON.parse(arg.returnValue);
+var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
+dataSetPojoInfo.setData(data);
+</ClientEvent>
+                <ClientEvent name="beforeFileUpload">var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);
+var importerSolutionId = dsImporterSolution.getData(&quot;#.id&quot;);
+self.set(&quot;parameter&quot;, {
+    importerSolutionId: importerSolutionId
+});
+</ClientEvent>
+                <Property name="fileResolver">importer.excelUploadFileProcessor#upload</Property>
+                <Filters>
+                  <Filter>
+                    <Property name="extensions">xlsx</Property>
+                  </Filter>
+                </Filters>
+              </UploadAction>
             </Children>
             <Tools/>
           </Panel>
@@ -605,5 +692,37 @@ importerSolution.reset(&quot;mappingRules&quot;);
       <Property name="executingMessage">正在创建映射规则……</Property>
       <Property name="successMessage">映射规则创建成功</Property>
     </AjaxAction>
+    <DataSet id="dataSetPojoInfo">
+      <Property name="dataType">[PojoInfo]</Property>
+    </DataSet>
+    <DataSetDropDown id="dataSetDropDownPojoInfo">
+      <ClientEvent name="beforeExecute">var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
+if(dataSetPojoInfo.getData().entityCount==0){
+	dorado.widget.NotifyTipManager.notify(&quot;请先加载模版头&quot;);
+}
+</ClientEvent>
+      <Property name="dataSet">dataSetPojoInfo</Property>
+      <Property name="assignmentMap">excelColumn=index,excelTitle=label</Property>
+      <Property name="width">220</Property>
+      <Property name="autoOpen">true</Property>
+      <DataColumn>
+        <Property name="name">index</Property>
+        <Property name="property">index</Property>
+        <Property name="width">25</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">label</Property>
+        <Property name="property">label</Property>
+        <Property name="width">90</Property>
+        <Editor/>
+      </DataColumn>
+      <DataColumn>
+        <Property name="name">value</Property>
+        <Property name="property">value</Property>
+        <Property name="width">90</Property>
+        <Editor/>
+      </DataColumn>
+    </DataSetDropDown>
   </View>
 </ViewConfig>
