@@ -1,8 +1,10 @@
 package org.malagu.panda.coke.utility;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -68,6 +70,22 @@ public class NumberParser {
     }
   }
 
+  public static BigDecimal parseDecimal(Object obj) {
+    if (obj == null || obj instanceof BigDecimal) {
+      return (BigDecimal) obj;
+    }
+
+    String value = obj.toString();
+    value = StringUtil.find(value, PATTERN_FLOAT, 1);
+    if (StringUtils.isNotEmpty(value)) {
+      value = value.replaceAll(",", "");
+    } else {
+      return null;
+    }
+    BigDecimal bigDecimal = new BigDecimal(value);
+    return bigDecimal;
+  }
+
   public static List<Integer> parseIntegerList(String str) {
     return parseIntegerList(str, ",");
   }
@@ -85,4 +103,6 @@ public class NumberParser {
     }
     return list;
   }
+
+  private static Pattern PATTERN_FLOAT = Pattern.compile("([+-]?\\d[\\d,]*\\.\\d+)");
 }
