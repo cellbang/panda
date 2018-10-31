@@ -3,6 +3,7 @@ package org.malagu.panda.importer.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -179,8 +180,9 @@ public class MappingRule implements java.io.Serializable {
     this.entries = entries;
   }
 
-  public String getMappingValueIfNeed(String key) {
-    String value = key;
+  public Object getMappingValueIfNeed(Object objKey) {
+    String key = Objects.toString(objKey, null);
+    Object value = objKey;
     if (entries != null && !entries.isEmpty() && StringUtils.isNotEmpty(key)) {
       if (map == null) {
         map = new HashMap<>();
@@ -193,7 +195,6 @@ public class MappingRule implements java.io.Serializable {
         throw new RuntimeException("[" + key + "] 不在枚举范围内。");
       }
     }
-
     return value;
   }
 
