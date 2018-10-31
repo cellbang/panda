@@ -10,7 +10,13 @@ public abstract class AbstractTypeConverter implements TypeConverter {
 
   @Override
   public Object fromObject(Class<?> type, Object value) {
-    return fromText(type, Objects.toString(value, null));
+    if (value == null) {
+      return null;
+    } else if (type.isAssignableFrom(value.getClass())) {
+      return value;
+    } else {
+      return fromText(type, Objects.toString(value, null));
+    }
   }
 
 

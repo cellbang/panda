@@ -2,16 +2,14 @@ package org.malagu.panda.importer.converter.impl;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.malagu.panda.importer.Constants;
-import org.malagu.panda.importer.converter.TypeConverter;
 import org.springframework.util.Assert;
 import com.bstek.dorado.core.Configure;
 
-public class DateTypeConverter implements TypeConverter {
+public class DateTypeConverter extends AbstractTypeConverter {
 
   private String[] dataFarmats;
 
@@ -29,19 +27,6 @@ public class DateTypeConverter implements TypeConverter {
       }
     }
   }
-
-
-
-  @Override
-  public Object fromObject(Class<?> type, Object value) {
-    if (value instanceof Date) {
-      return value;
-    } else {
-      return fromText(type, Objects.toString(value, null));
-    }
-  }
-
-
 
   private String[] getDateFarmats() {
     if (dataFarmats == null) {

@@ -101,7 +101,7 @@
         <Property name="label">忽略错误格式数据</Property>
       </PropertyDef>
       <PropertyDef name="excelTitle">
-        <Property/>
+        <Property></Property>
         <Property name="label">Excel表头</Property>
       </PropertyDef>
     </DataType>
@@ -267,6 +267,7 @@ updateActionImporterSolution.execute();
                 <DataColumn>
                   <Property name="name">excelTitle</Property>
                   <Property name="property">excelTitle</Property>
+                  <Property name="trigger">dataSetDropDownPojoInfo</Property>
                   <Editor/>
                 </DataColumn>
                 <DataColumn name="propertyName">
@@ -309,7 +310,7 @@ arg.returnValue;
 var data = dorado.JSON.parse(arg.returnValue);
 var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
 dataSetPojoInfo.setData(data);
-</ClientEvent>
+dorado.widget.NotifyTipManager.notify(&quot;Excel表头解析完成。&quot;);</ClientEvent>
                 <Property name="fileResolver">importer.excelUploadFileProcessor#uploadTemplate</Property>
                 <Filters>
                   <Filter>
@@ -318,13 +319,7 @@ dataSetPojoInfo.setData(data);
                 </Filters>
               </UploadAction>
               <UploadAction id="uploadActionData">
-                <ClientEvent name="onFileUploaded">console.log(arg);
-arg.returnValue;
-
-var data = dorado.JSON.parse(arg.returnValue);
-var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
-dataSetPojoInfo.setData(data);
-</ClientEvent>
+                <ClientEvent name="onFileUploaded">dorado.widget.NotifyTipManager.notify(&quot;Excel数据导入完成。&quot;);</ClientEvent>
                 <ClientEvent name="beforeFileUpload">var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);
 var importerSolutionId = dsImporterSolution.getData(&quot;#.id&quot;);
 self.set(&quot;parameter&quot;, {
