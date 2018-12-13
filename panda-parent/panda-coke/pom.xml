@@ -86,6 +86,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.xobo</groupId>
+      <artifactId>toolkit</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
       <groupId>io.minio</groupId>
       <artifactId>minio</artifactId>
       <version>5.0.2</version>
