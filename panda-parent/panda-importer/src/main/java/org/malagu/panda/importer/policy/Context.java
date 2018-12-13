@@ -46,6 +46,10 @@ public class Context {
 
   private Map<String, Object> params;
 
+  private PostProcessPolicy postProcessPolicy;
+
+  private List<Object> resultList;
+
   public Map<String, Object> getParams() {
     return params;
   }
@@ -183,6 +187,20 @@ public class Context {
     this.startRow = startRow;
   }
 
+  public List<Object> getResultList() {
+    return resultList;
+  }
 
+  public void setResultList(List<Object> resultList) {
+    this.resultList = resultList;
+  }
+
+  public PostProcessPolicy getPostProcessPolicy() {
+    return postProcessPolicy;
+  }
+
+  public void setPostProcessPolicy(PostProcessPolicy postProcessPolicy) {
+    this.postProcessPolicy = postProcessPolicy;
+  }
 
 }

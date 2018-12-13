@@ -43,6 +43,20 @@
         <Property></Property>
         <Property name="label">描述</Property>
       </PropertyDef>
+      <PropertyDef name="postProcessBean">
+        <Property></Property>
+        <Property name="label">解析后处理器</Property>
+      </PropertyDef>
+      <PropertyDef name="postProcessBeanCaption">
+        <ClientEvent name="onGet">var dsPostProcessPolicy = view.id(&quot;dsPostProcessPolicy&quot;);
+var beanName = arg.entity.get(&quot;postProcessBean&quot;);
+var postProcessPolicy = dsPostProcessPolicy.getData(&quot;[@.get('beanName')=='&quot; + beanName + &quot;']&quot;);
+if (postProcessPolicy) {
+	arg.value = postProcessPolicy.get(&quot;caption&quot;);
+}
+</ClientEvent>
+        <Property name="label">解析后处理器</Property>
+      </PropertyDef>
     </DataType>
     <DataType name="MappingRule">
       <Property name="creationType">org.malagu.panda.importer.model.MappingRule</Property>
@@ -405,6 +419,10 @@ id.set(&quot;readOnly&quot;, true);
                 <DataColumn name="desc">
                   <Property name="property">desc</Property>
                 </DataColumn>
+                <DataColumn>
+                  <Property name="property">postProcessBeanCaption</Property>
+                  <Property name="name">postProcessBeanCaption</Property>
+                </DataColumn>
               </DataGrid>
               <ToolBar layoutConstraint="bottom">
                 <DataPilot>
@@ -492,6 +510,12 @@ if (entity) {
             <Property name="name">desc</Property>
             <Property name="property">desc</Property>
             <Property name="editorType">TextArea</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">postProcessBeanCaption</Property>
+            <Property name="property">postProcessBeanCaption</Property>
+            <Property name="trigger">postProcessPolicyDropDown</Property>
             <Editor/>
           </AutoFormElement>
         </AutoForm>
@@ -716,6 +740,29 @@ if(dataSetPojoInfo.getData().entityCount==0){
         <Property name="name">value</Property>
         <Property name="property">value</Property>
         <Property name="width">90</Property>
+        <Editor/>
+      </DataColumn>
+    </DataSetDropDown>
+    <DataSet id="dsPostProcessPolicy">
+      <ClientEvent name="beforeLoadData" signature="self,arg,dsImporterSolution">var entity = dsImporterSolution.getData(&quot;#&quot;);
+if (entity &amp;&amp; entity.get(&quot;entityManagerFactoryName&quot;)) {
+	self.set(&quot;parameter&quot;, entity.get(&quot;entityManagerFactoryName&quot;))
+} else {
+	arg.processDefault = false;
+}
+</ClientEvent>
+      <Property name="dataProvider">importer.importerSolutionMaintain#loadPostProcessPolicyList</Property>
+      <Property name="dataType">[Entity]</Property>
+    </DataSet>
+    <DataSetDropDown id="postProcessPolicyDropDown">
+      <Property name="dataSet">dsPostProcessPolicy</Property>
+      <Property name="property">caption</Property>
+      <Property name="assignmentMap">postProcessBean=beanName,postProcessBeanCaption=caption</Property>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <DataColumn>
+        <Property name="property">caption</Property>
+        <Property name="caption">类型</Property>
         <Editor/>
       </DataColumn>
     </DataSetDropDown>

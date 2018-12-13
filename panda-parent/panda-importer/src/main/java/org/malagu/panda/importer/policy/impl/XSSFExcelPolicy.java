@@ -12,6 +12,7 @@ import org.malagu.panda.importer.model.MappingRule;
 import org.malagu.panda.importer.policy.Context;
 import org.malagu.panda.importer.policy.ExcelPolicy;
 import org.malagu.panda.importer.policy.ParseRecordPolicy;
+import org.malagu.panda.importer.policy.PostProcessPolicy;
 import org.malagu.panda.importer.policy.SheetPolicy;
 import org.malagu.panda.importer.policy.XSSFContext;
 import org.springframework.beans.BeansException;
@@ -58,6 +59,8 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
     }
 
     parseRecordPolicy.apply(context);
+    
+    context.getPostProcessPolicy().apply(context);
 
   }
 
@@ -70,6 +73,13 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
     context.setImporterSolution(importerSolution);
     context.setMappingRules(mappingRules);
     context.setEntityClass(entityClass);
+
+    String postProcessPolicyBeanId = importerSolution.getPostProcessBean();
+    if (StringUtils.isEmpty(postProcessPolicyBeanId)) {
+      postProcessPolicyBeanId = DefaultPostProcessPolicy.BEAN_ID;
+    }
+    context.setPostProcessPolicy(
+        (PostProcessPolicy) applicationContext.getBean(postProcessPolicyBeanId));
   }
 
   private ImporterSolution getImporterSolution(String importerSolutionId) {
@@ -101,8 +111,11 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
     this.parseRecordPolicy = parseRecordPolicy;
   }
 
+  private ApplicationContext applicationContext;
+
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
     this.classLoader = applicationContext.getClassLoader();
 
   }
