@@ -2,9 +2,7 @@ package coke;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.malagu.panda.coke.utility.MethodUtils;
-
+import org.xobo.toolkit.MethodUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +38,7 @@ public class MethodTester {
     JsonNode jp = mapper.readTree(sb);
     // jp = jp.get("userInfo");
     System.out.println(jp);
-    MethodUtils.invokeMethod(new MethodTester(), "test", jp);
+    MethodUtil.invokeMethod(new MethodTester(), "test", jp);
 
   }
 
