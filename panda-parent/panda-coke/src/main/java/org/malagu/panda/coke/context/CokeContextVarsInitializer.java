@@ -3,10 +3,10 @@ package org.malagu.panda.coke.context;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import org.malagu.panda.coke.utility.DateUtil;
-import org.malagu.panda.coke.utility.NumberParser;
-import org.malagu.panda.coke.utility.StringUtil;
 import org.springframework.stereotype.Service;
+import org.xobo.toolkit.DateUtil;
+import org.xobo.toolkit.NumberParser;
+import org.xobo.toolkit.PatternUtil;
 import com.bstek.dorado.core.el.ContextVarsInitializer;
 
 @Service
@@ -19,7 +19,7 @@ public class CokeContextVarsInitializer implements ContextVarsInitializer {
 
   public CokeContextVarsInitializer() {
     cokeAction = new HashMap<>();
-    cokeAction.put("string", StringUtil.class);
+    cokeAction.put("string", PatternUtil.class);
     cokeAction.put("date", DateUtil.class);
     cokeAction.put("number", NumberParser.class);
   }

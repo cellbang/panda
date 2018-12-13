@@ -10,9 +10,9 @@ import org.malagu.panda.coke.api.model.Result;
 import org.malagu.panda.coke.concurrent.domain.BackgroundTaskLog;
 import org.malagu.panda.coke.concurrent.repository.BackgroundTaskRepository;
 import org.malagu.panda.coke.concurrent.service.BackgroundTaskLogService;
-import org.malagu.panda.coke.utility.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xobo.toolkit.JSONUtil;
 
 @Service
 public class BackgroundTaskLogServiceImpl implements BackgroundTaskLogService {

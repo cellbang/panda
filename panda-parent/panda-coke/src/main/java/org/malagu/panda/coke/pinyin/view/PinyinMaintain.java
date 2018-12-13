@@ -21,12 +21,12 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.malagu.panda.coke.entity.PinyinConverter;
-import org.malagu.panda.coke.model.Pinyin;
 import org.malagu.panda.coke.querysupporter.service.impl.SynonymServiceImpl;
-import org.malagu.panda.coke.utility.PinyinUtils;
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.xobo.toolkit.PinyinUtil;
+import org.xobo.toolkit.model.Pinyin;
 import com.bstek.dorado.annotation.DataProvider;
 import com.bstek.dorado.annotation.Expose;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
@@ -37,7 +37,7 @@ public class PinyinMaintain {
 
   @DataProvider
   public Collection<Pinyin> loadAllPinyin(String hanzi) {
-    return PinyinUtils.toPinyin(hanzi);
+    return PinyinUtil.toPinyin(hanzi);
   }
 
   @DataProvider
