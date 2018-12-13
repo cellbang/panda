@@ -26,7 +26,7 @@ public class DatabaseStorageProvider implements FileStorageProvider {
   @Value("${coke.enableDatabaseLocalCache:true}")
   private boolean enableLocalFileCache;
 
-  @Value("${coke.databaseStorageLocalCacheLocation:}")
+  @Value("${coke.databaseStorageLocalCacheLocation}")
   private String databaseCachedfileSystemStorageLocation;
 
   @Override
@@ -35,7 +35,7 @@ public class DatabaseStorageProvider implements FileStorageProvider {
   }
 
   @Override
-  public String put(InputStream inputStream) throws IOException {
+  public String put(InputStream inputStream, String filename) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     IOUtils.copy(inputStream, baos);
     CokeBlob cokeBlob = cokeBlobService.put(baos.toByteArray());
@@ -44,7 +44,7 @@ public class DatabaseStorageProvider implements FileStorageProvider {
 
   @Override
   public String put(MultipartFile file) throws IllegalStateException, IOException {
-    return put(file.getInputStream());
+    return put(file.getInputStream(), null);
   }
 
   public String getAbsolutePath(String relativePath) throws FileNotFoundException {

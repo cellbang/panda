@@ -1,11 +1,13 @@
 package org.malagu.panda.coke.filestorage.domain;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.Transient;
 
 @Entity(name = "CK_BLOB")
 public class CokeBlob {
@@ -41,5 +43,13 @@ public class CokeBlob {
 
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+
+  @Transient
+  public String getString() {
+    if (data == null) {
+      return null;
+    }
+    return new String(data, StandardCharsets.UTF_8);
   }
 }

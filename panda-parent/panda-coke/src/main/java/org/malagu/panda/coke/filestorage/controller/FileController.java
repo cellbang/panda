@@ -93,16 +93,32 @@ public class FileController {
     result.put("fileName", cokeFileInfo.getFilename());
   }
 
+  @RequestMapping(value = "/share/{shareCode}.k")
+  public void downloadShare(@PathVariable("shareCode") String shareCode, HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
+    CokeFileInfo cokeFileInfo = fileService.getByShareCode(shareCode);
+    if (cokeFileInfo == null) {
+      findNotFound(response, "shareCode: " + shareCode);
+      return;
+    }
+    doDownload(cokeFileInfo, request, response);
+
+  }
+
   @RequestMapping(value = "/download/{fileNo}.k")
   public void download(@PathVariable("fileNo") String fileNo, HttpServletRequest request,
       HttpServletResponse response) throws IOException {
     CokeFileInfo cokeFileInfo = fileService.get(fileNo);
-
     if (cokeFileInfo == null) {
       findNotFound(response, fileNo);
       return;
     }
+    doDownload(cokeFileInfo, request, response);
 
+  }
+
+  protected void doDownload(CokeFileInfo cokeFileInfo, HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
 
     HttpSession session = request.getSession();
 
@@ -116,7 +132,7 @@ public class FileController {
 
     InputStream inputStream = fileService.getInputStream(cokeFileInfo);
     if (inputStream == null) {
-      findNotFound(response, fileNo);
+      findNotFound(response, cokeFileInfo.getId().toString());
     }
 
     OutputStream outputStream = null;
@@ -129,6 +145,8 @@ public class FileController {
       IOUtils.closeQuietly(outputStream);
     }
   }
+
+
 
   void findNotFound(HttpServletResponse response, String fileNo) throws IOException {
     logger.info("File {} Not Found ", fileNo);
