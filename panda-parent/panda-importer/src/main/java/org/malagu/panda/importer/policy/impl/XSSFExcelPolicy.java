@@ -33,7 +33,7 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
 
   @Override
   public void apply(XSSFContext context) throws Exception {
-    OPCPackage xlsxPackage = OPCPackage.open(context.getInpuStream());
+    OPCPackage xlsxPackage = OPCPackage.open(context.getInputStream());
     XSSFReader xssfReader = new XSSFReader(xlsxPackage);
     context.setStyles(xssfReader.getStylesTable());
     context.setStrings(new ReadOnlySharedStringsTable(xlsxPackage));
@@ -44,7 +44,7 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
         .getSheetsData();
     while (iter.hasNext()) {
       InputStream stream = iter.next();
-      context.setInpuStream(stream);
+      context.setInputStream(stream);
       String sheetName = context.getImporterSolution().getExcelSheetName();
       if (StringUtils.isNotEmpty(sheetName)) {
         if (sheetName.equals(iter.getSheetName())) {

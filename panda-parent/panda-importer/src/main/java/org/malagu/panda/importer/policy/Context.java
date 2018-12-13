@@ -4,188 +4,185 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.malagu.panda.importer.model.Cell;
 import org.malagu.panda.importer.model.ImporterSolution;
 import org.malagu.panda.importer.model.MappingRule;
 import org.malagu.panda.importer.model.Record;
-
 import net.sf.cglib.beans.BeanMap;
 
 /**
- *@author Kevin.yang
- *@since 2015年8月22日
+ * @author Kevin.yang
+ * @since 2015年8月22日
  */
 public class Context {
-	private int startRow = 1;
+  private int startRow = 1;
 
-	private InputStream inpuStream;
-	
-	private String FileName;
-	
-	private long fileSize;
-	
-	private String importerSolutionId;
-	
-    private Cell currentCell;
-    
-    private Record currentRecord;
-    
-    private List<Record> records = new ArrayList<>(30);
-    
-    private ImporterSolution importerSolution;
-    
-    private MappingRule currentMappingRule;
-    
-    private Object currentEntity;
-    
-    private List<MappingRule> mappingRules;
-    
-    private Class<?> entityClass;
-    
-    private Object value;
-    
-    private Map<String, Object> params;
+  private InputStream inputStream;
 
-	public Map<String, Object> getParams() {
-		return params;
-	}
+  private String FileName;
 
-	public void setParams(Map<String, Object> params) {
-		this.params = params;
-	}
+  private long fileSize;
 
-	public InputStream getInpuStream() {
-		return inpuStream;
-	}
+  private String importerSolutionId;
 
-	public void setInpuStream(InputStream inpuStream) {
-		this.inpuStream = inpuStream;
-	}
+  private Cell currentCell;
 
-	public String getFileName() {
-		return FileName;
-	}
+  private Record currentRecord;
 
-	public void setFileName(String fileName) {
-		FileName = fileName;
-	}
+  private List<Record> records = new ArrayList<>(30);
 
-	public long getFileSize() {
-		return fileSize;
-	}
+  private ImporterSolution importerSolution;
 
-	public void setFileSize(long fileSize) {
-		this.fileSize = fileSize;
-	}
+  private MappingRule currentMappingRule;
 
-	public String getImporterSolutionId() {
-		return importerSolutionId;
-	}
+  private Object currentEntity;
 
-	public void setImporterSolutionId(String importerSolutionId) {
-		this.importerSolutionId = importerSolutionId;
-	}
-	
-	public List<Record> getRecords() {
-		return records;
-	}
+  private List<MappingRule> mappingRules;
 
-	public void setRecords(List<Record> records) {
-		this.records = records;
-	}
-	
-	public void addCell(Cell cell) {
-		if (currentRecord == null || !currentRecord.addCellIfNeed(cell)) {
-			currentRecord = new Record();
-			currentRecord.addCellIfNeed(cell);
-			records.add(currentRecord);
-		}
-	}
+  private Class<?> entityClass;
 
-	public Cell getCurrentCell() {
-		return currentCell;
-	}
+  private Object value;
 
-	public void setCurrentCell(Cell currentCell) {
-		this.currentCell = currentCell;
-		addCell(currentCell);
-	}
+  private Map<String, Object> params;
 
-	public Record getCurrentRecord() {
-		return currentRecord;
-	}
+  public Map<String, Object> getParams() {
+    return params;
+  }
 
-	public void setCurrentRecord(Record currentRecord) {
-		this.currentRecord = currentRecord;
-	}
+  public void setParams(Map<String, Object> params) {
+    this.params = params;
+  }
 
-	public ImporterSolution getImporterSolution() {
-		return importerSolution;
-	}
+  public InputStream getInputStream() {
+    return inputStream;
+  }
 
-	public void setImporterSolution(ImporterSolution importerSolution) {
-		this.importerSolution = importerSolution;
-	}
+  public void setInputStream(InputStream inpuStream) {
+    this.inputStream = inpuStream;
+  }
 
-	public MappingRule getCurrentMappingRule() {
-		return currentMappingRule;
-	}
+  public String getFileName() {
+    return FileName;
+  }
 
-	public void setCurrentMappingRule(MappingRule currentMappingRule) {
-		this.currentMappingRule = currentMappingRule;
-	}
+  public void setFileName(String fileName) {
+    FileName = fileName;
+  }
 
-	public Object getCurrentEntity() {
-		return currentEntity;
-	}
+  public long getFileSize() {
+    return fileSize;
+  }
 
-	public void setCurrentEntity(Object currentEntity) {
-		this.currentEntity = currentEntity;
-	}
+  public void setFileSize(long fileSize) {
+    this.fileSize = fileSize;
+  }
 
-	public List<MappingRule> getMappingRules() {
-		return mappingRules;
-	}
+  public String getImporterSolutionId() {
+    return importerSolutionId;
+  }
 
-	public void setMappingRules(List<MappingRule> mappingRules) {
-		this.mappingRules = mappingRules;
-	}
+  public void setImporterSolutionId(String importerSolutionId) {
+    this.importerSolutionId = importerSolutionId;
+  }
 
-	public Class<?> getEntityClass() {
-		return entityClass;
-	}
+  public List<Record> getRecords() {
+    return records;
+  }
 
-	public void setEntityClass(Class<?> entityClass) {
-		this.entityClass = entityClass;
-	}
+  public void setRecords(List<Record> records) {
+    this.records = records;
+  }
 
-	public Object getValue() {
-		return value;
-	}
+  public void addCell(Cell cell) {
+    if (currentRecord == null || !currentRecord.addCellIfNeed(cell)) {
+      currentRecord = new Record();
+      currentRecord.addCellIfNeed(cell);
+      records.add(currentRecord);
+    }
+  }
 
-	public void setValue(Object value) {
-		this.value = value;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T getCurrentEntityId() {
-		String idProperty = JpaUtil.getIdName(entityClass);
-		BeanMap beanMap = BeanMap.create(currentEntity);
-		return (T) beanMap.get(idProperty);
-		
-	}
+  public Cell getCurrentCell() {
+    return currentCell;
+  }
 
-	public int getStartRow() {
-		return startRow;
-	}
+  public void setCurrentCell(Cell currentCell) {
+    this.currentCell = currentCell;
+    addCell(currentCell);
+  }
 
-	public void setStartRow(int startRow) {
-		this.startRow = startRow;
-	}
-	
-	
-	
-	
+  public Record getCurrentRecord() {
+    return currentRecord;
+  }
+
+  public void setCurrentRecord(Record currentRecord) {
+    this.currentRecord = currentRecord;
+  }
+
+  public ImporterSolution getImporterSolution() {
+    return importerSolution;
+  }
+
+  public void setImporterSolution(ImporterSolution importerSolution) {
+    this.importerSolution = importerSolution;
+  }
+
+  public MappingRule getCurrentMappingRule() {
+    return currentMappingRule;
+  }
+
+  public void setCurrentMappingRule(MappingRule currentMappingRule) {
+    this.currentMappingRule = currentMappingRule;
+  }
+
+  public Object getCurrentEntity() {
+    return currentEntity;
+  }
+
+  public void setCurrentEntity(Object currentEntity) {
+    this.currentEntity = currentEntity;
+  }
+
+  public List<MappingRule> getMappingRules() {
+    return mappingRules;
+  }
+
+  public void setMappingRules(List<MappingRule> mappingRules) {
+    this.mappingRules = mappingRules;
+  }
+
+  public Class<?> getEntityClass() {
+    return entityClass;
+  }
+
+  public void setEntityClass(Class<?> entityClass) {
+    this.entityClass = entityClass;
+  }
+
+  public Object getValue() {
+    return value;
+  }
+
+  public void setValue(Object value) {
+    this.value = value;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getCurrentEntityId() {
+    String idProperty = JpaUtil.getIdName(entityClass);
+    BeanMap beanMap = BeanMap.create(currentEntity);
+    return (T) beanMap.get(idProperty);
+
+  }
+
+  public int getStartRow() {
+    return startRow;
+  }
+
+  public void setStartRow(int startRow) {
+    this.startRow = startRow;
+  }
+
+
+
 }

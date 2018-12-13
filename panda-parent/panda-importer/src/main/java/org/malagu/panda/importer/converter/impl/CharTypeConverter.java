@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class CharTypeConverter extends AbstractTypeConverter {
 
+  @Override
   public Object fromText(Class<?> type, String text) {
     if (StringUtils.isBlank(text)) {
       if (Character.class.isAssignableFrom(type)) {

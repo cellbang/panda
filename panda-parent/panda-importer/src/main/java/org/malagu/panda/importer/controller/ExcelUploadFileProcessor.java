@@ -43,7 +43,7 @@ public class ExcelUploadFileProcessor implements ApplicationContextAware {
       for (ExcelPolicy excelPolicy : excelPolicies) {
         if (excelPolicy.support(name)) {
           Context context = excelPolicy.createContext();
-          context.setInpuStream(inpuStream);
+          context.setInputStream(inpuStream);
           context.setStartRow(startRow);
           context.setFileName(name);
           context.setFileSize(file.getSize());
