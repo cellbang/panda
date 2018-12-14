@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
-import org.malagu.panda.coke.utility.ExcelReaderUtils;
-import org.malagu.panda.coke.utility.JSONUtil;
 import org.malagu.panda.importer.policy.Context;
 import org.malagu.panda.importer.policy.ExcelPolicy;
 import org.springframework.beans.BeansException;
@@ -17,6 +15,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
+import org.xobo.toolkit.ExcelReaderUtil;
+import org.xobo.toolkit.JSONUtil;
 import com.bstek.dorado.uploader.UploadFile;
 import com.bstek.dorado.uploader.annotation.FileResolver;
 
@@ -71,7 +71,7 @@ public class ExcelUploadFileProcessor implements ApplicationContextAware {
 
     List<List<String>> result = null;
     try (InputStream inpuStream = multipartFile.getInputStream()) {
-      result = ExcelReaderUtils.toList(name, inpuStream, 0, startRow, startRow + 1);
+      result = ExcelReaderUtil.toList(name, inpuStream, 0, startRow, startRow + 1);
     }
     if (result.isEmpty()) {
       return null;
