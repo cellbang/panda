@@ -14,6 +14,8 @@ import org.malagu.panda.importer.policy.ParseRecordPolicy;
 import org.malagu.panda.importer.processor.CellPostprocessor;
 import org.malagu.panda.importer.processor.CellPreprocessor;
 import org.malagu.panda.importer.processor.CellProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,6 +26,8 @@ import net.sf.cglib.beans.BeanMap;
  * @since 2015年8月23日
  */
 public class ParseRecordPolicyImpl implements ParseRecordPolicy, ApplicationContextAware {
+
+  private static Logger logger = LoggerFactory.getLogger(ParseRecordPolicyImpl.class);
 
   private Collection<CellPreprocessor> cellPreprocessors;
   private Collection<CellProcessor> cellProcessors;
@@ -41,10 +45,14 @@ public class ParseRecordPolicyImpl implements ParseRecordPolicy, ApplicationCont
       Object entity = BeanUtils.newInstance(context.getEntityClass());
       context.setCurrentEntity(entity);
       context.setCurrentRecord(record);
-      String idProperty = JpaUtil.getIdName(context.getEntityClass());
-      BeanMap beanMap = BeanMap.create(context.getCurrentEntity());
-      if (beanMap.getPropertyType(idProperty) == String.class) {
-        beanMap.put(idProperty, UUID.randomUUID().toString());
+      try {
+        String idProperty = JpaUtil.getIdName(context.getEntityClass());
+        BeanMap beanMap = BeanMap.create(context.getCurrentEntity());
+        if (beanMap.getPropertyType(idProperty) == String.class) {
+          beanMap.put(idProperty, UUID.randomUUID().toString());
+        }
+      } catch (IllegalArgumentException e) {
+        logger.info("cannot get Id of " + context.getEntityClass().getName());
       }
       for (MappingRule mappingRule : context.getMappingRules()) {
         Cell cell = record.getCell(mappingRule.getExcelColumn());

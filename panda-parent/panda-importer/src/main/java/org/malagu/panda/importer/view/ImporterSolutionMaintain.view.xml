@@ -498,7 +498,6 @@ if (entity) {
             <Property name="name">entityClassName</Property>
             <Property name="property">entityClassName</Property>
             <Property name="trigger">ddEntityClassName</Property>
-            <Property name="editable">false</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
