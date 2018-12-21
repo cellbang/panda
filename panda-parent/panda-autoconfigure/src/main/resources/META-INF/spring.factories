@@ -19,4 +19,5 @@ org.malagu.panda.autoconfigure.dictionary.DictionaryAutoConfiguration,\
 org.malagu.panda.autoconfigure.importer.ImporterAutoConfiguration,\
 org.malagu.panda.autoconfigure.security.SecurityAutoConfiguration,\
 org.malagu.panda.autoconfigure.multitenant.MultitenantAutoConfiguration,\
-org.malagu.panda.autoconfigure.notice.NoticeAutoConfiguration
+org.malagu.panda.autoconfigure.notice.NoticeAutoConfiguration,\
+org.malagu.panda.autoconfigure.coke.CokeAutoConfiguration

@@ -5,6 +5,7 @@ import java.util.List;
 import org.malagu.panda.dictionary.domain.Dictionary;
 import org.malagu.panda.dictionary.domain.DictionaryItem;
 import org.malagu.panda.dorado.linq.JpaUtil;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +64,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
 	@Override
 	@Transactional
+	@CacheEvict(value=org.malagu.panda.dictionary.service.DictionaryService.CACHE_KEY, allEntries=true)
 	public void save(List<Dictionary> dictionaries) {
 		JpaUtil.save(dictionaries);
 		

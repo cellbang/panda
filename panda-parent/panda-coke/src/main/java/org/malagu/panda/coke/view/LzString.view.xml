@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="dataTypeText">
+      <PropertyDef name="source"/>
+      <PropertyDef name="sourceLength"/>
+      <PropertyDef name="target"/>
+      <PropertyDef name="targetLength"/>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">window.setData = function(data, property, value) {
+	console.log(data);
+		var properties = property.split(&quot;.&quot;);
+
+		if (properties.length > 1) {
+			if (jQuery.isFunction(data.each)) {
+				data.each(function(item) {
+					setData(item[properties[0]], properties.slice(1).join(&quot;.&quot;),
+							value);
+				})
+			} else {
+				setData(data[properties[0]], properties.slice(1).join(&quot;.&quot;), value);
+			}
+		} else {
+			if (jQuery.isFunction(data.each)) {
+				data.each(function(item) {
+					item.property = value;
+				})
+			} else {
+				data[property] = value;
+			}
+		}
+	}</ClientEvent>
+    <Property name="packages">LzString</Property>
+    <ToolBar>
+      <ToolBarButton>
+        <ClientEvent name="onClick">var autoForm = view.id(&quot;autoFormCompress&quot;);
+var entity = autoForm.get(&quot;entity&quot;);
+var source = entity.get(&quot;source&quot;);
+var target = LZString.compressToBase64(source);
+entity.set(&quot;sourceLength&quot;, source.length);
+entity.set(&quot;target&quot;, target);
+entity.set(&quot;targetLength&quot;, target.length);
+
+</ClientEvent>
+        <Property name="caption">Compress</Property>
+      </ToolBarButton>
+      <ToolBarButton>
+        <ClientEvent name="onClick">var autoForm = view.id(&quot;autoFormDecompress&quot;);
+var entity = autoForm.get(&quot;entity&quot;);
+var source = entity.get(&quot;source&quot;);
+var target = LZString.decompressFromBase64(source);
+entity.set(&quot;sourceLength&quot;, source.length);
+entity.set(&quot;target&quot;, target);
+entity.set(&quot;targetLength&quot;, target.length);
+
+</ClientEvent>
+        <Property name="caption">Decompress</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <AutoForm id="autoFormCompress">
+      <Property name="dataType">dataTypeText</Property>
+      <Property name="createPrivateDataSet">true</Property>
+      <AutoFormElement>
+        <Property name="name">source</Property>
+        <Property name="property">source</Property>
+        <Editor>
+          <TextArea/>
+        </Editor>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">target</Property>
+        <Property name="property">target</Property>
+        <Editor>
+          <TextArea/>
+        </Editor>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">sourceLength</Property>
+        <Property name="property">sourceLength</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">targetLength</Property>
+        <Property name="property">targetLength</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+    <AutoForm id="autoFormDecompress">
+      <Property name="dataType">dataTypeText</Property>
+      <Property name="createPrivateDataSet">true</Property>
+      <AutoFormElement>
+        <Property name="name">source</Property>
+        <Property name="property">source</Property>
+        <Editor>
+          <TextArea/>
+        </Editor>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">target</Property>
+        <Property name="property">target</Property>
+        <Editor>
+          <TextArea/>
+        </Editor>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">sourceLength</Property>
+        <Property name="property">sourceLength</Property>
+        <Editor/>
+      </AutoFormElement>
+      <AutoFormElement>
+        <Property name="name">targetLength</Property>
+        <Property name="property">targetLength</Property>
+        <Editor/>
+      </AutoFormElement>
+    </AutoForm>
+  </View>
+</ViewConfig>

@@ -7,112 +7,111 @@ import org.malagu.panda.importer.handler.XSSFDataType;
 
 
 /**
- *@author Kevin.yang
- *@since 2015年8月22日
+ * @author Kevin.yang
+ * @since 2015年8月22日
  */
 public class XSSFContext extends Context {
-	
-	private ReadOnlySharedStringsTable strings;
-	
-    private StylesTable styles;
-    
-    private boolean vIsOpen;
 
-    private XSSFDataType nextDataType = XSSFDataType.NUMBER;
-    
-    private short formatIndex;
-    
-    private String formatString;
-    
-    private final DataFormatter formatter = new DataFormatter();
+  private ReadOnlySharedStringsTable strings;
 
-    private int thisColumn = -1;
-    
-    private int lastColumnNumber = -1;
+  private StylesTable styles;
 
-    private StringBuffer contents = new StringBuffer();
+  private boolean vIsOpen;
 
-	public ReadOnlySharedStringsTable getStrings() {
-		return strings;
-	}
+  private XSSFDataType nextDataType = XSSFDataType.NUMBER;
 
-	public void setStrings(ReadOnlySharedStringsTable strings) {
-		this.strings = strings;
-	}
+  private short formatIndex;
 
-	public StylesTable getStyles() {
-		return styles;
-	}
+  private String formatString;
 
-	public void setStyles(StylesTable styles) {
-		this.styles = styles;
-	}
+  private final DataFormatter formatter = new DataFormatter();
 
-	public boolean isvIsOpen() {
-		return vIsOpen;
-	}
+  private int thisColumn = -1;
 
-	public void setvIsOpen(boolean vIsOpen) {
-		this.vIsOpen = vIsOpen;
-	}
+  private int lastColumnNumber = -1;
 
-	public XSSFDataType getNextDataType() {
-		return nextDataType;
-	}
+  private StringBuffer contents = new StringBuffer();
 
-	public void setNextDataType(XSSFDataType nextDataType) {
-		this.nextDataType = nextDataType;
-	}
+  public ReadOnlySharedStringsTable getStrings() {
+    return strings;
+  }
 
-	public short getFormatIndex() {
-		return formatIndex;
-	}
+  public void setStrings(ReadOnlySharedStringsTable strings) {
+    this.strings = strings;
+  }
 
-	public void setFormatIndex(short formatIndex) {
-		this.formatIndex = formatIndex;
-	}
+  public StylesTable getStyles() {
+    return styles;
+  }
 
-	public String getFormatString() {
-		return formatString;
-	}
+  public void setStyles(StylesTable styles) {
+    this.styles = styles;
+  }
 
-	public void setFormatString(String formatString) {
-		this.formatString = formatString;
-	}
+  public boolean isvIsOpen() {
+    return vIsOpen;
+  }
 
-	public int getThisColumn() {
-		return thisColumn;
-	}
+  public void setvIsOpen(boolean vIsOpen) {
+    this.vIsOpen = vIsOpen;
+  }
 
-	public void setThisColumn(int thisColumn) {
-		this.thisColumn = thisColumn;
-	}
+  public XSSFDataType getNextDataType() {
+    return nextDataType;
+  }
 
-	public int getLastColumnNumber() {
-		return lastColumnNumber;
-	}
+  public void setNextDataType(XSSFDataType nextDataType) {
+    this.nextDataType = nextDataType;
+  }
 
-	public void setLastColumnNumber(int lastColumnNumber) {
-		this.lastColumnNumber = lastColumnNumber;
-	}
+  public short getFormatIndex() {
+    return formatIndex;
+  }
 
-	public StringBuffer getContents() {
-		return contents;
-	}
+  public void setFormatIndex(short formatIndex) {
+    this.formatIndex = formatIndex;
+  }
 
-	public void setContents(StringBuffer contents) {
-		this.contents = contents;
-	}
+  public String getFormatString() {
+    return formatString;
+  }
 
-	public DataFormatter getFormatter() {
-		return formatter;
-	}
-	
-	public void clearContents() {
-		contents.setLength(0);
-	}
+  public void setFormatString(String formatString) {
+    this.formatString = formatString;
+  }
 
-	
-    
-	
+  public int getThisColumn() {
+    return thisColumn;
+  }
+
+  public void setThisColumn(int thisColumn) {
+    this.thisColumn = thisColumn;
+  }
+
+  public int getLastColumnNumber() {
+    return lastColumnNumber;
+  }
+
+  public void setLastColumnNumber(int lastColumnNumber) {
+    this.lastColumnNumber = lastColumnNumber;
+  }
+
+  public StringBuffer getContents() {
+    return contents;
+  }
+
+  public void setContents(StringBuffer contents) {
+    this.contents = contents;
+  }
+
+  public DataFormatter getFormatter() {
+    return formatter;
+  }
+
+  public void clearContents() {
+    contents.setLength(0);
+  }
+
+
+
 }

@@ -81,5 +81,10 @@
 			<artifactId>panda-dbconsole</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.malagu.panda</groupId>
+			<artifactId>panda-coke</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

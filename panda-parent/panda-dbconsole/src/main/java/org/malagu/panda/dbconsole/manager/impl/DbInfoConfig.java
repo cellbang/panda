@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -16,7 +15,8 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.malagu.panda.dbconsole.model.DbInfo;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.bstek.dorado.util.TempFileUtils;
 
 /**
@@ -26,7 +26,7 @@ import com.bstek.dorado.util.TempFileUtils;
 public class DbInfoConfig {
 	private static String FILE_PATH;
 	private static final String FILE_NAME = "panda-dbconsole.xml";
-	protected static final Logger log = Logger.getLogger(DbInfoConfig.class);
+	protected static final Logger log = LoggerFactory.getLogger(DbInfoConfig.class);
 	
 	static {
 		try {
