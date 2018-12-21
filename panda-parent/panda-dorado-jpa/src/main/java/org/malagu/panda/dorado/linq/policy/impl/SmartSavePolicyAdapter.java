@@ -23,7 +23,7 @@ public class SmartSavePolicyAdapter implements SavePolicy {
 		if (EntityState.NEW.equals(state)) {
 			if (beforeInsert(context)) {
 				try {
-					entityManager.persist(EntityUtils.toPureData(entity));
+					entityManager.persist(entity);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -33,7 +33,7 @@ public class SmartSavePolicyAdapter implements SavePolicy {
 				|| EntityState.MOVED.equals(state)) {
 			if (beforeUpdate(context)) {
 				try {
-					entityManager.merge(EntityUtils.toPureData(entity));
+					entityManager.merge(entity);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,7 +42,7 @@ public class SmartSavePolicyAdapter implements SavePolicy {
 		} else if (EntityState.DELETED.equals(state)) {
 			if (beforeDelete(context)) {
 				try {
-					entityManager.remove(entityManager.merge(EntityUtils.toPureData(entity)));
+					entityManager.remove(entityManager.merge(entity));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
