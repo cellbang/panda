@@ -87,7 +87,7 @@
 
     <dependency>
       <groupId>org.xobo</groupId>
-      <artifactId>toolkit</artifactId>
+      <artifactId>xobo-toolkit</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
