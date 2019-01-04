@@ -225,7 +225,7 @@ public abstract class JpaUtil {
 			public void apply(SaveContext context) {
 				if (EntityUtils.isEntity(context.getEntity())) {
 					try {
-						context.getEntityManager().persist(EntityUtils.toPureData(context.getEntity()));
+						context.getEntityManager().persist(context.getEntity());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -242,7 +242,7 @@ public abstract class JpaUtil {
 		EntityManager em = getEntityManager(GenricTypeUtils.getGenricType(entity));
 		if (EntityUtils.isEntity(entity)) {
 			try {
-				return em.merge(EntityUtils.toPureData(entity));
+				return em.merge(entity);
 			} catch (Exception e) {
 				throw new RuntimeException(e.getMessage());
 			}
@@ -297,7 +297,7 @@ public abstract class JpaUtil {
 		EntityManager em = getEntityManager(GenricTypeUtils.getGenricType(entity));
 		if (EntityUtils.isEntity(entity)) {
 			try {
-				em.remove(EntityUtils.toPureData(entity));
+				em.remove(entity);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
