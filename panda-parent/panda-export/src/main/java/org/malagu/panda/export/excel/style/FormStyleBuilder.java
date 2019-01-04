@@ -3,6 +3,7 @@ package org.malagu.panda.export.excel.style;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.malagu.panda.export.model.ReportForm;
 import org.malagu.panda.export.model.ReportFormData;
@@ -17,7 +18,7 @@ public class FormStyleBuilder extends AbstractStyleBuilder {
 			int labelAlign = reportFormDataModel.getLabelAlign();
 			CellStyle labelStyle = createBorderCellStyle(workbook, reportFormModel.isShowBorder());
 			setCellStyleAligment(labelStyle, labelAlign);
-			labelStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			labelStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			return labelStyle;
 		}
 		return null;
@@ -33,7 +34,7 @@ public class FormStyleBuilder extends AbstractStyleBuilder {
 			int dataStyle = reportFormDataModel.getDataStyle();
 			CellStyle valueStyle = createBorderCellStyle(workbook, reportFormModel.isShowBorder());
 			setCellStyleAligment(valueStyle, dataAlign);
-			valueStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			valueStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			this.setCellStyleFont(workbook, valueStyle, dataStyle);
 			return valueStyle;
 		}
