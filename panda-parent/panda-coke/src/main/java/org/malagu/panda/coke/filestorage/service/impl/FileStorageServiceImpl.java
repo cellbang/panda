@@ -150,17 +150,17 @@ public class FileStorageServiceImpl implements FileStorageService {
   @Override
   @Transactional
   public CokeFileInfo getByShareCode(String shareCode) throws FileNotFoundException {
-    String qlString =
-        "select f from " + CokeFileInfo.class.getName() + " f, " + CokeFileShare.class.getName()
-            + " s where f.id = s.fileId and s.shareCode = :shareCode";
-    List<CokeFileInfo> list = JpaUtil.createEntityManager().createQuery(qlString)
-        .setParameter("shareCode", shareCode).getResultList();
-    if (list.size() > 0) {
-      int fileCount = JpaUtil.nativeQuery(
-          "update s  set s.balance_times = s.balance_times - 1 from  CK_FILE_SHARE s where s.share_code = :shareCode and s.balance_times > 0 and s.validate_date >= :now")
-          .setParameter("shareCode", shareCode)
-          .setParameter("now", new Date()).executeUpdate();
-      if (fileCount > 0) {
+    int fileCount = JpaUtil.nativeQuery(
+        "update s  set s.balance_times = s.balance_times - 1 from  CK_FILE_SHARE s where s.share_code = :shareCode and s.balance_times > 0 and s.validate_date >= :now")
+        .setParameter("shareCode", shareCode)
+        .setParameter("now", new Date()).executeUpdate();
+    if (fileCount > 0) {
+      String qlString =
+          "select f from " + CokeFileInfo.class.getName() + " f, " + CokeFileShare.class.getName()
+              + " s where f.id = s.fileId and s.shareCode = :shareCode";
+      List<CokeFileInfo> list = JpaUtil.createEntityManager().createQuery(qlString)
+          .setParameter("shareCode", shareCode).getResultList();
+      if (list.size() > 0) {
         return list.get(0);
       }
     }

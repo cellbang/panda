@@ -109,22 +109,6 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <!-- configure the plugin here -->
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
     <resources>
       <resource>
@@ -169,69 +153,32 @@
         </includes>
       </resource>
     </resources>
-    <pluginManagement>
-      <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build 
-          itself. -->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>
-                      org.apache.maven.plugins
-                    </groupId>
-                    <artifactId>
-                      maven-dependency-plugin
-                    </artifactId>
-                    <versionRange>
-                      [2.10,)
-                    </versionRange>
-                    <goals>
-                      <goal>
-                        copy-dependencies
-                      </goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore></ignore>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+
   </build>
+  <distributionManagement>
+    <repository>
+      <id>ezy-deployment</id>
+      <name>Internal Releases</name>
+      <url>http://172.16.0.13:8081/repository/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ezy-deployment</id>
+      <name>Internal Releases</name>
+      <url>http://172.16.0.13:8081/repository/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
   <repositories>
     <repository>
-      <id>bsdn-maven-repository</id>
-      <url>http://nexus.bsdn.org/content/groups/public/</url>
+      <id>ezy-repository</id>
+      <url>http://172.16.0.13:8081/repository/public/</url>
     </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>bsdn-maven-repository</id>
-      <url>http://nexus.bsdn.org/content/groups/public/</url>
+      <id>ezy-repository</id>
+      <url>http://172.16.0.13:8081/repository/public/</url>
     </pluginRepository>
   </pluginRepositories>
-  <distributionManagement>
-    <repository>
-      <id>deployment</id>
-      <name>Internal Releases</name>
-      <url>http://172.16.0.13:8081/nexus/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>deployment</id>
-      <name>Internal Releases</name>
-      <url>http://172.16.0.13:8081/nexus/content/repositories/snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

@@ -1,31 +1,24 @@
 package org.malagu.panda.coke.filestorage.domain;
 
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.malagu.panda.coke.model.CokeBaseModel;
+import com.bstek.dorado.annotation.PropertyDef;
 
 @Entity(name = "CK_FILE_SHARE")
-public class CokeFileShare {
-  private Long id;
+public class CokeFileShare extends CokeBaseModel {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private String shareCode;
   private Long fileId;
   private String fileNo;
+  @PropertyDef(label = "有效期")
   private Date validateDate;
+  @PropertyDef(label = "可下载次数")
   private Integer balanceTimes;
   private Integer totalTimes;
-
-  @Id
-  @GeneratedValue
-  @Column(name = "ID")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public String getShareCode() {
     return shareCode;

@@ -8,17 +8,17 @@ public interface IBase<T> extends Serializable {
 
   public void setId(T id);
 
-  public String getCreateUser();
+  public T getCreateUser();
 
-  public void setCreateUser(String createUser);
+  public void setCreateUser(T createUser);
 
   public Date getCreateDate();
 
   public void setCreateDate(Date createDate);
 
-  public String getUpdateUser();
+  public T getUpdateUser();
 
-  public void setUpdateUser(String updateUser);
+  public void setUpdateUser(T updateUser);
 
   public Date getUpdateDate();
 
