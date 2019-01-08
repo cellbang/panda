@@ -4,14 +4,16 @@
 package org.malagu.panda.coke.model;
 
 import javax.persistence.MappedSuperclass;
+import com.bstek.dorado.annotation.PropertyDef;
 
 /**
  * @author xobo
  *
  */
 @MappedSuperclass
-public class CokeDetailModel extends CokeBaseModel implements IDetail<Long>{
-  private Long parentId;
+public class CokeDetailModel extends CokeBaseModel implements IDetail<Long> {
+  @PropertyDef(label = "父编码")
+  private Long parentId = 0L;
   /**
    * 
    */
@@ -36,17 +38,6 @@ public class CokeDetailModel extends CokeBaseModel implements IDetail<Long>{
   @Override
   public void setParentId(Long parentId) {
     this.parentId = parentId;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.malagu.panda.coke.model.IDetail#getRoot()
-   */
-  @Override
-  public Long getRoot() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

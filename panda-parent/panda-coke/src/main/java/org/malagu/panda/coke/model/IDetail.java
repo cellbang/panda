@@ -5,6 +5,4 @@ public interface IDetail<T> extends IBase<T> {
 
   void setParentId(T parentId);
 
-  T getRoot();
-
 }

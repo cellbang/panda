@@ -1,5 +1,6 @@
 package org.malagu.panda.coke.utility;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +10,6 @@ import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.malagu.panda.dorado.linq.lin.Linq;
 import com.bstek.dorado.data.provider.Criteria;
-import com.google.api.client.util.Maps;
 
 public class Coke {
   private static DoradoCriteriaBuilder doradoCriteriaBuilder;
@@ -29,7 +29,7 @@ public class Coke {
       Map<String, Object> parameterMap) {
     if (IBase.class.isAssignableFrom(domainClass)) {
       if (parameterMap == null) {
-        parameterMap = Maps.newHashMap();
+        parameterMap = new HashMap<>();
         parameterMap.put("deleted", false);
       } else if (!parameterMap.containsKey("deleted")) {
         parameterMap.put("deleted", false);
@@ -58,7 +58,33 @@ public class Coke {
   }
 
   public static void save(Object entityOrEntityList) {
-    JpaUtil.save(entityOrEntityList);
+    JpaUtil.save(entityOrEntityList, new CokeSavePolicyAdapter());
   }
 
+  public static void persist(Iterable<?> entities) {
+    for (Object entity : entities) {
+      BaseEntityUtil.setMeta(entity);
+    }
+    JpaUtil.persist(entities);
+  }
+
+  public static void persist(Object entity) {
+    BaseEntityUtil.setMeta(entity);
+    JpaUtil.persist(entity);
+  }
+
+  public static void remove(Iterable<?> entities) {
+    for (Object entity : entities) {
+      BaseEntityUtil.setDelMeta(entity);
+    }
+    JpaUtil.persist(entities);
+  }
+
+  public static void remove(Object entity) {
+    BaseEntityUtil.setDelMeta(entity);
+    JpaUtil.persist(entity);
+  }
+
+
 }
+
