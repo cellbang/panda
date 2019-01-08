@@ -348,8 +348,8 @@ coke.autoAction = function(view, config) {
 
 	var dateSetId;
 	var updateActionId;
-	var currentPath;
-	var listPath;
+	var currentPath, defaultCurrentPath;
+	var listPath, defaultListPath;
 	var dataSetQueryId = "dataSet" + config.name + "Query";
 	var autoformQueryId = "autoform" + config.name + "Query";
 
@@ -357,20 +357,26 @@ coke.autoAction = function(view, config) {
 		dateSetId = "dataSet" + config.parentName;
 		updateActionId = "updateAction" + config.parentName;
 		var childname = config.name.substr(0, 1).toLowerCase() + config.name.substr(1) + "s";
-		currentPath = "#.#" + childname;
-		listPath = "#." + childname;
+		defaultCurrentPath = "#.#" + childname;
+		defaultListPath = "#." + childname;
 	} else {
 		dateSetId = "dataSet" + config.name;
 		updateActionId = "updateAction" + config.name;
-		currentPath = "#";
-		listPath = "";
+		defaultCurrentPath = "#";
+		defaultListPath = "";
 	}
+	currentPath = config.currentPath || defaultCurrentPath;
+	listPath = config.listPath || defaultListPath;
+	
 	var dataSet = config.dataSet || view.id(dateSetId);
 	var dataSetQuery = config.dataSetQuery || view.id(dataSetQueryId);
 	var updateAction = config.updateAction || view.id(updateActionId);
 
 	var dialog = config.dialog || view.id("dialog" + config.name);
 	var dataGrid = config.dataGrid || view.id("dataGrid" + config.name);
+	var dataTree = config.dataTree || view.id("dataTree" + config.name)
+	var dataTreeGrid = config.dataTreeGrid || view.id("dataTreeGrid" + config.name)
+	
 	var buttonEdit = config.buttonEdit || view.id("buttonEdit" + config.name);
 	var autoformQuery = config.autoform || view.id("autoForm" + config.name + "Query");
 
@@ -415,7 +421,7 @@ coke.autoAction = function(view, config) {
 	};
 
 	view["del" + config.name] = view["del" + config.name] || function() {
-		coke.deleteItems(dataGrid, updateAction, config);
+		coke.deleteItems(dataGrid || dataTree || dataTreeGrid, updateAction, config);
 	};
 	
 	function addActionInterceptor(type, action, args){
@@ -720,7 +726,6 @@ var CellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {
 	property: null,
 	editorType: null,
 	createSubControl : function(arg) {
-		debugger;
 		var self = this;
 		var entity = arg.data;
 		var editor = getEditor(entity, this.editorType);
