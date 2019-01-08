@@ -102,10 +102,15 @@ public class ExcelReportBuilder extends AbstractExcelReportBuilder {
       cell.setCellStyle(headerStyle);
       if (headerModel.getHeaders().size() == 0) {
         int rowspan = maxHeaderLevel - headerModel.getLevel();
-        cellRangeAddress =
-            new CellRangeAddress(firstRow, lastRow + rowspan, firstCol, lastCol + colspan - 1);
-        sheet.addMergedRegion(cellRangeAddress);
-        this.setCellRangeAddressBorder(cellRangeAddress, sheet);
+        int cellRangeLastRow = lastRow + rowspan;
+        int cellRangelastCol = lastCol + colspan - 1;
+
+        if (firstRow != cellRangeLastRow || firstCol != cellRangelastCol) {
+          cellRangeAddress =
+              new CellRangeAddress(firstRow, cellRangeLastRow, firstCol, cellRangelastCol);
+          sheet.addMergedRegion(cellRangeAddress);
+          this.setCellRangeAddressBorder(cellRangeAddress, sheet);
+        }
       } else {
         cellRangeAddress = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol + colspan - 1);
         sheet.addMergedRegion(cellRangeAddress);
