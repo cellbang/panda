@@ -98,6 +98,10 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.malagu.panda</groupId>
+      <artifactId>panda-security</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
