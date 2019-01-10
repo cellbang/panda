@@ -4,14 +4,10 @@
 	<parent>
 		<groupId>org.malagu.panda</groupId>
 		<artifactId>panda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>panda-importer</artifactId>
 	<dependencies>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-dorado-linq</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.bstek.dorado</groupId>
 			<artifactId>dorado-uploader</artifactId>
@@ -26,8 +22,7 @@
 		</dependency>
 		<dependency>
 		  <groupId>org.malagu.panda</groupId>
-		  <artifactId>panda-coke</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
+		  <artifactId>panda-dorado</artifactId>
 		</dependency>
 	</dependencies>
 </project>

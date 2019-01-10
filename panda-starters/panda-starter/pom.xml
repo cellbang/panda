@@ -4,14 +4,10 @@
 	<parent>
 		<groupId>org.malagu.panda</groupId>
 		<artifactId>panda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>panda-starter</artifactId>
 	<dependencies>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-security-ui</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
 			<artifactId>panda-importer</artifactId>
@@ -22,19 +18,20 @@
 		</dependency>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-profile</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-dictionary-ui</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
 			<artifactId>panda-dbconsole</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
 			<artifactId>panda-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>org.malagu</groupId>
+		  <artifactId>panda-core</artifactId>
+		  <version>0.0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.malagu.panda</groupId>
+		  <artifactId>panda-dorado</artifactId>
 		</dependency>
 	</dependencies>
 </project>

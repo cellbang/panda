@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="BackgroundTaskLog">
+      <Property name="creationType">org.malagu.panda.coke.concurrent.domain.BackgroundTaskLog</Property>
+      <PropertyDef name="taskId">
+        <Property></Property>
+        <Property name="label">任务编号</Property>
+      </PropertyDef>
+      <PropertyDef name="type">
+        <Property></Property>
+        <Property name="label">任务类型</Property>
+      </PropertyDef>
+      <PropertyDef name="desc">
+        <Property></Property>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="backgroundTaskId">
+        <Property></Property>
+        <Property name="label">任务 BeanID</Property>
+      </PropertyDef>
+      <PropertyDef name="status">
+        <Property></Property>
+        <Property name="label">状态</Property>
+      </PropertyDef>
+      <PropertyDef name="result">
+        <Property></Property>
+        <Property name="label">结果</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">DateTime</Property>
+        <Property name="label">开始时间</Property>
+        <Property name="displayFormat">Y-m-d H:i:s</Property>
+      </PropertyDef>
+      <PropertyDef name="endDate">
+        <Property name="dataType">DateTime</Property>
+        <Property name="label">结束时间</Property>
+      </PropertyDef>
+      <PropertyDef name="operator">
+        <Property></Property>
+        <Property name="label">操作人</Property>
+      </PropertyDef>
+      <PropertyDef name="processBy">
+        <Property></Property>
+        <Property name="label">处理节点</Property>
+      </PropertyDef>
+      <PropertyDef name="parameter">
+        <Property></Property>
+        <Property name="label">参数</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ToolBar>
+      <ToolBarButton>
+        <ClientEvent name="onClick">var ajaxActionAddBackgroundTask = view.id(&quot;ajaxActionAddBackgroundTask&quot;);
+ajaxActionAddBackgroundTask.set(&quot;parameter&quot;, {
+    type: &quot;test&quot;,
+    desc: &quot;test Only&quot;,
+    backgroundTaskId: &quot;testCounterBackgroundTask&quot;,
+    parameter: {
+        name: &quot;No.&quot; + Math.floor(Math.random() * 1000)
+    }
+}).execute(function(){
+	view.id(&quot;dataSetBackgroundTaskLog&quot;).flush()
+});
+</ClientEvent>
+        <Property name="caption">测试任务</Property>
+      </ToolBarButton>
+      <ToolBarButton>
+        <ClientEvent name="onClick">var ajaxActionOperation = view.id(&quot;ajaxActionOperation&quot;);
+var taskId = view.id(&quot;dataSetBackgroundTaskLog&quot;).getData(&quot;#.taskId&quot;);
+ajaxActionOperation.set(&quot;parameter&quot;, {
+	operation: &quot;cancel&quot;, 
+	taskId: taskId
+}).execute(function(){
+	view.id(&quot;dataSetBackgroundTaskLog&quot;).flush();
+});
+</ClientEvent>
+        <Property name="caption">Cancel</Property>
+      </ToolBarButton>
+      <ToolBarButton>
+        <ClientEvent name="onClick">var ajaxActionOperation = view.id(&quot;ajaxActionOperation&quot;);
+var taskId = view.id(&quot;dataSetBackgroundTaskLog&quot;).getData(&quot;#.taskId&quot;);
+ajaxActionOperation.set(&quot;parameter&quot;, {
+	operation: &quot;runAgain&quot;, 
+	taskId: taskId
+}).execute(function(){
+	view.id(&quot;dataSetBackgroundTaskLog&quot;).flush();
+});
+</ClientEvent>
+        <Property name="caption">runAgain</Property>
+      </ToolBarButton>
+    </ToolBar>
+    <DataSet id="dataSetBackgroundTaskLog">
+      <Property name="dataType">[BackgroundTaskLog]</Property>
+      <Property name="pageSize">20</Property>
+      <Property name="dataProvider">#loadBackgroundTaskLogs</Property>
+    </DataSet>
+    <DataGrid>
+      <Property name="dataSet">dataSetBackgroundTaskLog</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="id">
+        <Property name="property">id</Property>
+      </DataColumn>
+      <DataColumn name="type">
+        <Property name="property">type</Property>
+      </DataColumn>
+      <DataColumn name="desc">
+        <Property name="property">desc</Property>
+      </DataColumn>
+      <DataColumn name="status">
+        <Property name="property">status</Property>
+      </DataColumn>
+      <DataColumn name="createDate">
+        <Property name="property">createDate</Property>
+        <Property name="width">120</Property>
+      </DataColumn>
+      <DataColumn name="endDate">
+        <Property name="property">endDate</Property>
+        <Property name="width">120</Property>
+      </DataColumn>
+      <DataColumn name="result">
+        <Property name="property">result</Property>
+      </DataColumn>
+      <DataColumn name="operator">
+        <Property name="property">operator</Property>
+      </DataColumn>
+      <DataColumn name="processBy">
+        <Property name="property">processBy</Property>
+      </DataColumn>
+      <DataColumn name="parameter">
+        <Property name="property">parameter</Property>
+      </DataColumn>
+      <DataColumn name="backgroundTaskId">
+        <Property name="property">backgroundTaskId</Property>
+      </DataColumn>
+      <DataColumn name="taskId">
+        <Property name="property">taskId</Property>
+      </DataColumn>
+    </DataGrid>
+    <AjaxAction id="ajaxActionAddBackgroundTask">
+      <Property name="service">#addBackgroundTask</Property>
+    </AjaxAction>
+    <AjaxAction id="ajaxActionOperation">
+      <Property name="service">#operation</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>

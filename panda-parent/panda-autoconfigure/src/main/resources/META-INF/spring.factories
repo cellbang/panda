@@ -10,7 +10,6 @@ org.malagu.panda.autoconfigure.dorado.DoradoPreloadSpringApplicationRunListener
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.malagu.panda.autoconfigure.dorado.DoradoAutoConfiguration,\
-org.malagu.panda.autoconfigure.cola.ColaAutoConfiguration,\
 org.malagu.panda.autoconfigure.dorado.jpa.JpaAutoConfiguration,\
 org.malagu.panda.autoconfigure.log.LogAutoConfiguration,\
 org.malagu.panda.autoconfigure.profile.ProfileAutoConfiguration,\

@@ -4,17 +4,13 @@
 	<parent>
 		<groupId>org.malagu.panda</groupId>
 		<artifactId>panda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>panda-dbconsole</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
 			<artifactId>panda-export</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-dorado-linq</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.bstek.dorado</groupId>

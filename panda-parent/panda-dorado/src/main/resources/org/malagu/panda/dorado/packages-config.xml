@@ -1,30 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<Patterns>
-		<Pattern name="js" contentType="text/javascript" charset="UTF-8"
-			mergeRequests='${configure["view.mergeJavaScript"]}' resourceSuffix=".js" />
-		<Pattern name="css" contentType="text/css" charset="UTF-8"
-			mergeRequests='${configure["view.mergeStyleSheet"]}' resourceSuffix=".css" />
-	</Patterns>
+  <Patterns>
+    <Pattern name="js" contentType="text/javascript" charset="UTF-8" mergeRequests='${configure["view.mergeJavaScript"]}'
+      resourceSuffix=".js" />
+    <Pattern name="css" contentType="text/css" charset="UTF-8" mergeRequests='${configure["view.mergeStyleSheet"]}'
+      resourceSuffix=".css" />
+  </Patterns>
 
-	<Packages>
-		<Package name="colors" pattern="css" depends="colors-support">
-			static/css/colors
-		</Package>
-		<Package name="colors-support" pattern="css">
-			static/css/colors-support
-		</Package>
-		<Package name="jquery-cookie" pattern="js" depends="jquery">
-			static/js/jquery.cookie
-		</Package>
-		<Package name="font-awesome-new" pattern="css" depends="font-awesome-support">
-			static/icons/font-awesome/css/font-awesome
-		</Package>
-		<Package name="font-awesome-info" pattern="js" depends="font-awesome-new">
-			static/icons/font-awesome/info
-		</Package>
-		<Package name="entypo-info" pattern="js" depends="entypo">
-			static/icons/entypo/info
-		</Package>
-	</Packages>
+  <Packages>
+    <Package name="colors" pattern="css" depends="colors-support">
+      static/css/colors
+    </Package>
+    <Package name="colors-support" pattern="css">
+      static/css/colors-support
+    </Package>
+    <Package name="jquery-cookie" pattern="js" depends="jquery">
+      static/js/jquery.cookie
+    </Package>
+    <Package name="font-awesome-new" pattern="css" depends="font-awesome-support">
+      static/icons/font-awesome/css/font-awesome
+    </Package>
+    <Package name="font-awesome-info" pattern="js" depends="font-awesome-new">
+      static/icons/font-awesome/info
+    </Package>
+    <Package name="entypo-info" pattern="js" depends="entypo">
+      static/icons/entypo/info
+    </Package>
+
+    <Package name="chat" pattern="css">
+      static/css/chat
+    </Package>
+
+    <Package name="quill-css" pattern="css">
+      static/quill/quill.core
+    </Package>
+    <Package name="quill" pattern="js" depends="quill-css">
+      static/quill/quill.core
+    </Package>
+
+    <Package name="CokeAction" pattern="dorado-js">
+      scripts/coke-action
+    </Package>
+    <Package name="jCookie" pattern="dorado-js" depends="jquery">
+      scripts/jquery.cookie
+    </Package>
+    <Package name="desktopNotify" pattern="dorado-js">
+      scripts/desktop-notify
+    </Package>
+    <Package name="webMessage" pattern="dorado-js">
+      scripts/web-message
+    </Package>
+    <Package name="SearchTree" pattern="dorado-js">
+      scripts/search-tree
+    </Package>
+    <Package name="CopyData" pattern="dorado-js" depends="webMessage">
+      scripts/copy-data
+    </Package>
+    <Package name="DataTransfer" pattern="dorado-js" depends="LzString">
+      scripts/data-transfer
+    </Package>
+    <Package name="LzString" pattern="dorado-js">
+      scripts/string/base64-string,
+      scripts/string/lz-string
+    </Package>
+    <Package name="pnotify-css" pattern="dorado-css">
+      scripts/pnotify/pnotify.custom
+    </Package>
+    <Package name="pnotify" pattern="dorado-js" depends="pnotify-css">
+      scripts/pnotify/pnotify.custom,
+      scripts/pnotify/coke-pnotify
+    </Package>
+    <Package name="clipboardJs" pattern="dorado-js">
+      scripts/clipboard/clipboard
+    </Package>
+  </Packages>
 </config>

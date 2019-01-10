@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.malagu.panda</groupId>
 		<artifactId>panda-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>panda-autoconfigure</artifactId>
 	<dependencies>
@@ -33,27 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-dorado-linq</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-cola</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-security</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
 			<artifactId>panda-dorado</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-notice</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -68,23 +48,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-profile</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-dictionary</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
 			<artifactId>panda-dbconsole</artifactId>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.malagu.panda</groupId>
-			<artifactId>panda-coke</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
