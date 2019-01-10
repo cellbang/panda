@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.malagu.panda.coke.datasource.entity.CokeDataSourceInfo;
 import org.malagu.panda.coke.datasource.service.DataSourceInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -26,7 +26,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Service(DataSourceInfoService.BEAN_ID)
 public class DataSourceInfoServiceImpl implements DataSourceInfoService {
 
-  @Autowired
+  @Resource(name = "defaultDataSource")
   private DataSource defaultDataSource;
 
   private Map<String, DataSource> dataSourceMap = new ConcurrentHashMap<String, DataSource>();
