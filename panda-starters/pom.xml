@@ -12,8 +12,8 @@
   	<module>panda-starter-parent</module>
   <!-- 	<module>panda-starter-war-parent</module> -->
   	<module>panda-starter-jetty</module>
-  	<module>panda-starter-cola</module>
-  	<module>panda-starter-cola-jetty</module>
+  	
+  	
   	<module>panda-starter-multitenant</module>
   </modules>
 </project>
