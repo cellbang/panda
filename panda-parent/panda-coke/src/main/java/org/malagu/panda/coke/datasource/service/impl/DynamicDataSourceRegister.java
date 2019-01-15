@@ -9,6 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * 动态数据源注册
+ * @author sr on 2019-01-10 
+ */
 @Configuration
 @EnableTransactionManagement
 public class DynamicDataSourceRegister {

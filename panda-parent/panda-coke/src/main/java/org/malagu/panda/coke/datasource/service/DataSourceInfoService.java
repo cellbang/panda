@@ -1,6 +1,7 @@
 package org.malagu.panda.coke.datasource.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -28,6 +29,8 @@ public interface DataSourceInfoService {
    * @author sr on 2019-01-02 
    */
   DataSource getDataSource(String name);
+  
+  Set<String> getDataSourceNames();
   
   
 

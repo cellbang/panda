@@ -2,6 +2,7 @@ package org.malagu.panda.coke.datasource.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -100,6 +101,11 @@ public class DataSourceInfoServiceImpl implements DataSourceInfoService {
   public void initDataSourceInfoMap(List<CokeDataSourceInfo> dataSourceInfos) {
     dataSourceInfoMap = dataSourceInfos.stream().collect(
         Collectors.toMap(CokeDataSourceInfo::getName, c -> c));
+  }
+
+  @Override
+  public Set<String> getDataSourceNames() {
+    return dataSourceInfoMap.keySet();
   }
 
 }
