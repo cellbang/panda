@@ -52,7 +52,11 @@ self.connectNotifyServer = function() {
 			window.location.href = &quot;${configure['panda.loginSuccessPage']}&quot;;
 		}
 	});
+	window.onbeforeunload=function(){
+		self._noticeSocket.disconnect();
+	}
 };
+
 
 self.send = function(notice) {
 	self._noticeSocket.send(notice.type, notice);
