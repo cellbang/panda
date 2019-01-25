@@ -30,4 +30,9 @@ public class BusinessInvokeServiceImpl implements BusinessInvokeService {
     return currentNum;
   }
 
+  @Override
+  public void rollbackNum(String key) {
+    redisTemplate.opsForValue().increment(key, -1);
+  }
+
 }

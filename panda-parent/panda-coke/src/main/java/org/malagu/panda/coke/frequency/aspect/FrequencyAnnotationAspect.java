@@ -9,8 +9,8 @@ import org.malagu.panda.coke.frequency.Frequency;
 import org.malagu.panda.coke.frequency.constant.FrequencyConstants;
 import org.malagu.panda.coke.frequency.constant.FrequencyConstants.Unit;
 import org.malagu.panda.coke.frequency.model.BusinessInvokeSetting;
-import org.malagu.panda.coke.frequency.service.BusinessInvokeSettingCacheService;
 import org.malagu.panda.coke.frequency.service.BusinessInvokeService;
+import org.malagu.panda.coke.frequency.service.BusinessInvokeSettingCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +39,7 @@ public class FrequencyAnnotationAspect {
     String key = FrequencyConstants.METHOD_INVOKE_COUNT_CACHE_NAME + ":" + unit + "_" + getDate(unit) + "_" + code;
     Long currentNum = businessInvokeService.getCurrentNum(key, unit);
     if (currentNum > setting.getNum()) {
+      businessInvokeService.rollbackNum(key);
       throw new RuntimeException("调用超过上限");
     }
     return point.proceed();

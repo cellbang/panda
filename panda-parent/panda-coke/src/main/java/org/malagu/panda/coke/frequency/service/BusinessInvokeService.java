@@ -16,5 +16,12 @@ public interface BusinessInvokeService {
    * @author sr on 2019-01-25 
    */
   Long getCurrentNum(String key, Unit unit);
+  
+  /**
+   * 回退调用次数
+   * @param key
+   * @author sr on 2019-01-25 
+   */
+  void rollbackNum(String key);
 
 }
