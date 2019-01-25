@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="BusinessInvokeSetting">
+      <Property name="creationType">org.malagu.panda.coke.frequency.model.BusinessInvokeSetting</Property>
+      <PropertyDef name="id">
+        <Property/>
+      </PropertyDef>
+      <PropertyDef name="code">
+        <Property/>
+        <Property name="label">编码</Property>
+      </PropertyDef>
+      <PropertyDef name="unit">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">单位</Property>
+        <Property name="mapping">
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="value">年</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="value">月</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">3</Property>
+                <Property name="value">周</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">4</Property>
+                <Property name="value">天</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+      </PropertyDef>
+      <PropertyDef name="num">
+        <Property name="dataType">Long</Property>
+        <Property name="label">次数</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="BusinessInvokeSettingQuery">
+      <Property name="creationType">org.malagu.panda.coke.frequency.model.BusinessInvokeSetting</Property>
+      <PropertyDef name="code">
+        <Property/>
+        <Property name="label">编码</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">coke.autoAction(view, &quot;BusinessInvokeSetting&quot;);
+</ClientEvent>
+    <Panel>
+      <Property name="caption">业务调用配置</Property>
+      <Buttons>
+        <Button id="buttonQueryBusinessInvokeSetting"/>
+        <Button id="buttonQueryResetBusinessInvokeSetting"/>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormQuery">
+          <Property name="dataType">BusinessInvokeSettingQuery</Property>
+          <Property name="cols">*,*,*,*</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="dataSet">dataSetBusinessInvokeSettingQuery</Property>
+          <AutoFormElement>
+            <Property name="name">code</Property>
+            <Property name="property">code</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+        <DataSet id="dataSetBusinessInvokeSettingQuery">
+          <ClientEvent name="onReady">self.setData({});
+</ClientEvent>
+          <Property name="dataType">BusinessInvokeSettingQuery</Property>
+        </DataSet>
+      </Children>
+      <Tools/>
+    </Panel>
+    <ToolBar>
+      <ToolBarButton id="buttonInsertBusinessInvokeSetting">
+        <Property name="tags">manage</Property>
+        <Property name="hideMode">display</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonEditBusinessInvokeSetting">
+        <Property name="tags">manage</Property>
+        <Property name="hideMode">display</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonDelBusinessInvokeSetting">
+        <Property name="tags">manage</Property>
+        <Property name="hideMode">display</Property>
+        <Property name="visible">false</Property>
+      </ToolBarButton>
+      <ToolBarButton id="buttonLookBusinessInvokeSetting"/>
+      <ToolBarButton>
+        <Property name="caption">刷新缓存</Property>
+        <Property name="action">ajaxActionFlushCache</Property>
+      </ToolBarButton>
+      <Fill/>
+      <DataPilot>
+        <Property name="dataSet">dataSetBusinessInvokeSetting</Property>
+      </DataPilot>
+    </ToolBar>
+    <DataGrid id="dataGridBusinessInvokeSetting">
+      <Property name="dataSet">dataSetBusinessInvokeSetting</Property>
+      <Property name="selectionMode">singleRow</Property>
+      <Property name="readOnly">true</Property>
+      <RowSelectorColumn/>
+      <DataColumn name="code">
+        <Property name="property">code</Property>
+      </DataColumn>
+      <DataColumn name="unit">
+        <Property name="property">unit</Property>
+      </DataColumn>
+      <DataColumn name="num">
+        <Property name="property">num</Property>
+      </DataColumn>
+    </DataGrid>
+    <DataSet id="dataSetBusinessInvokeSetting">
+      <Property name="dataType">[BusinessInvokeSetting]</Property>
+      <Property name="dataProvider">#loadBusinessInvokeSettings</Property>
+      <Property name="pageSize">30</Property>
+      <Property name="loadMode">manual</Property>
+    </DataSet>
+    <Dialog id="dialogBusinessInvokeSetting">
+      <Property name="width">650</Property>
+      <Property name="caption">业务调用配置</Property>
+      <Buttons>
+        <Button id="buttonSaveBusinessInvokeSetting">
+          <Property name="tags">operateButton</Property>
+          <Property name="hideMode">display</Property>
+        </Button>
+        <Button id="buttonCancelBusinessInvokeSetting"/>
+      </Buttons>
+      <Children>
+        <AutoForm id="autoFormBusinessInvokeSetting">
+          <Property name="dataSet">dataSetBusinessInvokeSetting</Property>
+          <Property name="createPrivateDataSet">false</Property>
+          <Property name="labelAlign">right</Property>
+          <Property name="dataPath">#</Property>
+          <Property name="cols">*</Property>
+          <AutoFormElement>
+            <Property name="name">code</Property>
+            <Property name="property">code</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">unit</Property>
+            <Property name="property">unit</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">num</Property>
+            <Property name="property">num</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="updateActionBusinessInvokeSetting">
+      <Property name="dataResolver">#saveBusinessInvokeSetting</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetBusinessInvokeSetting</Property>
+      </UpdateItem>
+    </UpdateAction>
+    <AjaxAction id="ajaxActionFlushCache">
+      <Property name="service">#flushCache</Property>
+      <Property name="successMessage">执行成功</Property>
+      <Property name="async">true</Property>
+    </AjaxAction>
+  </View>
+</ViewConfig>
