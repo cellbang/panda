@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.malagu.panda.coke.frequency.Frequency;
 import org.malagu.panda.coke.frequency.constant.FrequencyConstants;
 import org.malagu.panda.coke.frequency.constant.FrequencyConstants.Unit;
+import org.malagu.panda.coke.frequency.exception.OutOfMaxNumException;
 import org.malagu.panda.coke.frequency.model.BusinessInvokeSetting;
 import org.malagu.panda.coke.frequency.service.BusinessInvokeService;
 import org.malagu.panda.coke.frequency.service.BusinessInvokeSettingCacheService;
@@ -40,7 +41,7 @@ public class FrequencyAnnotationAspect {
     Long currentNum = businessInvokeService.getCurrentNum(key, unit);
     if (currentNum > setting.getNum()) {
       businessInvokeService.rollbackNum(key);
-      throw new RuntimeException("调用超过上限");
+      throw new OutOfMaxNumException("调用超过上限");
     }
     return point.proceed();
   }
