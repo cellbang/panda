@@ -1,12 +1,12 @@
 package org.malagu.panda.security.access.metadata;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,9 +28,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UrlSecurityMetadataSource  implements FilterInvocationSecurityMetadataSource {
 
-	private Map<RequestMatcher, Collection<ConfigAttribute>> requestMap;
-	
-	
 	@Autowired
 	private List<FilterConfigAttributeProvider> providers;
 	
@@ -67,8 +64,7 @@ public class UrlSecurityMetadataSource  implements FilterInvocationSecurityMetad
 	}
 	
 	public Map<RequestMatcher, Collection<ConfigAttribute>> getRequestMap() {
-		AnnotationAwareOrderComparator.sort(providers);
-		requestMap = new ConcurrentHashMap<RequestMatcher, Collection<ConfigAttribute>>();
+	    Map<RequestMatcher, Collection<ConfigAttribute>> requestMap = new HashMap<>();
 		for (FilterConfigAttributeProvider provider : providers) {
 			Map<String, Collection<ConfigAttribute>> map = provider.provide();
 			if (map != null && !map.isEmpty()) {
@@ -79,6 +75,11 @@ public class UrlSecurityMetadataSource  implements FilterInvocationSecurityMetad
 		}
 		return requestMap;
 	}
-
+	
+	@Autowired
+	public void setProvider(List<FilterConfigAttributeProvider> providers) {     
+	    AnnotationAwareOrderComparator.sort(providers);
+	    this.providers = providers;
+	}
 
 }
