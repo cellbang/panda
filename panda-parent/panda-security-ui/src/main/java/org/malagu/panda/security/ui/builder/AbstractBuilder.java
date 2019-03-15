@@ -93,11 +93,11 @@ public abstract class AbstractBuilder<T extends AbstractViewElement> implements 
   }
 
   protected String getIcon(T control) {
-    return ">dorado/res/" + control.getClass().getName().replaceAll("\\.", "/") + ".png";
+    return ">dorado/res/" + control.getClass().getName().replaceAll("\\.", "/").replaceAll("\\_\\$\\$\\_.*", "") + ".png";
   }
 
   protected String getName(T control) {
-    return control.getClass().getSimpleName();
+    return control.getClass().getSimpleName().replaceAll("\\_\\$\\$\\_.*", "");
   }
 
   protected boolean isEnabled(T control) {
