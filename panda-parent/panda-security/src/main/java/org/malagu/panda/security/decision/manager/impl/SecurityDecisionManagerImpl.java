@@ -2,7 +2,6 @@ package org.malagu.panda.security.decision.manager.impl;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.malagu.panda.security.decision.manager.SecurityDecisionManager;
 import org.malagu.panda.security.orm.Resource;
 import org.malagu.panda.security.orm.User;
@@ -27,62 +26,70 @@ import org.springframework.util.CollectionUtils;
 @Service
 public class SecurityDecisionManagerImpl implements SecurityDecisionManager {
 
-	@Autowired
-	private List<SecurityMetadataSource> securityMetadataSources;
-	
-	@Autowired
-	private AccessDecisionManager accessDecisionManager;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Override
-	public boolean decide(Resource resource) {
-		return decide(null, resource);
-	}
-	
-	@Override
-	public boolean decide(String username, Resource resource) {
-		if (resource != null) {
-			Collection<ConfigAttribute> attributes = findConfigAttributes(resource);
-			Authentication authentication = getAuthentication(username);
-			User user = (User) authentication.getPrincipal();
-			if (user.isAdministrator()) {
-				return true;
-			}
-			try {
-				accessDecisionManager.decide(authentication, resource, attributes);
-			} catch (AccessDeniedException e) {
-				return false;
-			} catch (InsufficientAuthenticationException e) {
-				return false;
-			}
+  @Autowired
+  private List<SecurityMetadataSource> securityMetadataSources;
 
-		}
-		return true;
-	}
+  @Autowired
+  private AccessDecisionManager accessDecisionManager;
 
-	protected Authentication getAuthentication(String username) {
-		if (username != null) {
-			UserDetails user = userDetailsService.loadUserByUsername(username);
-			return new UsernamePasswordAuthenticationToken(user, null);
-		}
-		return SecurityContextHolder.getContext().getAuthentication();
-	}
+  @Autowired
+  private UserDetailsService userDetailsService;
 
-	@Override
-	public Collection<ConfigAttribute> findConfigAttributes(Resource resource) {
-		Collection<ConfigAttribute> attributes = resource.getAttributes();
-		if (CollectionUtils.isEmpty(attributes)) {
-			for (SecurityMetadataSource securityMetadataSource : securityMetadataSources) {
-				if (securityMetadataSource.supports(resource.getClass())) {
-					attributes = securityMetadataSource.getAttributes(resource);
-				}
-			}
-		} 
-		return attributes;
-	}
-	
-	
+  @Override
+  public boolean decide(Resource resource) {
+    return decide(null, resource);
+  }
+
+  @Override
+  public boolean decide(String username, Resource resource) {
+    if (resource != null) {
+      Collection<ConfigAttribute> attributes = findConfigAttributes(resource);
+      Authentication authentication = getAuthentication(username);
+      User user = (User) authentication.getPrincipal();
+      if (user.isAdministrator()) {
+        return true;
+      }
+      try {
+        accessDecisionManager.decide(authentication, resource, attributes);
+      } catch (AccessDeniedException e) {
+        return false;
+      } catch (InsufficientAuthenticationException e) {
+        return false;
+      }
+
+    }
+    return true;
+  }
+
+  protected Authentication getAuthentication(String username) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (username == null) {
+      return authentication;
+    }
+
+    Object principal = authentication.getPrincipal();
+    if (principal instanceof UserDetails
+        && username.equals(((UserDetails) principal).getUsername())) {
+      return authentication;
+    }
+
+    UserDetails user = userDetailsService.loadUserByUsername(username);
+    return new UsernamePasswordAuthenticationToken(user, null);
+  }
+
+  @Override
+  public Collection<ConfigAttribute> findConfigAttributes(Resource resource) {
+    Collection<ConfigAttribute> attributes = resource.getAttributes();
+    if (CollectionUtils.isEmpty(attributes)) {
+      for (SecurityMetadataSource securityMetadataSource : securityMetadataSources) {
+        if (securityMetadataSource.supports(resource.getClass())) {
+          attributes = securityMetadataSource.getAttributes(resource);
+        }
+      }
+    }
+    return attributes;
+  }
+
+
 
 }
