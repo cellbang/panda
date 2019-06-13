@@ -70,6 +70,10 @@ public class MappingRule implements java.io.Serializable {
   @Column(name = "CELL_PREV_PARSER_PARAM_", length = 255)
   private String cellPreParserParam;
 
+  @PropertyDef(label = " 注入Bean")
+  @Column(name = "injects", length = 255)
+  private String injects;
+
   @Transient
   private ImporterSolution importerSolution;
 
@@ -204,6 +208,14 @@ public class MappingRule implements java.io.Serializable {
 
   public void setExcelTitle(String excelTitle) {
     this.excelTitle = excelTitle;
+  }
+
+  public String getInjects() {
+    return injects;
+  }
+
+  public void setInjects(String injects) {
+    this.injects = injects;
   }
 
 

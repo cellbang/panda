@@ -9,6 +9,9 @@
     <property name="sheetPolicy" ref="importer.xssfSheetPolicy"></property>
     <property name="parseRecordPolicy" ref="importer.parseRecordPolicy"></property>
   </bean>
+  <bean id="importer.EasyExcelPolicy" class="org.malagu.panda.importer.policy.impl.EasyExcelPolicy">
+    <property name="parseRecordPolicy" ref="importer.parseRecordPolicy"></property>
+  </bean>
   <bean class="org.malagu.panda.importer.handler.XSSFSheetHandler" scope="prototype"></bean>
   <bean id="importer.defaultPostProcessPolicy" class="org.malagu.panda.importer.policy.impl.DefaultPostProcessPolicy" />
 

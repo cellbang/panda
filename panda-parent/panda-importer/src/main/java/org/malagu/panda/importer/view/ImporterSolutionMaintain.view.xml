@@ -9,7 +9,7 @@
         <Property name="dataType">[MappingRule]</Property>
         <Property name="dataProvider">importer.importerSolutionMaintain#loadMappingRules</Property>
         <Property name="parameter">$${this.id}</Property>
-        <Property name="pageSize">20</Property>
+        <Property name="pageSize">100</Property>
       </Reference>
       <PropertyDef name="id">
         <Property></Property>
@@ -118,6 +118,10 @@ if (postProcessPolicy) {
         <Property></Property>
         <Property name="label">Excel表头</Property>
       </PropertyDef>
+      <PropertyDef name="injects">
+        <Property></Property>
+        <Property name="label"> 注入Bean</Property>
+      </PropertyDef>
     </DataType>
     <DataType name="Entry">
       <ClientEvent name="onInsert">arg.entity.set(&quot;mappingRuleId&quot;, arg.entity.parent.parent.get(&quot;id&quot;));
@@ -219,6 +223,11 @@ if (postProcessPolicy) {
                   <Property name="caption">修改</Property>
                   <Property name="iconClass">fa fa-pencil</Property>
                 </ToolBarButton>
+                <ToolBarButton>
+                  <Property name="action">updateActionImporterSolution</Property>
+                  <Property name="iconClass">fa fa-floppy-o</Property>
+                  <Property name="caption">保存</Property>
+                </ToolBarButton>
                 <Fill/>
                 <ToolBarButton>
                   <Property name="caption">加载模版头</Property>
@@ -292,6 +301,7 @@ updateActionImporterSolution.execute();
                   <DataColumn name="cellPreParserBean">
                     <Property name="property">cellPreParserBean</Property>
                     <Property name="caption">解析器</Property>
+                    <Property name="trigger">autoOpenMappingDropDown1</Property>
                   </DataColumn>
                   <DataColumn name="cellPreParserParam">
                     <Property name="property">cellPreParserParam</Property>
@@ -303,12 +313,17 @@ updateActionImporterSolution.execute();
                   <DataColumn name="cellPostParserBean">
                     <Property name="property">cellPostParserBean</Property>
                     <Property name="caption">解析器</Property>
+                    <Property name="trigger">autoOpenMappingDropDown1</Property>
                   </DataColumn>
                   <DataColumn name="cellPostParserParam">
                     <Property name="property">cellPostParserParam</Property>
                     <Property name="caption">参数</Property>
                   </DataColumn>
                 </ColumnGroup>
+                <DataColumn name="injects">
+                  <Property name="property">injects</Property>
+                  <Editor/>
+                </DataColumn>
               </DataGrid>
               <ToolBar layoutConstraint="bottom">
                 <DataPilot>
@@ -328,7 +343,7 @@ dorado.widget.NotifyTipManager.notify(&quot;Excel表头解析完成。&quot;);</
                 <Property name="fileResolver">importer.excelUploadFileProcessor#uploadTemplate</Property>
                 <Filters>
                   <Filter>
-                    <Property name="extensions">xlsx</Property>
+                    <Property name="extensions">xlsx,xls</Property>
                   </Filter>
                 </Filters>
               </UploadAction>
@@ -343,7 +358,7 @@ self.set(&quot;parameter&quot;, {
                 <Property name="fileResolver">importer.excelUploadFileProcessor#upload</Property>
                 <Filters>
                   <Filter>
-                    <Property name="extensions">xlsx</Property>
+                    <Property name="extensions">xlsx,xls</Property>
                   </Filter>
                 </Filters>
               </UploadAction>

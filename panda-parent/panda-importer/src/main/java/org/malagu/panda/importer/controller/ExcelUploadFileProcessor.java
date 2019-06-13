@@ -1,5 +1,6 @@
 package org.malagu.panda.importer.controller;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +10,9 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.malagu.panda.importer.policy.Context;
 import org.malagu.panda.importer.policy.ExcelPolicy;
+import org.malagu.panda.importer.service.ExcelPolicyService;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,33 +29,23 @@ public class ExcelUploadFileProcessor implements ApplicationContextAware {
 
   private Collection<ExcelPolicy> excelPolicies;
 
+  @Autowired
+  private ExcelPolicyService excelPolicyService;
+
   @FileResolver
   @Transactional
   public String upload(UploadFile file, Map<String, Object> parameter) throws Exception {
     MultipartFile multipartFile = file.getMultipartFile();
     String name = multipartFile.getOriginalFilename();
     String importerSolutionId = (String) parameter.get("importerSolutionId");
-    int startRow = 1;
-    if (parameter.get("startRow") != null) {
-      startRow = Integer.parseInt(parameter.get("startRow").toString());
-    }
     Assert.hasLength(importerSolutionId, "Excel导入方案编码必须配置。");
 
     InputStream inpuStream = multipartFile.getInputStream();
+
+    parameter.put("filename", name);
+    parameter.put("fileSize", file.getSize());
     try {
-      for (ExcelPolicy excelPolicy : excelPolicies) {
-        if (excelPolicy.support(name)) {
-          Context context = excelPolicy.createContext();
-          context.setInputStream(inpuStream);
-          context.setStartRow(startRow);
-          context.setFileName(name);
-          context.setFileSize(file.getSize());
-          context.setImporterSolutionId(importerSolutionId);
-          context.setParams(parameter);
-          excelPolicy.apply(context);
-          break;
-        }
-      }
+      excelPolicyService.parse(inpuStream, parameter);
     } finally {
       IOUtils.closeQuietly(inpuStream);
     }

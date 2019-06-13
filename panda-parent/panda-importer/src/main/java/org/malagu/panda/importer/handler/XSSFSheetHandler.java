@@ -132,7 +132,7 @@ public class XSSFSheetHandler extends DefaultHandler {
             context.getContents().append(ch, start, length);
     }
 
-    private int nameToColumn(String name) {
+    private static int nameToColumn(String name) {
         int column = -1;
         for (int i = 0; i < name.length(); ++i) {
             int c = name.charAt(i);
@@ -141,6 +141,10 @@ public class XSSFSheetHandler extends DefaultHandler {
         return column;
     }
     
+    
+    public static void main(String[] args) {
+      System.out.println(nameToColumn("AAA"));
+    }
     public void setContext(XSSFContext context) {
     	this.context = context;
     }

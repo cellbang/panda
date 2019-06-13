@@ -117,7 +117,6 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
     this.classLoader = applicationContext.getClassLoader();
-
   }
 
 }

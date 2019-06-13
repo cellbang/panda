@@ -50,6 +50,8 @@ public class Context {
 
   private List<Object> resultList;
 
+  private long dropRows;
+
   public Map<String, Object> getParams() {
     return params;
   }
@@ -201,6 +203,14 @@ public class Context {
 
   public void setPostProcessPolicy(PostProcessPolicy postProcessPolicy) {
     this.postProcessPolicy = postProcessPolicy;
+  }
+
+  public long getDropRows() {
+    return dropRows;
+  }
+
+  public void setDropRows(long dropRows) {
+    this.dropRows = dropRows;
   }
 
 }
