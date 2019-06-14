@@ -34,7 +34,7 @@
 	<repositories>
 		<repository>
 			<id>bsdn-maven-repository</id>
-			<url>http://nexus.bsdn.org/content/groups/public/</url>
+			<url>https://nexus.xobo.org/content/groups/public/</url>
 		</repository>
 	</repositories>
 </project>

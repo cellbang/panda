@@ -27,4 +27,11 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+	 <repositories>
+    <repository>
+      <id>xobo-repo</id>
+      <name>Nexus Release Repository</name>
+      <url>https://nexus.xobo.org/content/groups/public/</url>
+    </repository>
+  </repositories>
 </project>
