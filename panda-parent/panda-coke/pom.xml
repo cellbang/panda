@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -89,7 +90,7 @@
 		<dependency>
 			<groupId>org.xobo</groupId>
 			<artifactId>xobo-toolkit</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -110,9 +111,9 @@
 			<artifactId>panda-security</artifactId>
 		</dependency>
 		<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-data-redis</artifactId>
-    <scope>provided</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
@@ -172,32 +173,6 @@
 		</resources>
 
 	</build>
-	<distributionManagement>
-		<repository>
-			<id>ezy-deployment</id>
-			<name>Internal Releases</name>
-			<url>http://172.16.0.13:8081/repository/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>ezy-deployment</id>
-			<name>Internal Releases</name>
-			<url>http://172.16.0.13:8081/repository/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>ezy-repository</id>
-			<url>http://172.16.0.13:8081/repository/public/</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>ezy-repository</id>
-			<url>http://172.16.0.13:8081/repository/public/</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
 
 </project>

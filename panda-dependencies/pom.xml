@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.0.RELEASE</version>
+		<relativePath>/</relativePath>
 	</parent>
 	<groupId>org.malagu.panda</groupId>
 	<artifactId>panda-dependencies</artifactId>
@@ -71,6 +73,11 @@
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-profile</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.malagu.panda</groupId>
+				<artifactId>panda-coke</artifactId>
+				<version>0.0.3-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
@@ -247,28 +254,18 @@
 		<url>https://github.com/malagu-org/panda</url>
 		<tag>v${project.version}</tag>
 	</scm>
-	 <repositories>
-    <repository>
-      <id>xobo-repo</id>
-      <name>Nexus Release Repository</name>
-      <url>https://nexus.xobo.org/content/groups/public/</url>
-    </repository>
-  </repositories>
-
-
 	<distributionManagement>
 		<repository>
-			<id>releases</id>
+			<id>xobo-repo</id>
 			<name>Nexus Release Repository</name>
 			<url>https://nexus.xobo.org/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
+			<id>xobo-repo</id>
 			<name>Nexus Snapshot Repository</name>
 			<url>https://nexus.xobo.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-
 	<build>
 		<resources>
 			<resource>

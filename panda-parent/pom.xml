@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>panda-parent</artifactId>
@@ -13,6 +14,7 @@
 	<modules>
 		<module>panda-security</module>
 		<module>panda-cola</module>
+		<module>panda-coke</module>
 		<module>panda-security-ui</module>
 		<module>panda-dorado</module>
 		<module>panda-autoconfigure</module>
@@ -50,26 +52,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<attach>true</attach>
-					<aggregate>true</aggregate>
-					<charset>UTF-8</charset>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						在compile阶段中执行
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<configuration> <attach>true</attach> <aggregate>true</aggregate> <charset>UTF-8</charset> 
+				<encoding>UTF-8</encoding> <docencoding>UTF-8</docencoding> </configuration> 
+				<executions> <execution> <phase>package</phase> 在compile阶段中执行 <goals> <goal>jar</goal> 
+				</goals> </execution> </executions> </plugin> -->
 		</plugins>
 
 	</build>
