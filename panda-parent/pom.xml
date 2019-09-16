@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>panda-parent</artifactId>
-  <packaging>pom</packaging>
-  <parent>
-    <groupId>org.malagu.panda</groupId>
-    <artifactId>panda-dependencies</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../panda-dependencies/pom.xml</relativePath>
-  </parent>
-  <modules>
-    <module>panda-security</module>
-    <module>panda-cola</module>
-    <module>panda-security-ui</module>
-    <module>panda-dorado</module>
-    <module>panda-autoconfigure</module>
-    <module>panda-dorado-jpa</module>
-    <module>panda-importer</module>
-    <module>panda-log</module>
-    <module>panda-dictionary</module>
-    <module>panda-dictionary-ui</module>
-    <module>panda-swfviewer</module>
-    <module>panda-export</module>
-    <module>panda-dbconsole</module>
-    <module>panda-security-orm</module>
-    <module>panda-profile</module>
-    <module>panda-notice</module>
-    <module>panda-notice-ui</module>
-    <module>panda-multitenant-ui</module>
-  </modules>
-  <properties>
-  </properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>panda-parent</artifactId>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.malagu.panda</groupId>
+		<artifactId>panda-dependencies</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../panda-dependencies/pom.xml</relativePath>
+	</parent>
+	<modules>
+		<module>panda-security</module>
+		<module>panda-cola</module>
+		<module>panda-coke</module>
+		<module>panda-security-ui</module>
+		<module>panda-dorado</module>
+		<module>panda-autoconfigure</module>
+		<module>panda-dorado-jpa</module>
+		<module>panda-importer</module>
+		<module>panda-log</module>
+		<module>panda-dictionary</module>
+		<module>panda-dictionary-ui</module>
+		<module>panda-swfviewer</module>
+		<module>panda-export</module>
+		<module>panda-dbconsole</module>
+		<module>panda-security-orm</module>
+		<module>panda-profile</module>
+		<module>panda-notice</module>
+		<module>panda-notice-ui</module>
+		<module>panda-multitenant-ui</module>
+	</modules>
+	<properties>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<!-- 在compile阶段中执行 -->
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<configuration> <attach>true</attach> <aggregate>true</aggregate> <charset>UTF-8</charset> 
+				<encoding>UTF-8</encoding> <docencoding>UTF-8</docencoding> </configuration> 
+				<executions> <execution> <phase>package</phase> 在compile阶段中执行 <goals> <goal>jar</goal> 
+				</goals> </execution> </executions> </plugin> -->
+		</plugins>
 
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <configuration>
-          <attach>true</attach>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <!-- 在compile阶段中执行 -->
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> <configuration> 
-        <attach>true</attach> <aggregate>true</aggregate> <charset>UTF-8</charset> <encoding>UTF-8</encoding> <docencoding>UTF-8</docencoding> 
-        </configuration> <executions> <execution> <phase>package</phase> 在compile阶段中执行 <goals> <goal>jar</goal> </goals> </execution> 
-        </executions> </plugin> -->
-    </plugins>
-
-  </build>
+	</build>
 </project>

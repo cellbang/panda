@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.malagu.panda</groupId>
-  <artifactId>panda</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-    <module>panda-dependencies</module>
-    <module>panda-parent</module>
-    <module>panda-starters</module>
-  </modules>
-  <distributionManagement>
-    <repository>
-      <id>xobo</id>
-      <name>Nexus Release Repository</name>
-      <url>https://nexus.xobo.org/content/repositories/xobo_releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>xobo</id>
-      <name>Nexus Snapshot Repository</name>
-      <url>https://nexus.xobo.org/content/repositories/xobo_snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
-
-  <repositories>
-    <repository>
-      <id>bsdn-maven-repository</id>
-      <url>http://nexus.bsdn.org/content/groups/public/</url>
-    </repository>
-  </repositories>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.malagu.panda</groupId>
+	<artifactId>panda</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>panda-dependencies</module>
+		<module>panda-parent</module>
+		<module>panda-starters</module>
+	</modules>
+	<repositories>
+		<repository>
+			<id>xobo-repo</id>
+			<name>Nexus Release Repository</name>
+			<url>https://nexus.xobo.org/content/groups/public/</url>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>xobo-repo</id>
+			<name>Nexus Release Repository</name>
+			<url>https://nexus.xobo.org/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>xobo-repo</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>https://nexus.xobo.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
