@@ -24,12 +24,18 @@ public class BusinessInvokeSetting implements Serializable{
   @Column(name = "CODE_", length = 64)
   private String code;
   
-  /** 单位 **/
-  @Column(name = "UNIT_", columnDefinition = "int not null comment '单位：1年，2月，3周，4天'")
+  /** 单位 
+   * 
+   * , columnDefinition = "int not null comment '单位：1年，2月，3周，4天'"
+   * **/
+  @Column(name = "UNIT_")
   private Integer unit;
   
-  /** 次数 **/
-  @Column(name = "NUM_", length = 64, columnDefinition = "bigint(20) not null comment '限制次数'")
+  /** 次数 
+   * 
+   * , columnDefinition = "bigint(20) not null comment '限制次数'"
+   * **/
+  @Column(name = "NUM_", length = 64)
   private Long num;
   
   public BusinessInvokeSetting() {

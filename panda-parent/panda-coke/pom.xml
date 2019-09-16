@@ -171,30 +171,7 @@
     </resources>
 
   </build>
-  <distributionManagement>
-    <repository>
-      <id>ezy-deployment</id>
-      <name>Internal Releases</name>
-      <url>http://172.16.0.13:8081/repository/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>ezy-deployment</id>
-      <name>Internal Releases</name>
-      <url>http://172.16.0.13:8081/repository/snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
-  <repositories>
-    <repository>
-      <id>ezy-repository</id>
-      <url>http://172.16.0.13:8081/repository/public/</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>ezy-repository</id>
-      <url>http://172.16.0.13:8081/repository/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

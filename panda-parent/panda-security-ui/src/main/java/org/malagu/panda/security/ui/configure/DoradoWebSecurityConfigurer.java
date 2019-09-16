@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
  * @since 2016年1月24日
  */
 @Component
-@Order(120)
+@Order(80)
 public class DoradoWebSecurityConfigurer extends WebSecurityConfigurer {
 		
 		private static final String URL_PREFIX = "/";

@@ -219,7 +219,7 @@ public class GroupServiceImpl implements GroupService{
 	@Transactional
 	@Override
 	public void joinGroup(String memberId, String groupId, boolean administrator) {
-		User user = JpaUtil.getOne(User.class, memberId);
+		User user = JpaUtil.linq(User.class).equal("username", memberId).findOne();
 		Long count = JpaUtil.linq(GroupMember.class).equal("memberId", memberId).equal("groupId", groupId).count();
 		Group group = JpaUtil.getOne(Group.class, groupId);
 		if (count > 0) {
