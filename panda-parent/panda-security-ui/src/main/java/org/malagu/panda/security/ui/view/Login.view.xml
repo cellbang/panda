@@ -79,6 +79,7 @@
                   <Property name="name">password</Property>
                   <Property name="property">password</Property>
                   <Property name="labelAlign">right</Property>
+                  <Property name="editorType">PasswordEditor</Property>
                   <Editor>
                     <PasswordEditor>
                       <Property name="blankText">密码</Property>
