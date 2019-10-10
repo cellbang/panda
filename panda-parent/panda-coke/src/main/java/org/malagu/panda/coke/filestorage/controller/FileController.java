@@ -1,5 +1,6 @@
 package org.malagu.panda.coke.filestorage.controller;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +12,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -105,35 +109,55 @@ public class FileController {
 
   }
 
+  @SuppressWarnings("unchecked")
+  Map<String, Object> getTmpfileInfo(HttpServletRequest request, String tmpfileNo) {
+    return (Map<String, Object>) request.getSession().getAttribute("tmpfile:" + tmpfileNo);
+  }
+
   @RequestMapping(value = "/download/{fileNo}.k")
   public void download(@PathVariable("fileNo") String fileNo, HttpServletRequest request,
       HttpServletResponse response) throws IOException {
+
+    Map<String, Object> tmpfileInfo = getTmpfileInfo(request, fileNo);
+    if (tmpfileInfo != null) {
+      String path = MapUtils.getString(tmpfileInfo, "path");
+      String filename = MapUtils.getString(tmpfileInfo, "filename");
+
+      try (FileInputStream fis = new FileInputStream(path)) {
+        doDownload(filename, fis, request, response);
+        return;
+      }
+    }
+
     CokeFileInfo cokeFileInfo = fileService.get(fileNo);
     if (cokeFileInfo == null) {
       findNotFound(response, fileNo);
       return;
     }
     doDownload(cokeFileInfo, request, response);
-
   }
+
 
   protected void doDownload(CokeFileInfo cokeFileInfo, HttpServletRequest request,
       HttpServletResponse response) throws IOException {
-
-    HttpSession session = request.getSession();
-
     String filename = cokeFileInfo.getFilename();
-    response.setContentType(session.getServletContext().getMimeType(filename));
-
-    String encodFilename = URLEncoder.encode(filename, "utf-8");
-    response.setHeader("Cache-Control", "max-age=31556926");
-    response.setHeader("Content-Disposition",
-        String.format("attachment; filename=\"%1$s\"; filename*=utf-8''%1$s", encodFilename));
-
     InputStream inputStream = fileService.getInputStream(cokeFileInfo);
     if (inputStream == null) {
       findNotFound(response, cokeFileInfo.getId().toString());
     }
+    doDownload(filename, inputStream, request, response);
+  }
+
+  protected void doDownload(String filename, InputStream inputStream, HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
+
+    HttpSession session = request.getSession();
+
+    response.setContentType(session.getServletContext().getMimeType(filename));
+    String encodFilename = URLEncoder.encode(filename, "utf-8");
+    response.setHeader("Cache-Control", "max-age=31556926");
+    response.setHeader("Content-Disposition",
+        String.format("attachment; filename=\"%1$s\"; filename*=utf-8''%1$s", encodFilename));
 
     OutputStream outputStream = null;
     try {
