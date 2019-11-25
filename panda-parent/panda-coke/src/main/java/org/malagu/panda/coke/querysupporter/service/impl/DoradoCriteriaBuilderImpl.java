@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.annotation.Resource;
+import org.malagu.panda.coke.querysupporter.model.OrMap;
 import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
 import org.malagu.panda.coke.querysupporter.service.QueryPropertyWrapperService;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.bstek.dorado.data.provider.Criteria;
 import com.bstek.dorado.data.provider.Criterion;
+import com.bstek.dorado.data.provider.Or;
 import com.bstek.dorado.data.provider.filter.FilterOperator;
 import com.bstek.dorado.data.provider.filter.SingleValueFilterCriterion;
 import com.bstek.dorado.data.type.StringDataType;
@@ -61,42 +62,52 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
         continue;
       }
 
-      PropertyWrapper propertyWrapper =
-          propertyWrapperService.find(entityClass, property, propertyOperatorMap);
-
-      if (propertyWrapper == null) {
-        continue;
-      }
-
-      SingleValueFilterCriterion criterion = new SingleValueFilterCriterion();
-      criterion.setProperty(propertyWrapper.getProperty());
-      criterion.setFilterOperator(propertyWrapper.getFilterOperator());
-      if (FilterOperator.in == propertyWrapper.getFilterOperator()) {
-        Collection<Object> collection = null;
-        if (value instanceof Collection) {
-          collection = (Collection<Object>) value;
-        } else {
-          String[] str = Objects.toString(value, "").split(",");
-          collection = Arrays.asList(str);
-        }
-
-        Collection<Object> list = new HashSet<>();
-        for (Object obj : collection) {
-          list.add(propertyWrapper.parseValue(obj));
-        }
-        value = list;
-        // propertyWrapper.setDataType(new StringDataType());
+      Criterion newCriterion = null;
+      if (value instanceof OrMap) {
+        Or or = new Or();
+        List<Criterion> orCriterions =
+            extractQueryParameter(entityClass, ((OrMap) value).getConditions(), propertyOperatorMap);
+        or.setCriterions(orCriterions);
+        newCriterion = or;
       } else {
-        value = propertyWrapper.parseValue(value);
-      }
+        PropertyWrapper propertyWrapper =
+            propertyWrapperService.find(entityClass, property, propertyOperatorMap);
 
-      if (value instanceof Date) {
-        if (FilterOperator.le == propertyWrapper.getFilterOperator()) {
-          value = getLastMillisecond((Date) value);
+        if (propertyWrapper == null) {
+          continue;
         }
+
+        SingleValueFilterCriterion criterion = new SingleValueFilterCriterion();
+        criterion.setProperty(propertyWrapper.getProperty());
+        criterion.setFilterOperator(propertyWrapper.getFilterOperator());
+        if (FilterOperator.in == propertyWrapper.getFilterOperator()) {
+          Collection<Object> collection = null;
+          if (value instanceof Collection) {
+            collection = (Collection<Object>) value;
+          } else {
+            String[] str = Objects.toString(value, "").split(",");
+            collection = Arrays.asList(str);
+          }
+
+          Collection<Object> list = new HashSet<>();
+          for (Object obj : collection) {
+            list.add(propertyWrapper.parseValue(obj));
+          }
+          value = list;
+          // propertyWrapper.setDataType(new StringDataType());
+        } else {
+          value = propertyWrapper.parseValue(value);
+        }
+
+        if (value instanceof Date) {
+          if (FilterOperator.le == propertyWrapper.getFilterOperator()) {
+            value = getLastMillisecond((Date) value);
+          }
+        }
+        criterion.setValue(value);
+        newCriterion = criterion;
       }
-      criterion.setValue(value);
-      criterions.add(criterion);
+      criterions.add(newCriterion);
     }
     return criterions;
   }
