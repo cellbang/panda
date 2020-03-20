@@ -8,7 +8,7 @@
 	</Patterns>
 
 	<Packages>
-		<Package name="CokeAction" pattern="dorado-js">
+		<Package name="CokeAction" pattern="dorado-js" depends="font-awesome-info,entypo-info">
 			scripts/coke-action
 		</Package>
 		<Package name="jCookie" pattern="dorado-js" depends="jquery">

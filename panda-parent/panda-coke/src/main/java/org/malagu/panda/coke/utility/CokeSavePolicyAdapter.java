@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.malagu.panda.coke.annotation.EntityParent;
 import org.malagu.panda.coke.model.BaseModel;
+import org.malagu.panda.coke.model.CokeBaseModel;
 import org.malagu.panda.coke.model.IBase;
 import org.malagu.panda.coke.model.IDetail;
 import org.malagu.panda.dorado.linq.policy.SaveContext;
@@ -16,6 +17,9 @@ import com.bstek.dorado.data.entity.EntityUtils;
 
 public class CokeSavePolicyAdapter implements SavePolicy {
 
+  boolean idIsNull(Object entity) {
+    return entity instanceof CokeBaseModel && ((CokeBaseModel) entity).getId() == null;
+  }
 
   @Override
   public void apply(SaveContext context) {
@@ -30,7 +34,7 @@ public class CokeSavePolicyAdapter implements SavePolicy {
 
     User user = ContextUtils.getLoginUser();
 
-    if (EntityState.NEW.equals(state)) {
+    if (EntityState.NEW.equals(state) || idIsNull(entity)) {
       if (beforeInsert(context)) {
         BaseEntityUtil.setInsertMeta(user, entity);
         try {

@@ -70,19 +70,18 @@ public class Coke {
 
   public static void persist(Object entity) {
     BaseEntityUtil.setMeta(entity);
-    JpaUtil.persist(entity);
+    JpaUtil.save(entity);
   }
 
   public static void remove(Iterable<?> entities) {
     for (Object entity : entities) {
-      BaseEntityUtil.setDelMeta(entity);
+      remove(entity);
     }
-    JpaUtil.persist(entities);
   }
 
   public static void remove(Object entity) {
     BaseEntityUtil.setDelMeta(entity);
-    JpaUtil.persist(entity);
+    JpaUtil.merge(entity);
   }
 
 

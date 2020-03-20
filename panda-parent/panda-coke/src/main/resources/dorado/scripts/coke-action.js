@@ -50,8 +50,11 @@ coke.insertItem = function(dataSet, dataPath, dialog, data) {
 	data = data || {};
 	var list = dataSet.getData(dataPath);
 	if (list === undefined) {
-		dataSet.setData(dataPath, {});
-		list = dataSet.getData(dataPath);
+		list = dataSet.getData();
+		if (list === undefined) {
+			dataSet.setData(dataPath, {});
+			list = dataSet.getData(dataPath);
+		}
 	}
 	if (list) {
 		data = list.insert(data);
@@ -71,7 +74,7 @@ coke.insertChildItem = function(dataTree, childrenName, dialog, data) {
 	if (currentEntity) {
 		dataTree.get("currentNode").expand();
 		// newEntity = currentEntity.createChild(childrenName, data);
-		newEntity = currentEntity.get("children").insert(data);
+		newEntity = currentEntity.get(childrenName).insert(data);
 		dataTree.set("currentEntity", newEntity);
 		setTimeout(function() {
 			dataTree.set("currentEntity", newEntity);
@@ -90,7 +93,7 @@ coke.editItem = function(dataSet, dataPath, dialog, buttonEdit) {
 	if (coke.isItemEditable(buttonEdit)) {
 		var entity = dataSet.getData(dataPath);
 		if (entity) {
-			dialog.show();
+			dialog && dialog.show();
 		} else {
 			dorado.widget.NotifyTipManager.notify("没有可编辑的记录!");
 		}
@@ -266,23 +269,28 @@ coke.getEntity = function(dataGrid) {
 	return current;
 }
 
-coke.getSelections = function(dataGrid, type) {
+coke.getSelections = function(dataControl, type) {
 	if (!type) {
 		type = "current";
 	}
-	if (!dataGrid) {
-		console.error("未找到对应的dataGrid,无法处理。");
+	if (!dataControl) {
+		console.error("未找到对应的 DataControl,无法处理。");
 		return;
 	}
 
-	var selection = dataGrid.get("selection");
+	var selection = dataControl.get("selection");
 	var list;
 	if (selection && selection.length > 0) {
 		list = selection;
 	} else if (type == "all") {
-		list = dataGrid.get("dataSet").getData(dataGrid.get("dataPath"));
+		list = dataControl.get("dataSet").getData(dataControl.get("dataPath"));
 	} else if (type == "current") {
-		var current = dataGrid.get("dataSet").getData().current;
+		var current;
+		if (dataControl instanceof dorado.widget.DataTree) {
+			current = dataControl.get("dataSet").getData("!" + dataControl.get("currentNodeDataPath"));
+		} else {
+			current = dataControl.get("dataSet").getData(dataControl.get("dataPath")).current;
+		}
 		list = [];
 		list.push(current);
 	} else {
@@ -376,6 +384,7 @@ coke.autoAction = function(view, config) {
 	var dataGrid = config.dataGrid || view.id("dataGrid" + config.name);
 	var dataTree = config.dataTree || view.id("dataTree" + config.name)
 	var dataTreeGrid = config.dataTreeGrid || view.id("dataTreeGrid" + config.name)
+	var children = config.children || "children";
 	
 	var buttonEdit = config.buttonEdit || view.id("buttonEdit" + config.name);
 	var autoformQuery = config.autoform || view.id("autoForm" + config.name + "Query");
@@ -403,6 +412,29 @@ coke.autoAction = function(view, config) {
 			}
 		}
 	};
+	
+	view["insertChild" + config.name] = view["insertChild" + config.name] || function(args) {
+		var insertedEntity;
+		var insertData;
+		if (args && typeof args.insertData == "function") {
+			insertData = args.insertData();
+		} else if (typeof config.insertData == "object") {
+			insertData = jQuery.extend(true, {}, config.insertData);
+		} else if (typeof config.insertData == "function") {
+			insertData = config.insertData();
+		} else if (args && typeof args.insertData == "function") {
+			insertData = args.insertData();
+		} 
+		insertedEntity = coke.insertChildItem(dataTree, children, dialog, insertData);
+	
+		if (insertedEntity){
+			var onInsert = (args && args.onInsert) || config.onInsert;
+			if (jQuery.isFunction(onInsert)){
+				onInsert(insertedEntity);
+			}
+		}
+	};
+	
 
 	view["edit" + config.name] = view["edit" + config.name] || function() {
 		var entity = dataSet.getData(currentPath);
@@ -720,25 +752,26 @@ function getEditor(entity, editorType) {
 	return editor;
 }
 
-$namespace("dorado.widget.grid")
-var CellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {
-	$className: "org.xobo.dorado.widget.CellRenderer",
-	property: null,
-	editorType: null,
-	createSubControl : function(arg) {
-		var self = this;
-		var entity = arg.data;
-		var editor = getEditor(entity, this.editorType);
-		if (editor) {
-			editor.set("width", "100%");
+if (dorado && dorado.widget && dorado.widget.grid) {
+	var CellRenderer = $extend(dorado.widget.grid.SubControlCellRenderer, {
+		$className: "org.xobo.dorado.widget.CellRenderer",
+		property: null,
+		editorType: null,
+		createSubControl : function(arg) {
+			var self = this;
+			var entity = arg.data;
+			var editor = getEditor(entity, this.editorType);
+			if (editor) {
+				editor.set("width", "100%");
+			}
+			return editor;
+		},
+		refreshSubControl : function(editor, arg) {
+			if (editor)
+				editor.set("value", arg.data.get(this.property));
 		}
-		return editor;
-	},
-	refreshSubControl : function(editor, arg) {
-		if (editor)
-			editor.set("value", arg.data.get(this.property));
-	}
-});
+	});
+}
 
 
 dorado.widget.View.registerDefaultComponent("defaultDateDropDown", function() {

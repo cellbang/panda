@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
 import javax.annotation.Resource;
 import org.malagu.panda.coke.querysupporter.model.OrMap;
 import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
 import org.malagu.panda.coke.querysupporter.service.QueryPropertyWrapperService;
+import org.malagu.panda.coke.utility.DoradoOrderHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import com.bstek.dorado.data.provider.Criteria;
@@ -23,7 +23,6 @@ import com.bstek.dorado.data.provider.Criterion;
 import com.bstek.dorado.data.provider.Or;
 import com.bstek.dorado.data.provider.filter.FilterOperator;
 import com.bstek.dorado.data.provider.filter.SingleValueFilterCriterion;
-import com.bstek.dorado.data.type.StringDataType;
 
 @Service(DoradoCriteriaBuilderImpl.BEAN_ID)
 public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
@@ -39,9 +38,39 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
     if (criteria == null) {
       criteria = new Criteria();
     }
+
+    if (queryParameter == null) {
+      return criteria;
+    }
+
     criteria.getCriterions()
         .addAll(extractQueryParameter(entityClass, queryParameter, propertyOperatorMap));
+    addOrder(queryParameter, criteria);
     return criteria;
+  }
+
+
+  @SuppressWarnings("unchecked")
+  public void addOrder(Map<String, Object> queryParameter, Criteria criteria) {
+    Object cokeOrder = queryParameter.remove("_cokeOrder");
+    if (cokeOrder instanceof Map) {
+      Map<String, Object> cokeOrderMap = (Map<String, Object>) cokeOrder;
+      List<String> desc = (List<String>) cokeOrderMap.get("desc");
+      if (desc != null) {
+        for (String property : desc) {
+          DoradoOrderHelper.desc(criteria, property);
+        }
+      }
+
+      List<String> asc = (List<String>) cokeOrderMap.get("asc");
+      if (asc != null) {
+        for (String property : asc) {
+          DoradoOrderHelper.asc(criteria, property);
+        }
+      }
+
+    }
+
   }
 
   @SuppressWarnings("unchecked")
@@ -85,7 +114,7 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
           if (value instanceof Collection) {
             collection = (Collection<Object>) value;
           } else {
-            String[] str = Objects.toString(value, "").split(",");
+            Object[] str = Objects.toString(value, "").split(",");
             collection = Arrays.asList(str);
           }
 
