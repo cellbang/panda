@@ -11,28 +11,29 @@
 	<groupId>org.malagu.panda</groupId>
 	<artifactId>panda-dependencies</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>${panda.version}</version>
 	<properties>
 		<java.version>1.8</java.version>
 		<antlr2.version>2.7.7</antlr2.version>
+		<panda.version>0.0.2-SNAPSHOT</panda.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-autoconfigure</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-dorado</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-dorado-linq</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.linq</groupId>
@@ -52,107 +53,107 @@
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-multitenant-ui</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-notice</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-notice-ui</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-log</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-profile</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-coke</artifactId>
-				<version>0.0.3-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-cola</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-security-orm</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-security</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-security-ui</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-importer</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-dictionary</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-dictionary-ui</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-swfviewer</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-export</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-dbconsole</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-starter</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-starter-multitenant</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-starter-cola</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-starter-jetty</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.malagu.panda</groupId>
 				<artifactId>panda-starter-cola-jetty</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>${panda.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.bstek.dorado</groupId>
