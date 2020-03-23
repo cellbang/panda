@@ -24,9 +24,10 @@ public class GrantedAuthorityServiceImpl implements GrantedAuthorityService, Ini
 
 	@Autowired
 	private List<GrantedAuthorityProvider> providers;
-	
+
 	/**
 	 * 获取用户的授权信息
+	 * 
 	 * @param userDetails 用户信息
 	 * @return 权限信息
 	 */
@@ -34,7 +35,7 @@ public class GrantedAuthorityServiceImpl implements GrantedAuthorityService, Ini
 	public Collection<? extends GrantedAuthority> getGrantedAuthorities(UserDetails userDetails) {
 		Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
 		for (GrantedAuthorityProvider provider : providers) {
-			Collection<? extends GrantedAuthority> list =  provider.provide(userDetails);
+			Collection<? extends GrantedAuthority> list = provider.provide(userDetails);
 			if (list != null && !list.isEmpty()) {
 				grantedAuthorities.addAll(list);
 			}
@@ -47,9 +48,4 @@ public class GrantedAuthorityServiceImpl implements GrantedAuthorityService, Ini
 		Assert.notEmpty(providers, "providers can not be empty");
 		AnnotationAwareOrderComparator.sort(providers);
 	}
-	
-	
-	
-	
-
 }
