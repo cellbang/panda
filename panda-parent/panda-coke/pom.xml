@@ -9,6 +9,7 @@
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>panda-coke</artifactId>
+	<version>0.0.4-SNAPSHOT</version>
 	<dependencies>
 
 		<dependency>

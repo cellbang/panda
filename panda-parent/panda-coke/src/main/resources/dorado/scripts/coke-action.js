@@ -66,22 +66,42 @@ coke.insertItem = function(dataSet, dataPath, dialog, data) {
 		dorado.MessageBox.alert('不能添加数据。');
 	}
 }
-coke.insertChildItem = function(dataTree, childrenName, dialog, data) {
+coke.insertChildItem = function(dataTree, childrenName, dialog, insertDataFunc) {
 	childrenName = childrenName || "children";
-	data = data || {};
 
 	var currentEntity = dataTree.get("currentEntity");
 	if (currentEntity) {
 		dataTree.get("currentNode").expand();
 		// newEntity = currentEntity.createChild(childrenName, data);
-		newEntity = currentEntity.get(childrenName).insert(data);
+		newEntity = currentEntity.get(childrenName).insert();
 		dataTree.set("currentEntity", newEntity);
 		setTimeout(function() {
+			if (jQuery.isFunction(insertDataFunc)) {
+				newEntity.set(insertDataFunc(newEntity));
+			}
 			dataTree.set("currentEntity", newEntity);
 		}, 200);
 		if (dialog) {
 			dialog.show();
 		}
+	}
+}
+coke.insertBrotherItem = function(dataTree, childrenName, dialog, insertDataFunc) {
+	childrenName = childrenName || "children";
+
+	var currentEntity = dataTree.get("currentEntity");
+	if (currentEntity) {
+		newEntity = currentEntity.createBrother();
+		dataTree.set("currentEntity", newEntity);
+		if (jQuery.isFunction(insertDataFunc)) {
+			newEntity.set(insertDataFunc(newEntity));
+		}
+
+		if (dialog) {
+			dialog.show();
+		}
+	} else {
+		dataTree.get("dataSet").getData(dataTree.get("dataPath")).insert();
 	}
 }
 
@@ -415,17 +435,39 @@ coke.autoAction = function(view, config) {
 	
 	view["insertChild" + config.name] = view["insertChild" + config.name] || function(args) {
 		var insertedEntity;
-		var insertData;
+		var insertDataFunc;
 		if (args && typeof args.insertData == "function") {
-			insertData = args.insertData();
+			insertDataFunc = args.insertData;
 		} else if (typeof config.insertData == "object") {
-			insertData = jQuery.extend(true, {}, config.insertData);
+			insertDataFunc = function(){
+				return jQuery.extend(true, {}, config.insertData);
+			}
 		} else if (typeof config.insertData == "function") {
-			insertData = config.insertData();
-		} else if (args && typeof args.insertData == "function") {
-			insertData = args.insertData();
+			insertDataFunc = config.insertData;
 		} 
-		insertedEntity = coke.insertChildItem(dataTree, children, dialog, insertData);
+		insertedEntity = coke.insertChildItem(dataTree, children, dialog, insertDataFunc);
+	
+		if (insertedEntity){
+			var onInsert = (args && args.onInsert) || config.onInsert;
+			if (jQuery.isFunction(onInsert)){
+				onInsert(insertedEntity);
+			}
+		}
+	};
+	
+	view["insertBrother" + config.name] = view["insertBrother" + config.name] || function(args) {
+		var insertedEntity;
+		var insertDataFunc;
+		if (args && typeof args.insertData == "function") {
+			insertDataFunc = args.insertData;
+		} else if (typeof config.insertData == "object") {
+			insertDataFunc = function(){
+				return jQuery.extend(true, {}, config.insertData);
+			}
+		} else if (typeof config.insertData == "function") {
+			insertDataFunc = config.insertData;
+		} 
+		insertedEntity = coke.insertBrotherItem(dataTree, children, dialog, insertDataFunc);
 	
 		if (insertedEntity){
 			var onInsert = (args && args.onInsert) || config.onInsert;
