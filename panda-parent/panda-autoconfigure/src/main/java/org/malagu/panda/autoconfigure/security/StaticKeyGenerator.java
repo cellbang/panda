@@ -11,7 +11,7 @@ import org.springframework.cache.interceptor.KeyGenerator;
  */
 public class StaticKeyGenerator implements KeyGenerator {
   
-  @Value("${panda.cachePrefix}")
+  @Value("${panda.cachePrefix:panda}")
   private String cachePrefix;
 	
 	@Override
