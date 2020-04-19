@@ -174,7 +174,7 @@ public abstract class AbstractReportModelGenerater {
 				}
 			}
 			dataList = retrieveServerComplexPropertyData(dataList, columnInfos);
-		} else if (dataScope.equals("currentPage")) {
+		} else {
 			dataList = new ArrayList<Map<String, Object>>();
 			List<Map<String, Object>> clientData = (List<Map<String, Object>>) map.get("data");
 			List<Object> subDataList;

@@ -175,8 +175,17 @@
 					result.put("treeColumn", treeColumn);
 				}
 			}
-			if (dataScope == "currentPage") {
-				var data = grid.get("itemModel").toArray();
+			if (dataScope !== "serverAll"){
+				var data;
+				if (dataScope == "selection") {
+					data = grid.get("selection");
+					if (data !==null && !(data instanceof Array )) {
+						data = [data];
+					}
+				}
+				if (!data) {
+					data = grid.get("itemModel").toArray();
+				}
 				var eventArg = {
 					id : gridId,
 					data : data
