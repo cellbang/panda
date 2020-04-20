@@ -49,7 +49,6 @@ public class DataGridProfileFilter implements ProfileFilter<DataGrid> {
 		Map<String, List<Column>> childrenMap = new HashMap<>();
 		dataGrid.getColumns().clear();
 		
-
 		for (ComponentConfigMember cp : columnProfiles) {
 			Column column = getOrCreateColumn(columnMap, cp);
 			if (column != null) {

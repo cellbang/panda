@@ -1,7 +1,11 @@
 (function () {
     dorado.widget.ComponentProfileAction = $extend(dorado.widget.AjaxAction, {
 		ATTRIBUTES:{
-            component: {}
+            component: {},
+			resetTip: {},
+			successMessage : {
+				defaultValue: "样式保存成功。"
+			}
         }, 
         
         getAjaxOptions: function () {
@@ -71,7 +75,9 @@
 					}
 				});
 			}
-			self.resetConfigAction.execute();
+			self.resetConfigAction.execute(function(){
+				dorado.widget.NotifyTipManager.notify(self.resetTip || "样式已重置，刷新后查看最新效果。")
+			});
         }
     });
 })();
