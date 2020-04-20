@@ -1,6 +1,7 @@
 package org.malagu.panda.security.ui.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.bstek.dorado.data.config.definition.GenericObjectListenerRegister;
@@ -17,11 +18,13 @@ public class GenericViewListenerRegister extends GenericObjectListenerRegister {
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		listener.setOrder(100);
+		listener.setOrder(order);
 		listener.setPattern("*");
 		this.setListener(listener);
 		super.afterPropertiesSet();
 	}
 
+	@Value("${panda.security.viewlistener.order}")
+	private Integer order;
 		
 }
