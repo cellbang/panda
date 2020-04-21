@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="EntityDef">
+      <Property name="creationType">org.malagu.panda.coke.viewgenerator.domain.EntityDef</Property>
+      <PropertyDef name="name">
+        <Property name="name">name</Property>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="caption">
+        <Property name="name">caption</Property>
+        <Property name="label">中文名</Property>
+      </PropertyDef>
+      <PropertyDef name="clazz">
+        <Property name="name">clazz</Property>
+        <Property name="label">实体类</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property name="name">description</Property>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="master">
+        <Property name="name">master</Property>
+      </PropertyDef>
+      <PropertyDef name="dataSet">
+        <Property name="name">dataSet</Property>
+      </PropertyDef>
+      <PropertyDef name="currentDataPath">
+        <Property name="name">currentDataPath</Property>
+      </PropertyDef>
+      <PropertyDef name="listDataPath">
+        <Property name="name">listDataPath</Property>
+      </PropertyDef>
+      <PropertyDef name="parentName">
+        <Property name="name">parentName</Property>
+      </PropertyDef>
+      <PropertyDef name="listName">
+        <Property name="name">listName</Property>
+      </PropertyDef>
+      <PropertyDef name="parameter">
+        <Property name="name">parameter</Property>
+      </PropertyDef>
+      <PropertyDef name="pageSize">
+        <Property name="name">pageSize</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="name">parentId</Property>
+        <Property name="label">父编码</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="name">id</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="name">createDate</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="name">updateDate</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="name">deleted</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+      <Reference name="children">
+        <Property name="pageSize">30</Property>
+        <Property name="dataType">[Property]</Property>
+        <Property name="dataProvider">#loadProperty</Property>
+        <Property name="parameter">
+          <Entity>
+            <Property name="parentId">$${this.id}</Property>
+          </Entity>
+        </Property>
+      </Reference>
+    </DataType>
+    <DataType name="Property">
+      <Property name="creationType">org.malagu.panda.coke.viewgenerator.domain.Property</Property>
+      <PropertyDef name="name">
+        <Property name="name">name</Property>
+        <Property name="label">属性</Property>
+      </PropertyDef>
+      <PropertyDef name="label">
+        <Property name="name">label</Property>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="dataType">
+        <Property name="name">dataType</Property>
+        <Property name="label">数据类型</Property>
+      </PropertyDef>
+      <PropertyDef name="defaultValue">
+        <Property name="name">defaultValue</Property>
+        <Property name="label">默认值</Property>
+      </PropertyDef>
+      <PropertyDef name="displayFormat">
+        <Property name="name">displayFormat</Property>
+        <Property name="label">展示格式</Property>
+      </PropertyDef>
+      <PropertyDef name="required">
+        <Property name="name">required</Property>
+        <Property name="label">必填</Property>
+      </PropertyDef>
+      <PropertyDef name="tags">
+        <Property name="name">tags</Property>
+        <Property name="label">标签</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property name="name">description</Property>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="parentId">
+        <Property name="name">parentId</Property>
+        <Property name="label">父编码</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="name">id</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="name">createDate</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="name">updateDate</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="name">deleted</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">coke.autoAction(view, {
+	name: &quot;EntityDef&quot;
+});
+coke.autoAction(view, {
+	parentName: &quot;EntityDef&quot;,
+	currentPath: &quot;#.#children&quot;,
+	listPath: &quot;#.children&quot;,
+	name: &quot;Property&quot;
+});
+    </ClientEvent>
+    <Property name="packages">CokeAction</Property>
+    <Panel layoutConstraint="left">
+      <Property name="width">50%</Property>
+      <Buttons/>
+      <Children>
+        <DataSet id="dataSetEntityDef">
+          <Property name="dataType">[EntityDef]</Property>
+          <Property name="dataProvider">#loadEntityDef</Property>
+          <Property name="pageSize">30</Property>
+        </DataSet>
+        <ToolBar>
+          <ToolBarButton id="buttonInsertEntityDef"/>
+          <ToolBarButton id="buttonEditEntityDef"/>
+          <ToolBarButton id="buttonDelEntityDef"/>
+        </ToolBar>
+        <DataGrid id="dataGridEntityDef">
+          <Property name="dataSet">dataSetEntityDef</Property>
+          <Property name="readOnly">true</Property>
+          <DataColumn name="name">
+            <Property name="property">name</Property>
+          </DataColumn>
+          <DataColumn name="caption">
+            <Property name="property">caption</Property>
+          </DataColumn>
+          <DataColumn name="clazz">
+            <Property name="property">clazz</Property>
+          </DataColumn>
+          <DataColumn name="description">
+            <Property name="property">description</Property>
+          </DataColumn>
+          <DataColumn name="master">
+            <Property name="property">master</Property>
+          </DataColumn>
+          <DataColumn name="dataSet">
+            <Property name="property">dataSet</Property>
+          </DataColumn>
+          <DataColumn name="currentDataPath">
+            <Property name="property">currentDataPath</Property>
+          </DataColumn>
+          <DataColumn name="listDataPath">
+            <Property name="property">listDataPath</Property>
+          </DataColumn>
+          <DataColumn name="parentName">
+            <Property name="property">parentName</Property>
+          </DataColumn>
+          <DataColumn name="listName">
+            <Property name="property">listName</Property>
+          </DataColumn>
+          <DataColumn name="parameter">
+            <Property name="property">parameter</Property>
+          </DataColumn>
+          <DataColumn name="pageSize">
+            <Property name="property">pageSize</Property>
+          </DataColumn>
+          <DataColumn name="parentId">
+            <Property name="property">parentId</Property>
+          </DataColumn>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+          </DataColumn>
+          <DataColumn name="createDate">
+            <Property name="property">createDate</Property>
+          </DataColumn>
+          <DataColumn name="updateDate">
+            <Property name="property">updateDate</Property>
+          </DataColumn>
+          <DataColumn name="deleted">
+            <Property name="property">deleted</Property>
+          </DataColumn>
+        </DataGrid>
+        <Dialog id="dialogEntityDef">
+          <Property name="width">600</Property>
+          <Property name="height">400</Property>
+          <Buttons>
+            <Button id="buttonSaveEntityDef"/>
+            <Button id="buttonCancelEntityDef"/>
+          </Buttons>
+          <Children>
+            <AutoForm>
+              <Property name="dataSet">dataSetEntityDef</Property>
+              <Property name="labelAlign">right</Property>
+              <AutoFormElement>
+                <Property name="name">name</Property>
+                <Property name="property">name</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">caption</Property>
+                <Property name="property">caption</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">clazz</Property>
+                <Property name="property">clazz</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">description</Property>
+                <Property name="property">description</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">master</Property>
+                <Property name="property">master</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">dataSet</Property>
+                <Property name="property">dataSet</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">currentDataPath</Property>
+                <Property name="property">currentDataPath</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">listDataPath</Property>
+                <Property name="property">listDataPath</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">parentName</Property>
+                <Property name="property">parentName</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">listName</Property>
+                <Property name="property">listName</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">parameter</Property>
+                <Property name="property">parameter</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">pageSize</Property>
+                <Property name="property">pageSize</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">parentId</Property>
+                <Property name="property">parentId</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">id</Property>
+                <Property name="property">id</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">createDate</Property>
+                <Property name="property">createDate</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">updateDate</Property>
+                <Property name="property">updateDate</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">deleted</Property>
+                <Property name="property">deleted</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+          <Tools/>
+        </Dialog>
+      </Children>
+      <Tools/>
+    </Panel>
+    <Panel layoutConstraint="right">
+      <Property name="width">50%</Property>
+      <Buttons/>
+      <Children>
+        <ToolBar>
+          <ToolBarButton id="buttonInsertProperty"/>
+          <ToolBarButton id="buttonEditProperty"/>
+          <ToolBarButton id="buttonDelProperty"/>
+        </ToolBar>
+        <DataGrid id="dataGridProperty">
+          <Property name="dataSet">dataSetEntityDef</Property>
+          <Property name="dataPath">#.children</Property>
+          <Property name="readOnly">true</Property>
+          <DataColumn name="name">
+            <Property name="property">name</Property>
+          </DataColumn>
+          <DataColumn name="label">
+            <Property name="property">label</Property>
+          </DataColumn>
+          <DataColumn name="dataType">
+            <Property name="property">dataType</Property>
+          </DataColumn>
+          <DataColumn name="defaultValue">
+            <Property name="property">defaultValue</Property>
+          </DataColumn>
+          <DataColumn name="displayFormat">
+            <Property name="property">displayFormat</Property>
+          </DataColumn>
+          <DataColumn name="required">
+            <Property name="property">required</Property>
+          </DataColumn>
+          <DataColumn name="tags">
+            <Property name="property">tags</Property>
+          </DataColumn>
+          <DataColumn name="description">
+            <Property name="property">description</Property>
+          </DataColumn>
+          <DataColumn name="parentId">
+            <Property name="property">parentId</Property>
+          </DataColumn>
+          <DataColumn name="id">
+            <Property name="property">id</Property>
+          </DataColumn>
+          <DataColumn name="createDate">
+            <Property name="property">createDate</Property>
+          </DataColumn>
+          <DataColumn name="updateDate">
+            <Property name="property">updateDate</Property>
+          </DataColumn>
+          <DataColumn name="deleted">
+            <Property name="property">deleted</Property>
+          </DataColumn>
+        </DataGrid>
+        <Dialog id="dialogProperty">
+          <Property name="width">600</Property>
+          <Property name="height">400</Property>
+          <Buttons>
+            <Button id="buttonSaveProperty"/>
+            <Button id="buttonCancelProperty"/>
+          </Buttons>
+          <Children>
+            <AutoForm>
+              <Property name="dataSet">dataSetEntityDef</Property>
+              <Property name="dataPath">#.#children</Property>
+              <Property name="labelAlign">right</Property>
+              <AutoFormElement>
+                <Property name="name">name</Property>
+                <Property name="property">name</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">label</Property>
+                <Property name="property">label</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">dataType</Property>
+                <Property name="property">dataType</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">defaultValue</Property>
+                <Property name="property">defaultValue</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">displayFormat</Property>
+                <Property name="property">displayFormat</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">required</Property>
+                <Property name="property">required</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">tags</Property>
+                <Property name="property">tags</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">description</Property>
+                <Property name="property">description</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">parentId</Property>
+                <Property name="property">parentId</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">id</Property>
+                <Property name="property">id</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">createDate</Property>
+                <Property name="property">createDate</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">updateDate</Property>
+                <Property name="property">updateDate</Property>
+                <Editor/>
+              </AutoFormElement>
+              <AutoFormElement>
+                <Property name="name">deleted</Property>
+                <Property name="property">deleted</Property>
+                <Editor/>
+              </AutoFormElement>
+            </AutoForm>
+          </Children>
+          <Tools/>
+        </Dialog>
+      </Children>
+      <Tools/>
+    </Panel>
+    <UpdateAction id="updateActionEntityDef">
+      <Property name="dataResolver">#saveEntityDef</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetEntityDef</Property>
+      </UpdateItem>
+    </UpdateAction>
+  </View>
+</ViewConfig>

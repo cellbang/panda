@@ -139,9 +139,9 @@ coke.deleteItem = function(dataSet, dataPath, updateAction, callBack) {
 	var entity = dataSet.getData(dataPath);
 	if (entity) {
 		dorado.MessageBox.confirm("确认要删除选中的记录么？", {
-			icon : "WARNING",
-			title : "删除记录",
-			callback : function() {
+			icon: "WARNING",
+			title: "删除记录",
+			callback: function() {
 				entity.remove();
 				updateAction.execute(callBack);
 			}
@@ -189,16 +189,16 @@ coke.deleteItems = function(dataGrid, updateAction, config) {
 		content = "确认要删除选中的记录: \n\t" + names.join(",") + " 。";
 	}
 	dorado.MessageBox.confirm(content, {
-		icon : "WARNING",
-		title : "删除记录",
-		callback : function() {
+		icon: "WARNING",
+		title: "删除记录",
+		callback: function() {
 			selection.each(function(item) {
 				item.remove();
 			});
-			if (jQuery.isFunction(config.updateAction)){
+			if (jQuery.isFunction(config.updateAction)) {
 				config.updateAction();
 			} else if (updateAction) {
-			 updateAction.execute(function(){
+				updateAction.execute(function() {
 					if (jQuery.isFunction(config.afterDel)) {
 						config.afterDel()
 					}
@@ -231,8 +231,8 @@ coke.cancelItem = function(dataSet, dataPath, dialog, callback) {
 	var entity = dataSet.getData(dataPath);
 	if (entity && entity.isDirty()) {
 		dorado.MessageBox.confirm("确认放弃当前修改？", {
-			title : "关闭编辑窗口",
-			callback : function() {
+			title: "关闭编辑窗口",
+			callback: function() {
 				entity.cancel();
 				dialog && dialog.hide();
 				if (typeof callback === "function") {
@@ -249,7 +249,11 @@ coke.cancelItem = function(dataSet, dataPath, dialog, callback) {
 }
 
 coke.queryItem = function(dataSet, dataSetQuery, dataPath) {
-	dataSet.set("parameter", dataSetQuery.getData().toJSON()).flushAsync();
+	var data = dataSetQuery.getData();
+	if (data && data.toJSON) {
+		data = data.toJSON();
+	}
+	dataSet.set("parameter", data).flushAsync();
 }
 
 coke.queryReferenceItem = function(entity, reference, autoformQuery) {
@@ -257,7 +261,7 @@ coke.queryReferenceItem = function(entity, reference, autoformQuery) {
 	var parameter = reference.get("parameter");
 	var lastQueryJson = autoformQuery.lastQueryJson;
 	if (lastQueryJson) {
-		for ( var p in lastQueryJson) {
+		for (var p in lastQueryJson) {
 			parameter.remove(p);
 		}
 	}
@@ -306,7 +310,7 @@ coke.getSelections = function(dataControl, type) {
 		list = dataControl.get("dataSet").getData(dataControl.get("dataPath"));
 	} else if (type == "current") {
 		var current;
-		if (dataControl instanceof dorado.widget.DataTree) {
+		if (dorado.widget.DataTree && dataControl instanceof dorado.widget.DataTree) {
 			current = dataControl.get("dataSet").getData("!" + dataControl.get("currentNodeDataPath"));
 		} else {
 			current = dataControl.get("dataSet").getData(dataControl.get("dataPath")).current;
@@ -342,10 +346,10 @@ coke.dataRowClick = function(rowList, clickCallback, doubleClickCallback) {
 	rowList.addListener("onDataRowDoubleClick", doubleClick);
 }
 
-coke.generateMyBatisCondition = function(dataType, alias, parameterPrefix){
+coke.generateMyBatisCondition = function(dataType, alias, parameterPrefix) {
 	var names = [];
 	var result = "";
-	
+
 	alias = alias || "t.";
 	parameterPrefix = parameterPrefix || "";
 	if (alias && !alias.endsWith(".")) {
@@ -356,21 +360,27 @@ coke.generateMyBatisCondition = function(dataType, alias, parameterPrefix){
 	}
 	viewMain.get("@" + dataType).get("propertyDefs").each(function(item) { names.push(item.get("name")) });
 
-	function toUnderscore(str){
-		return str.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
+	function toUnderscore(str) {
+		return str.replace(/([A-Z])/g, function($1) { return "_" + $1.toLowerCase(); });
 	}
 
-	names.forEach(function(name){
+	names.forEach(function(name) {
 		var columnName = toUnderscore(name);
-		result += `<if test="${parameterPrefix}${name} != null and ${parameterPrefix}${name} != ''">\n  AND ${alias}${columnName} = #{${parameterPrefix}${name}}\n</if>\n`;	
+		result += `<if test="${parameterPrefix}${name} != null and ${parameterPrefix}${name} != ''">\n  AND ${alias}${columnName} = #{${parameterPrefix}${name}}\n</if>\n`;
 	});
 	console.log(result);
+}
+
+function setDefaultValue(control, attribute, defaultValue) {
+	if (!control.get(attribute)){
+		control.set(attribute, defaultValue);
+	}
 }
 
 coke.autoAction = function(view, config) {
 	if (typeof config === "string") {
 		config = {
-			name : config
+			name: config
 		}
 	}
 
@@ -395,9 +405,15 @@ coke.autoAction = function(view, config) {
 	}
 	currentPath = config.currentPath || defaultCurrentPath;
 	listPath = config.listPath || defaultListPath;
-	
+
 	var dataSet = config.dataSet || view.id(dateSetId);
 	var dataSetQuery = config.dataSetQuery || view.id(dataSetQueryId);
+	if (dataSetQuery) {
+		if (!dataSetQuery.getData()) {
+			dataSetQuery.setData({});
+		}
+	}
+
 	var updateAction = config.updateAction || view.id(updateActionId);
 
 	var dialog = config.dialog || view.id("dialog" + config.name);
@@ -405,7 +421,7 @@ coke.autoAction = function(view, config) {
 	var dataTree = config.dataTree || view.id("dataTree" + config.name)
 	var dataTreeGrid = config.dataTreeGrid || view.id("dataTreeGrid" + config.name)
 	var children = config.children || "children";
-	
+
 	var buttonEdit = config.buttonEdit || view.id("buttonEdit" + config.name);
 	var autoformQuery = config.autoform || view.id("autoForm" + config.name + "Query");
 
@@ -425,62 +441,62 @@ coke.autoAction = function(view, config) {
 		} else {
 			insertedEntity = coke.insertItem(dataSet, listPath, dialog);
 		}
-		if (insertedEntity){
+		if (insertedEntity) {
 			var onInsert = (args && args.onInsert) || config.onInsert;
-			if (jQuery.isFunction(onInsert)){
+			if (jQuery.isFunction(onInsert)) {
 				onInsert(insertedEntity);
 			}
 		}
 	};
-	
+
 	view["insertChild" + config.name] = view["insertChild" + config.name] || function(args) {
 		var insertedEntity;
 		var insertDataFunc;
 		if (args && typeof args.insertData == "function") {
 			insertDataFunc = args.insertData;
 		} else if (typeof config.insertData == "object") {
-			insertDataFunc = function(){
+			insertDataFunc = function() {
 				return jQuery.extend(true, {}, config.insertData);
 			}
 		} else if (typeof config.insertData == "function") {
 			insertDataFunc = config.insertData;
-		} 
+		}
 		insertedEntity = coke.insertChildItem(dataTree, children, dialog, insertDataFunc);
-	
-		if (insertedEntity){
+
+		if (insertedEntity) {
 			var onInsert = (args && args.onInsert) || config.onInsert;
-			if (jQuery.isFunction(onInsert)){
+			if (jQuery.isFunction(onInsert)) {
 				onInsert(insertedEntity);
 			}
 		}
 	};
-	
+
 	view["insertBrother" + config.name] = view["insertBrother" + config.name] || function(args) {
 		var insertedEntity;
 		var insertDataFunc;
 		if (args && typeof args.insertData == "function") {
 			insertDataFunc = args.insertData;
 		} else if (typeof config.insertData == "object") {
-			insertDataFunc = function(){
+			insertDataFunc = function() {
 				return jQuery.extend(true, {}, config.insertData);
 			}
 		} else if (typeof config.insertData == "function") {
 			insertDataFunc = config.insertData;
-		} 
+		}
 		insertedEntity = coke.insertBrotherItem(dataTree, children, dialog, insertDataFunc);
-	
-		if (insertedEntity){
+
+		if (insertedEntity) {
 			var onInsert = (args && args.onInsert) || config.onInsert;
-			if (jQuery.isFunction(onInsert)){
+			if (jQuery.isFunction(onInsert)) {
 				onInsert(insertedEntity);
 			}
 		}
 	};
-	
+
 
 	view["edit" + config.name] = view["edit" + config.name] || function() {
 		var entity = dataSet.getData(currentPath);
-		if(entity && jQuery.isFunction(config.onEdit)){
+		if (entity && jQuery.isFunction(config.onEdit)) {
 			config.onEdit(entity);
 		}
 		coke.editItem(dataSet, currentPath, dialog);
@@ -497,10 +513,10 @@ coke.autoAction = function(view, config) {
 	view["del" + config.name] = view["del" + config.name] || function() {
 		coke.deleteItems(dataGrid || dataTree || dataTreeGrid, updateAction, config);
 	};
-	
-	function addActionInterceptor(type, action, args){
-		var realAction = config[type+action];
-		if(jQuery.isFunction(realAction)){
+
+	function addActionInterceptor(type, action, args) {
+		var realAction = config[type + action];
+		if (jQuery.isFunction(realAction)) {
 			realAction(args);
 		}
 	}
@@ -529,41 +545,41 @@ coke.autoAction = function(view, config) {
 	};
 
 	var actions = {
-		"Insert" : {
-			"iconClass" : "fa fa-plus",
-			"caption" : "添加"
+		"Insert": {
+			"iconClass": "fa fa-plus",
+			"caption": "添加"
 		},
-		"Edit" : {
-			"iconClass" : "fa fa-pencil",
-			"caption" : "编辑"
+		"Edit": {
+			"iconClass": "fa fa-pencil",
+			"caption": "编辑"
 		},
-		"View" : {
-			"iconClass" : "fa fa-eye",
-			"caption" : "查看"
+		"View": {
+			"iconClass": "fa fa-eye",
+			"caption": "查看"
 		},
-		"Del" : {
-			"iconClass" : "fa fa-minus",
-			"caption" : "删除"
+		"Del": {
+			"iconClass": "fa fa-minus",
+			"caption": "删除"
 		},
-		"Save" : {
-			"iconClass" : "fa fa-check",
-			"caption" : "保存"
+		"Save": {
+			"iconClass": "fa fa-check",
+			"caption": "保存"
 		},
-		"Cancel" : {
-			"iconClass" : "fa fa-times",
-			"caption" : "取消"
+		"Cancel": {
+			"iconClass": "fa fa-times",
+			"caption": "取消"
 		},
-		"Query" : {
-			"iconClass" : "fa fa-search",
-			"caption" : "查询"
+		"Query": {
+			"iconClass": "fa fa-search",
+			"caption": "查询"
 		},
-		"QueryReset" : {
-			"iconClass" : "fa fa-undo",
-			"caption" : "重置"
+		"QueryReset": {
+			"iconClass": "fa fa-undo",
+			"caption": "重置"
 		}
 
 	};
-	for ( var action in actions) {
+	for (var action in actions) {
 		var component = view.id("button" + action + config.name);
 		var actionFunction = view[action.substr(0, 1).toLowerCase() + action.substr(1) + config.name];
 		if (!component) {
@@ -571,7 +587,7 @@ coke.autoAction = function(view, config) {
 		}
 
 		var configs = actions[action];
-		for ( var p in configs) {
+		for (var p in configs) {
 			var value = component.get(p);
 			if (!value) {
 				component.set(p, configs[p]);
@@ -583,6 +599,14 @@ coke.autoAction = function(view, config) {
 	}
 
 	if (dialog) {
+		var iconClass = dialog.get("iconClass");
+		if (!iconClass) {
+			dialog.set("iconClass", iconClass);
+		}
+		
+		setDefaultValue(dialog, "iconClass", "fa fa-pencil-square-o");
+		setDefaultValue(dialog, "caption", "编辑");
+
 		dialog.bind("beforeClose", function(self, arg) {
 			view["cancel" + config.name]();
 			arg.processDefault = false;
@@ -594,32 +618,32 @@ coke.autoAction = function(view, config) {
 			dataSet.set("readOnly", false);
 			view.get("^readOnlyWhenView" + config.name).set("readOnly", false);
 
-			if (jQuery.isFunction(dialog.callback)){
+			if (jQuery.isFunction(dialog.callback)) {
 				dialog.callback();
 				dialog.callback = null;
 			}
-			
-			if (jQuery.isFunction(config.beforeDialogHide)){
+
+			if (jQuery.isFunction(config.beforeDialogHide)) {
 				config.beforeDialogHide(self, arg);
 			}
 		});
 	}
 
-	if ( dataGrid && dialog ) {
-		if (config.onDataRowDoubleClick === undefined){
+	if (dataGrid && dialog) {
+		if (config.onDataRowDoubleClick === undefined) {
 			dataGrid.bind("onDataRowDoubleClick", function(self, arg) {
 				coke.editItem(dataSet, currentPath, dialog, buttonEdit);
-			});			
-		} else if (jQuery.isFunction(config.onDataRowDoubleClick)){
+			});
+		} else if (jQuery.isFunction(config.onDataRowDoubleClick)) {
 			dataGrid.bind("onDataRowDoubleClick", config.onDataRowDoubleClick);
 		}
 	}
-	
-	if ( autoformQuery ) {
-		autoformQuery.bind("onKeyPress", function(self, arg){
-			if ( arg.keyCode == 13 ) {
+
+	if (autoformQuery) {
+		autoformQuery.bind("onKeyPress", function(self, arg) {
+			if (arg.keyCode == 13) {
 				var queryFunc = view["query" + config.name];
-				if (jQuery.isFunction(queryFunc)){
+				if (jQuery.isFunction(queryFunc)) {
 					queryFunc();
 				}
 			}
@@ -635,7 +659,7 @@ function travelObject(parent, property, callback) {
 		value = parent;
 	}
 	if (jQuery.isPlainObject(value)) {
-		for ( var p in value) {
+		for (var p in value) {
 			travelObject(value, p, callback);
 		}
 	} else if (jQuery.isArray(value)) {
@@ -652,75 +676,75 @@ function travelObject(parent, property, callback) {
 }
 
 $namespace("coke.dropDown")
-coke.dropDown.enableDynaFilter = function(dropDown, config){
+coke.dropDown.enableDynaFilter = function(dropDown, config) {
 	var filterCallback = config.filterCallback,
-	filterProperty = config.filterProperty || "filterValue",
-	dataSet = config.dataSet,
-	dataPath = config.dataPath || "#";
+		filterProperty = config.filterProperty || "filterValue",
+		dataSet = config.dataSet,
+		dataPath = config.dataPath || "#";
 	minFilterInterval = config.minFilterInterval || 300;
-	
-	dropDown.bind("onOpen", function(self, arg){
+
+	dropDown.bind("onOpen", function(self, arg) {
 		var editor = self._editor;
 		if (editor instanceof dorado.widget.AbstractTextBox) {
-		    var dropDown = self;
-		    var filterFn = self._onTextEditedListener = function(){
-		        if (dropDown.get("opened")) {
-		            dorado.Toolkits.setDelayedAction(dropDown, "$filterTimeId", function(){
-		                var text = editor.doGetText();
-		                if(jQuery.isFunction(filterCallback)){
-		                	filterCallback(text);
-		                } else if (dataSet){
-		                	var p = {};
-		                	p[filterProperty] = text;
-		                	coke.mergeParameter(dataSet, p);
-		                	dataSet.flushAsync();	
-		                } else {
-		                	console.log("typing: " + text);
-		                }
-		            }, minFilterInterval);
-		        }
-		    };
-		    editor.addListener("onTextEdit", filterFn);
+			var dropDown = self;
+			var filterFn = self._onTextEditedListener = function() {
+				if (dropDown.get("opened")) {
+					dorado.Toolkits.setDelayedAction(dropDown, "$filterTimeId", function() {
+						var text = editor.doGetText();
+						if (jQuery.isFunction(filterCallback)) {
+							filterCallback(text);
+						} else if (dataSet) {
+							var p = {};
+							p[filterProperty] = text;
+							coke.mergeParameter(dataSet, p);
+							dataSet.flushAsync();
+						} else {
+							console.log("typing: " + text);
+						}
+					}, minFilterInterval);
+				}
+			};
+			editor.addListener("onTextEdit", filterFn);
 		}
 	});
-	
-	dropDown.bind("onClose", function(self, arg){
+
+	dropDown.bind("onClose", function(self, arg) {
 		var editor = self._editor;
 		if (editor instanceof dorado.widget.AbstractTextBox) {
-		    editor.removeListener("onTextEdit", self._onTextEditedListener);
+			editor.removeListener("onTextEdit", self._onTextEditedListener);
 		}
 		if (config.autoAssignValueOnClose) {
 			coke.dropDown.autoSelectOnClose(dropDown, arg, dataSet, dataPath);
 		}
 	});
 }
-coke.dropDown.autoSelectOnClose = function(dropDown, arg, dataSet, dataPath){
+coke.dropDown.autoSelectOnClose = function(dropDown, arg, dataSet, dataPath) {
 	var editor = arg.editor;
 	var dataPath = dataPath || "#";
 
 	if (!arg.selectedValue && dataSet) {
-	    var data = dataSet.getDataAsync(dataPath, function(data){
-	        if (data && editor && arg.editor.get("value")) {
+		var data = dataSet.getDataAsync(dataPath, function(data) {
+			if (data && editor && arg.editor.get("value")) {
 				arg.selectedValue = data.toJSON();
 
-	            if (arg.selectedValue !== undefined) {
-	            	dropDown.fireEvent("onValueSelect", dropDown, arg);
-	                if (arg.processDefault && arg.selectedValue !== undefined) {
-	                	dropDown.assignValue(editor, arg.selectedValue, arg);
-	                }
-	            }
-	        }
-	    });
+				if (arg.selectedValue !== undefined) {
+					dropDown.fireEvent("onValueSelect", dropDown, arg);
+					if (arg.processDefault && arg.selectedValue !== undefined) {
+						dropDown.assignValue(editor, arg.selectedValue, arg);
+					}
+				}
+			}
+		});
 	}
 }
 
-coke.mergeParameter = function(action, newParameter){
+coke.mergeParameter = function(action, newParameter) {
 	var oldParameter = action.get("parameter");
-	if (!oldParameter){
-		action.set("parameter",{});
+	if (!oldParameter) {
+		action.set("parameter", {});
 		oldParameter = action.get("parameter");
 	}
-	if (oldParameter instanceof dorado.util.Map ){
+	if (oldParameter instanceof dorado.util.Map) {
 		oldParameter.put(newParameter)
 	} else {
 		dorado.Object.apply(oldParameter, newParameter);
@@ -736,12 +760,12 @@ function parseParam(param) {
 		var i = pair.indexOf('='), key, value;
 		if (i >= 0 && i < (pair.length - 1)) {
 			pairs.push({
-				key : pair.substring(0, i),
-				value : pair.substring(i + 1)
+				key: pair.substring(0, i),
+				value: pair.substring(i + 1)
 			});
 		} else {
 			pairs.push({
-				value : pair
+				value: pair
 			});
 		}
 	});
@@ -753,7 +777,7 @@ function getEditor(entity, editorType) {
 		return null;
 	}
 	var param;
-	
+
 	var editor = eval("new dorado.widget." + editorType + "()");
 	if (editor instanceof dorado.widget.TextEditor) {
 		if (param) {
@@ -764,8 +788,8 @@ function getEditor(entity, editorType) {
 				trigger = "defaultDateTimeDropDown";
 			} else {
 				trigger = new dorado.widget.ListDropDown({
-					items : parseParam(param),
-					property : "value"
+					items: parseParam(param),
+					property: "value"
 				});
 			}
 			editor.set("trigger", trigger);
@@ -778,15 +802,15 @@ function getEditor(entity, editorType) {
 			var radioButtons = [];
 			parseParam(param).each(function(pair) {
 				radioButtons.push({
-					value : pair.key,
-					text : pair.value
+					value: pair.key,
+					text: pair.value
 				});
 			});
 			editor.set("radioButtons", radioButtons);
 		}
 	} else if (editor instanceof dorado.widget.DateTimeSpinner) {
 		editor.set({
-			type : param
+			type: param
 		});
 	} else if (editor instanceof dorado.widget.CustomSpinner) {
 		editor.set("pattern", param);
@@ -799,7 +823,7 @@ if (dorado && dorado.widget && dorado.widget.grid) {
 		$className: "org.xobo.dorado.widget.CellRenderer",
 		property: null,
 		editorType: null,
-		createSubControl : function(arg) {
+		createSubControl: function(arg) {
 			var self = this;
 			var entity = arg.data;
 			var editor = getEditor(entity, this.editorType);
@@ -808,7 +832,7 @@ if (dorado && dorado.widget && dorado.widget.grid) {
 			}
 			return editor;
 		},
-		refreshSubControl : function(editor, arg) {
+		refreshSubControl: function(editor, arg) {
 			if (editor)
 				editor.set("value", arg.data.get(this.property));
 		}
@@ -817,16 +841,16 @@ if (dorado && dorado.widget && dorado.widget.grid) {
 
 
 dorado.widget.View.registerDefaultComponent("defaultDateDropDown", function() {
-	return new dorado.widget.DateDropDown({autoOpen:true});
+	return new dorado.widget.DateDropDown({ autoOpen: true });
 });
 
-dorado.afterInit(function(){
-	jQuery(document).mousemove(function(event){
+dorado.afterInit(function() {
+	jQuery(document).mousemove(function(event) {
 		if (event.clientX < 2 && top.viewMain) {
 			var dialogMenu = top.viewMain.id("dialogMenu");
-			if (dialogMenu){
+			if (dialogMenu) {
 				dialogMenu.$show()
 			};
 		}
-	})	
+	})
 });
