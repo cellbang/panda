@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="DataMaskPojo">
+      <Property name="creationType">org.malagu.panda.coke.datamask.domain.DataMaskPojo</Property>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="dataType">Boolean</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property/>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property/>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="clazz">
+        <Property/>
+        <Property name="label">实体</Property>
+      </PropertyDef>
+      <Reference name="properties">
+        <Property name="dataType">[DataMaskPojoProperty]</Property>
+      </Reference>
+    </DataType>
+    <DataType name="DataMaskPojoProperty">
+      <Property name="creationType">org.malagu.panda.coke.datamask.domain.DataMaskPojoProperty</Property>
+      <PropertyDef name="parentId">
+        <Property name="dataType">Long</Property>
+        <Property name="label">父编码</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="dataType">Boolean</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+      <PropertyDef name="name">
+        <Property/>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property/>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="propertyName">
+        <Property/>
+        <Property name="label">属性</Property>
+      </PropertyDef>
+      <PropertyDef name="dataMaskRuleId">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="DataMaskRule">
+      <Property name="creationType">org.malagu.panda.coke.datamask.domain.DataMaskRule</Property>
+      <PropertyDef name="name">
+        <Property/>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property/>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="regex">
+        <Property/>
+        <Property name="label">脱敏正则</Property>
+      </PropertyDef>
+      <PropertyDef name="hiddenGroup">
+        <Property/>
+        <Property name="label">需要隐藏的组</Property>
+      </PropertyDef>
+      <PropertyDef name="mask">
+        <Property/>
+        <Property name="label">替换字符</Property>
+      </PropertyDef>
+      <PropertyDef name="replacement">
+        <Property/>
+        <Property name="label">替换正则</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="dataType">Boolean</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <TabControl>
+      <ControlTab>
+        <Property name="caption">脱敏配置</Property>
+        <Container>
+          <Panel>
+            <Property name="caption">实体</Property>
+            <Buttons/>
+            <Children/>
+            <Tools/>
+          </Panel>
+          <Panel>
+            <Property name="caption">属性</Property>
+            <Buttons/>
+            <Children/>
+            <Tools/>
+          </Panel>
+        </Container>
+      </ControlTab>
+      <ControlTab>
+        <Property name="caption">脱敏规则</Property>
+        <Container/>
+      </ControlTab>
+    </TabControl>
+  </View>
+</ViewConfig>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model>
+    <DataType name="DataMaskRule">
+      <Property name="creationType">org.malagu.panda.coke.datamask.domain.DataMaskRule</Property>
+      <PropertyDef name="name">
+        <Property/>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property/>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="regex">
+        <Property/>
+        <Property name="label">脱敏正则</Property>
+      </PropertyDef>
+      <PropertyDef name="hiddenGroup">
+        <Property/>
+        <Property name="label">需要隐藏的组</Property>
+      </PropertyDef>
+      <PropertyDef name="mask">
+        <Property/>
+        <Property name="label">替换字符</Property>
+      </PropertyDef>
+      <PropertyDef name="replacement">
+        <Property/>
+        <Property name="label">替换正则</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="dataType">Boolean</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+    </DataType>
+    <DataType name="DataMaskRuleQuery" parent="DataMaskRule">
+      <Property name="creationType">org.malagu.panda.coke.datamask.domain.DataMaskRule</Property>
+      <PropertyDef name="name">
+        <Property/>
+        <Property name="label">名称</Property>
+      </PropertyDef>
+      <PropertyDef name="description">
+        <Property/>
+        <Property name="label">描述</Property>
+      </PropertyDef>
+      <PropertyDef name="regex">
+        <Property/>
+        <Property name="label">脱敏正则</Property>
+      </PropertyDef>
+      <PropertyDef name="hiddenGroup">
+        <Property/>
+        <Property name="label">需要隐藏的组</Property>
+      </PropertyDef>
+      <PropertyDef name="mask">
+        <Property/>
+        <Property name="label">替换字符</Property>
+      </PropertyDef>
+      <PropertyDef name="replacement">
+        <Property/>
+        <Property name="label">替换正则</Property>
+      </PropertyDef>
+      <PropertyDef name="createDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">创建日期</Property>
+      </PropertyDef>
+      <PropertyDef name="updateDate">
+        <Property name="dataType">Date</Property>
+        <Property name="label">更新日期</Property>
+      </PropertyDef>
+      <PropertyDef name="deleted">
+        <Property name="dataType">Boolean</Property>
+        <Property name="label">有效</Property>
+      </PropertyDef>
+      <PropertyDef name="id">
+        <Property name="dataType">Long</Property>
+      </PropertyDef>
+    </DataType>
+  </Model>
+  <View>
+    <ClientEvent name="onReady">coke.autoAction(view, {
+	name: &quot;DataMaskRule&quot;
+});</ClientEvent>
+    <Property name="packages">CokeAction</Property>
+    <Panel>
+      <Property name="caption">查询</Property>
+      <Buttons>
+        <Button id="buttonQueryDataMaskRule"/>
+        <Button id="buttonQueryResetDataMaskRule"/>
+      </Buttons>
+      <Children>
+        <DataSet id="dataSetDataMaskRuleQuery">
+          <Property name="dataType">DataMaskRuleQuery</Property>
+        </DataSet>
+        <AutoForm>
+          <Property name="dataSet">dataSetDataMaskRuleQuery</Property>
+          <Property name="labelAlign">right</Property>
+          <AutoFormElement>
+            <Property name="name">name</Property>
+            <Property name="property">name</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">description</Property>
+            <Property name="property">description</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">regex</Property>
+            <Property name="property">regex</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">hiddenGroup</Property>
+            <Property name="property">hiddenGroup</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mask</Property>
+            <Property name="property">mask</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">replacement</Property>
+            <Property name="property">replacement</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Panel>
+    <DataSet id="dataSetDataMaskRule">
+      <Property name="dataType">[DataMaskRule]</Property>
+      <Property name="dataProvider">#loadDataMaskRule</Property>
+      <Property name="pageSize">30</Property>
+    </DataSet>
+    <ToolBar>
+      <ToolBarButton id="buttonInsertDataMaskRule"/>
+      <ToolBarButton id="buttonEditDataMaskRule"/>
+      <ToolBarButton id="buttonDelDataMaskRule"/>
+    </ToolBar>
+    <DataGrid id="dataGridDataMaskRule">
+      <Property name="dataSet">dataSetDataMaskRule</Property>
+      <Property name="readOnly">true</Property>
+      <DataColumn name="name">
+        <Property name="property">name</Property>
+      </DataColumn>
+      <DataColumn name="description">
+        <Property name="property">description</Property>
+      </DataColumn>
+      <DataColumn name="regex">
+        <Property name="property">regex</Property>
+      </DataColumn>
+      <DataColumn name="hiddenGroup">
+        <Property name="property">hiddenGroup</Property>
+      </DataColumn>
+      <DataColumn name="mask">
+        <Property name="property">mask</Property>
+      </DataColumn>
+      <DataColumn name="replacement">
+        <Property name="property">replacement</Property>
+      </DataColumn>
+    </DataGrid>
+    <Dialog id="dialogDataMaskRule">
+      <Property name="width">600</Property>
+      <Property name="height">400</Property>
+      <Buttons>
+        <Button id="buttonSaveDataMaskRule"/>
+        <Button id="buttonCancelDataMaskRule"/>
+      </Buttons>
+      <Children>
+        <AutoForm>
+          <Property name="dataSet">dataSetDataMaskRule</Property>
+          <Property name="labelAlign">right</Property>
+          <AutoFormElement>
+            <Property name="name">name</Property>
+            <Property name="property">name</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">description</Property>
+            <Property name="property">description</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">regex</Property>
+            <Property name="property">regex</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">hiddenGroup</Property>
+            <Property name="property">hiddenGroup</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">mask</Property>
+            <Property name="property">mask</Property>
+            <Editor/>
+          </AutoFormElement>
+        </AutoForm>
+      </Children>
+      <Tools/>
+    </Dialog>
+    <UpdateAction id="updateActionDataMaskRule">
+      <Property name="dataResolver">#saveDataMaskRule</Property>
+      <UpdateItem>
+        <Property name="dataSet">dataSetDataMaskRule</Property>
+      </UpdateItem>
+    </UpdateAction>
+  </View>
+</ViewConfig>
