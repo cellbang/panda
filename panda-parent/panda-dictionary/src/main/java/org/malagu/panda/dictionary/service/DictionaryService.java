@@ -63,4 +63,6 @@ public interface DictionaryService {
    */
   String getDefaultKeyBy(String code);
 
+  List<DictionaryItem> getAllDictionaryItemsBy(String code);
+
 }

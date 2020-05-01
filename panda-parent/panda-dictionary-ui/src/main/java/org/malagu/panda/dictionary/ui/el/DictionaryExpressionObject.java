@@ -22,6 +22,10 @@ public class DictionaryExpressionObject {
     return dictionaryService.getDictionaryItemsBy(code);
   }
 
+  public List<DictionaryItem> allItems(String code) {
+    return dictionaryService.getAllDictionaryItemsBy(code);
+  }
+
   public List<DictionaryItem> multiItems(String... codes) {
     return dictionaryService.getDictionaryItemsBy(codes);
   }
