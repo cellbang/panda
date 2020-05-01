@@ -496,6 +496,9 @@ coke.autoAction = function(view, config) {
 
 	view["edit" + config.name] = view["edit" + config.name] || function() {
 		var entity = dataSet.getData(currentPath);
+		if (entity && jQuery.isFunction(config.beforeEdit)) {
+			config.beforeEdit(entity);
+		}
 		if (entity && jQuery.isFunction(config.onEdit)) {
 			config.onEdit(entity);
 		}
