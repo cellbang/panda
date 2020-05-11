@@ -14,6 +14,9 @@ public class BooleanTypeConverter extends AbstractTypeConverter {
 
   @Override
   public boolean support(Class<?> clazz) {
+    if (clazz ==null) {
+      return false;
+    }
     return Boolean.class.isAssignableFrom(clazz) || boolean.class.isAssignableFrom(clazz);
   }
 

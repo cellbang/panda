@@ -50,6 +50,9 @@ public class DefaultCellProcessor implements CellProcessor, ApplicationContextAw
     BeanMap beanMap = BeanMap.create(context.getCurrentEntity());
     String propertyName = mappingRule.getPropertyName();
     Class<?> type = beanMap.getPropertyType(propertyName);
+    if (type == null) {
+      return;
+    }
     Object value = context.getValue();
     for (TypeConverter typeConverter : typeConverters) {
       if (typeConverter.support(type)) {
