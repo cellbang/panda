@@ -21,8 +21,8 @@ public interface UserService {
 	
 	void save(User user);
 
-	void changePassword(String username, String newPassword);
-
 	boolean isExist(String username);
+
+    void changePassword(String username, String oldPassword, String newPassword);
 
 }

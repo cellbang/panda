@@ -46,8 +46,8 @@ public class UserController {
 	
 	@Expose
 	@Transactional
-	public void changePassword(String username, String newPassword) {
-		userService.changePassword(username, newPassword);
+	public void changePassword(String username, String oldPassword, String newPassword) {
+		userService.changePassword(username, oldPassword, newPassword);
 	}
 	
 

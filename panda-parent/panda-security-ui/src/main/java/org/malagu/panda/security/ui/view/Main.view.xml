@@ -51,15 +51,6 @@
       <PropertyDef name="newPassword">
         <Property name="required">true</Property>
         <Property name="label">新设密码</Property>
-        <Validator name="validator1" type="custom">
-          <ClientEvent name="onValidate">if (arg.data != arg.entity.get(&quot;comfirmNewPassword&quot;)) {
-	arg.result = &quot;两次密码输入不相同。&quot;
-} else {
-	arg.entity.setMessages(&quot;comfirmNewPassword&quot;, null);
-}
-
-</ClientEvent>
-        </Validator>
       </PropertyDef>
       <PropertyDef name="confirmNewPassword">
         <Property name="required">true</Property>
@@ -755,6 +746,7 @@ entity.set(&quot;oldPassword&quot;, entity.get(&quot;oldPassword&quot;));
 if (entity.get(&quot;oldPassword&quot;) &amp;&amp; entity.get(&quot;newPassword&quot;) &amp;&amp; entity.get(&quot;confirmNewPassword&quot;) &amp;&amp; autoFormPassword.validate(true) === true) {
 	ajaxActionChangePassword.set(&quot;parameter&quot;, {
 		username: &quot;${loginUsername}&quot;,
+		oldPassword: entity.get(&quot;oldPassword&quot;),
 		newPassword: newPassword
 	}).execute(function() {
 		self.get(&quot;parent.parent&quot;).hide();
