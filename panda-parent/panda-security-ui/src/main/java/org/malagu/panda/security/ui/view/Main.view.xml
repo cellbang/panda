@@ -212,10 +212,6 @@ Chat.addChatCloseListener(function() {
     <Property name="packages">jquery-cookie,font-awesome-info,entypo-info,colors,chat</Property>
     <Property name="skin">${panda.framework.skin}</Property>
     <Property name="exClassName">main</Property>
-    <Property name="cache">
-      <Property name="mode">clientSide</Property>
-      <Property name="maxAge">5000</Property>
-    </Property>
     <DataSet id="dsPart">
       <Property name="dataType">[Url]</Property>
     </DataSet>
