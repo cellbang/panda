@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewConfig>
+  <Arguments/>
+  <Context/>
+  <Model/>
+  <View>
+    <CustomDropDown id="DistrictAreaDropDown">
+      <ClientEvent name="onReady">var dataSetCokeArea = view.id('dataSetCokeArea');
+
+self.$close = function(){
+	var provinceEntity = dataSetCokeArea.getData(&quot;#&quot;);
+	var cityEntity = dataSetCokeArea.getData(&quot;#.#children&quot;);
+	var districtEntity = dataSetCokeArea.getData(&quot;#.#children.#children&quot;);
+	self.close({
+		provinceId: provinceEntity.get(&quot;id&quot;),
+		provinceName:  provinceEntity.get(&quot;extName&quot;),
+		cityId: cityEntity.get(&quot;id&quot;),
+		cityName:  cityEntity.get(&quot;extName&quot;),
+		districtId: districtEntity.get(&quot;id&quot;),
+		districtName:  districtEntity.get(&quot;extName&quot;),
+	});
+}
+</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <Property name="width">320</Property>
+      <Property name="height">300</Property>
+      <Container layout="hbox">
+        <DataSet id="${acomp.id(&quot;dataSetCokeArea&quot;)}">
+          <Property name="dataType">[CokeArea]</Property>
+          <Property name="dataProvider">cokeAreaMaintain#loadCokeArea</Property>
+          <Property name="parameter">
+            <Entity>
+              <Property name="pid">0</Property>
+            </Entity>
+          </Property>
+        </DataSet>
+        <DataGrid>
+          <Property name="dataSet">${acomp.id(&quot;dataSetCokeArea&quot;)}</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="width">100</Property>
+          <DataColumn>
+            <Property name="property">extName</Property>
+            <Property name="name">extName</Property>
+            <Property name="caption">省</Property>
+            <Editor/>
+          </DataColumn>
+        </DataGrid>
+        <DataGrid>
+          <Property name="dataSet">${acomp.id(&quot;dataSetCokeArea&quot;)}</Property>
+          <Property name="dataPath">#.children</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="width">100</Property>
+          <DataColumn>
+            <Property name="property">extName</Property>
+            <Property name="name">extName</Property>
+            <Property name="caption">市</Property>
+            <Editor/>
+          </DataColumn>
+        </DataGrid>
+        <DataGrid>
+          <ClientEvent name="onDataRowClick">var districtAreaDropDown = view.id('${acomp.id(&quot;DistrictAreaDropDown&quot;)}');
+districtAreaDropDown.$close();
+</ClientEvent>
+          <Property name="dataSet">${acomp.id(&quot;dataSetCokeArea&quot;)}</Property>
+          <Property name="dataPath">#.#children.children</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="width">100</Property>
+          <DataColumn>
+            <Property name="property">extName</Property>
+            <Property name="name">extName</Property>
+            <Property name="caption">区</Property>
+            <Editor/>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+    </CustomDropDown>
+    <CustomDropDown id="CityDropDown">
+      <ClientEvent name="onReady">var dataSetCokeArea = view.id('dataSetCokeArea');
+
+self.$close = function(){
+	var provinceEntity = dataSetCokeArea.getData(&quot;#&quot;);
+	var cityEntity = dataSetCokeArea.getData(&quot;#.#children&quot;);
+	var districtEntity = dataSetCokeArea.getData(&quot;#.#children.#children&quot;);
+	self.close({
+		provinceId: provinceEntity.get(&quot;id&quot;),
+		provinceName:  provinceEntity.get(&quot;extName&quot;),
+		cityId: cityEntity.get(&quot;id&quot;),
+		cityName:  cityEntity.get(&quot;extName&quot;),
+		districtId: districtEntity.get(&quot;id&quot;),
+		districtName:  districtEntity.get(&quot;extName&quot;),
+	});
+}
+</ClientEvent>
+      <Property name="autoOpen">true</Property>
+      <Property name="editable">false</Property>
+      <Property name="width">100</Property>
+      <Property name="height">300</Property>
+      <Container layout="native">
+        <DataSet id="${acomp.id(&quot;dataSetCokeArea&quot;)}">
+          <Property name="dataType">[CokeArea]</Property>
+          <Property name="dataProvider">cokeAreaMaintain#loadCokeAreaPaging</Property>
+          <Property name="parameter">
+            <Entity>
+              <Property name="deep">1</Property>
+            </Entity>
+          </Property>
+          <Property name="pageSize">20</Property>
+        </DataSet>
+        <DataGrid>
+          <Property name="dataSet">${acomp.id(&quot;dataSetCokeArea&quot;)}</Property>
+          <Property name="readOnly">true</Property>
+          <Property name="width">100</Property>
+          <DataColumn>
+            <Property name="property">extName</Property>
+            <Property name="name">extName</Property>
+            <Property name="caption">省</Property>
+            <Editor/>
+          </DataColumn>
+        </DataGrid>
+      </Container>
+    </CustomDropDown>
+  </View>
+</ViewConfig>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model>
+  <DataType name="CokeArea">
+    <Property name="creationType">org.malagu.panda.coke.base.domain.CokeArea</Property>
+    <Property name="defaultDisplayProperty">extName</Property>
+    <PropertyDef name="id">
+      <Property name="dataType">Long</Property>
+    </PropertyDef>
+    <PropertyDef name="pid">
+      <Property name="dataType">Long</Property>
+    </PropertyDef>
+    <PropertyDef name="deep">
+      <Property name="dataType">Integer</Property>
+      <Property name="label">深度</Property>
+    </PropertyDef>
+    <PropertyDef name="name">
+      <Property></Property>
+      <Property name="label">名称</Property>
+    </PropertyDef>
+    <PropertyDef name="initial">
+      <Property></Property>
+      <Property name="label">拼音前缀</Property>
+    </PropertyDef>
+    <PropertyDef name="initials">
+      <Property></Property>
+      <Property name="label">拼音缩写</Property>
+    </PropertyDef>
+    <PropertyDef name="pinyin">
+      <Property></Property>
+      <Property name="label">拼音</Property>
+    </PropertyDef>
+    <PropertyDef name="extId">
+      <Property></Property>
+      <Property name="label">原始编号</Property>
+    </PropertyDef>
+    <PropertyDef name="extName">
+      <Property></Property>
+      <Property name="label">原始名称</Property>
+    </PropertyDef>
+    <Reference name="children">
+      <ClientEvent name="onLoadData">console.log(arg);
+</ClientEvent>
+      <Property name="dataProvider">cokeAreaMaintain#loadCokeArea</Property>
+      <Property name="dataType">[SELF]</Property>
+      <Property name="parameter">
+        <Entity>
+          <Property name="pid">$${this.id}</Property>
+        </Entity>
+      </Property>
+    </Reference>
+  </DataType>
+</Model>

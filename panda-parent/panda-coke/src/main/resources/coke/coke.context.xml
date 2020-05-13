@@ -8,10 +8,20 @@
     <property name="configLocation" value="classpath:coke/packages-config.xml">
     </property>
   </bean>
-
+  
+  <bean parent="dorado.dataConfigLoader">
+	<property name="configLocation" value="classpath*:org/malagu/panda/coke/model/*.model.xml" />
+  </bean>
+  
   <bean parent="dorado.expressionVarsInitializerRegister">
     <property name="contextInitializer">
       <bean class="org.malagu.panda.coke.context.CokeContextVarsInitializer" />
     </property>
   </bean>
+  
+  <bean parent="dorado.assembledComponentTypeRegister">
+    <property name="name" value="DistrictAreaDropDown" />
+    <property name="src" value="org.malagu.panda.coke.base.view.BaseComponents#DistrictAreaDropDown" />
+  </bean>
+  
 </beans>
