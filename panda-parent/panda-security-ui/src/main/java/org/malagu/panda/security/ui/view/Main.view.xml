@@ -322,6 +322,7 @@ personalCenter.hide();
 </ClientEvent>
                   <Property name="caption">个人中心</Property>
                   <Property name="ui">highlight</Property>
+                  <Property name="visible">${configure[&quot;panda.main.personalcenter.button.show&quot;]}</Property>
                 </Button>
               </Container>
             </Container>
