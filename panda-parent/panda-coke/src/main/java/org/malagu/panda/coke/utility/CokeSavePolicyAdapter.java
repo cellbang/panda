@@ -1,10 +1,9 @@
 package org.malagu.panda.coke.utility;
 
 import javax.persistence.EntityManager;
-import org.apache.commons.beanutils.PropertyUtils;
+import org.malagu.panda.coke.annotation.EntityDef;
 import org.malagu.panda.coke.annotation.EntityParent;
 import org.malagu.panda.coke.model.BaseModel;
-import org.malagu.panda.coke.model.CokeBaseModel;
 import org.malagu.panda.coke.model.IBase;
 import org.malagu.panda.coke.model.IDetail;
 import org.malagu.panda.dorado.linq.policy.SaveContext;
@@ -16,9 +15,35 @@ import com.bstek.dorado.data.entity.EntityState;
 import com.bstek.dorado.data.entity.EntityUtils;
 
 public class CokeSavePolicyAdapter implements SavePolicy {
+  Object getId(Object entity) {
+    Object id = doGetId(entity);
+    if (UNKNOWN.equals(id) || id == null) {
+      return null;
+    }
+    return id;
+  }
+
+  private static Integer UNKNOWN = -1;
+
+  Object doGetId(Object entity) {
+    if (entity instanceof IBase) {
+      return ((IBase<?>) entity).getId();
+    }
+    // 获取真实class
+    Class<?> clazz = BeanReflectionUtil.getClass(entity);
+    EntityDef[] entityDefs = clazz.getAnnotationsByType(EntityDef.class);
+    // 判断是否有@EntityDef
+    if (entityDefs != null && entityDefs.length > 0) {
+      EntityDef entityParent = entityDefs[0];
+      String idName = entityParent.id();
+      return BeanReflectionUtil.getProperty(entity, idName);
+    }
+
+    return UNKNOWN;
+  }
 
   boolean idIsNull(Object entity) {
-    return entity instanceof CokeBaseModel && ((CokeBaseModel) entity).getId() == null;
+    return doGetId(entity) == null;
   }
 
   @Override
@@ -73,10 +98,19 @@ public class CokeSavePolicyAdapter implements SavePolicy {
     Object entity = context.getEntity();
     Object parent = context.getParent();
     Class<?> clazz = entity.getClass();
+    if (parent == null) {
+      return;
+    }
 
     // 获取真实class
     clazz = BeanReflectionUtil.getClass(entity);
     EntityParent[] entityParents = clazz.getAnnotationsByType(EntityParent.class);
+    EntityDef[] entityDefs = clazz.getAnnotationsByType(EntityDef.class);
+
+    Object parentId = getId(parent);
+    if (parentId == null) {
+      return;
+    }
 
     // 判断是否有@EntityParent，设置父id
     if (entityParents != null && entityParents.length > 0) {
@@ -85,13 +119,16 @@ public class CokeSavePolicyAdapter implements SavePolicy {
 
       if (parent instanceof BaseModel<?>) {
         try {
-          PropertyUtils.setProperty(entity, parentName, ((BaseModel<?>) parent).getId());
+          BeanReflectionUtil.setProperty(entity, parentName, parentId);
         } catch (Exception e) {
           e.printStackTrace();
         }
       }
+    } else if (entityDefs != null && entityDefs.length > 0) {
+      EntityDef entityParent = entityDefs[0];
+      String pidName = entityParent.parentId();
+      BeanReflectionUtil.setProperty(entity, pidName, parentId);
     } else if (entity instanceof IDetail<?> && parent instanceof BaseModel<?>) {
-      Object parentId = ((IBase<?>) parent).getId();
       ((IDetail<Object>) entity).setParentId(parentId);
     }
   }

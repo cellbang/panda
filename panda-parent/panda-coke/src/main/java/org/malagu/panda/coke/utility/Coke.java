@@ -9,6 +9,7 @@ import org.malagu.panda.coke.model.IBase;
 import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.malagu.panda.dorado.linq.lin.Linq;
+import org.malagu.panda.dorado.linq.policy.SavePolicy;
 import com.bstek.dorado.data.provider.Criteria;
 
 public class Coke {
@@ -24,6 +25,8 @@ public class Coke {
             .getBean(DoradoCriteriaBuilder.BEAN_ID);
     return doradoCriteriaBuilder;
   }
+  
+  public static Map<String,Object> DEFAULT_PARAM = null;;
 
   public static <T> Linq query(Class<T> domainClass, Criteria criteria,
       Map<String, Object> parameterMap) {
@@ -34,7 +37,13 @@ public class Coke {
       } else if (!parameterMap.containsKey("deleted")) {
         parameterMap.put("deleted", false);
       }
-
+    }
+    
+    if (DEFAULT_PARAM !=null) {
+      if (parameterMap==null) {
+        parameterMap = new HashMap<String, Object>();
+      }
+      parameterMap.putAll(DEFAULT_PARAM);
     }
     criteria =
         getDoradoCriteriaBuilder().mergeQueryParameterCriteria(domainClass, parameterMap, criteria);
@@ -58,6 +67,10 @@ public class Coke {
   }
 
   public static void save(Object entityOrEntityList) {
+    JpaUtil.save(entityOrEntityList, new CokeSavePolicyAdapter());
+  }
+  
+  public static void save(Object entityOrEntityList,SavePolicy savePolicy) {
     JpaUtil.save(entityOrEntityList, new CokeSavePolicyAdapter());
   }
 
