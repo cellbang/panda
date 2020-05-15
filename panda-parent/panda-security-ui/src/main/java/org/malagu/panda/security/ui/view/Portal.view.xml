@@ -652,6 +652,7 @@ entity.set(&quot;oldPassword&quot;, entity.get(&quot;oldPassword&quot;));
 if (entity.get(&quot;oldPassword&quot;) &amp;&amp; entity.get(&quot;newPassword&quot;) &amp;&amp; entity.get(&quot;confirmNewPassword&quot;) &amp;&amp; autoFormPassword.validate(true) === true) {
 	ajaxActionChangePassword.set(&quot;parameter&quot;, {
 		username: &quot;${loginUsername}&quot;,
+    oldPassword: entity.get(&quot;oldPassword&quot;),
 		newPassword: newPassword
 	}).execute(function() {
 		self.get(&quot;parent.parent&quot;).hide();

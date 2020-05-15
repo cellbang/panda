@@ -215,7 +215,7 @@ self.urlQueryTimeout = window.setTimeout(function() {
           </DataPilot>
         </ToolBar>
         <AjaxAction id="ajaxActionResetPassword">
-          <Property name="service">userController#changePassword</Property>
+          <Property name="service">userController#resetPassword</Property>
           <Property name="executingMessage">正在执行……</Property>
           <Property name="successMessage">密码重置成功。</Property>
         </AjaxAction>

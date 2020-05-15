@@ -49,6 +49,11 @@ public class UserController {
 	public void changePassword(String username, String oldPassword, String newPassword) {
 		userService.changePassword(username, oldPassword, newPassword);
 	}
-	
+
+	@Expose
+	@Transactional
+	public void resetPassword(String username, String newPassword) {
+		userService.resetPassword(username, newPassword);
+	}
 
 }

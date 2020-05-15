@@ -23,6 +23,7 @@ public interface UserService {
 
 	boolean isExist(String username);
 
-    void changePassword(String username, String oldPassword, String newPassword);
+	void changePassword(String username, String oldPassword, String newPassword);
 
+	void resetPassword(String username, String newPassword);
 }

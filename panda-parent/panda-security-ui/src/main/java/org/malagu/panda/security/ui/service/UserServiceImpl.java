@@ -5,6 +5,7 @@ import java.util.List;
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.malagu.panda.dorado.linq.policy.SaveContext;
 import org.malagu.panda.dorado.linq.policy.impl.SmartSavePolicyAdapter;
+import org.malagu.panda.security.ContextUtils;
 import org.malagu.panda.security.orm.RoleGrantedAuthority;
 import org.malagu.panda.security.orm.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
   @Override
   public String validateOldPassword(String oldPassword) {
     if (oldPassword != null) {
-      UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+          .getPrincipal();
       String password = JpaUtil.getOne(User.class, user.getUsername()).getPassword();
       if (passwordEncoder.matches(oldPassword, password)) {
         return null;
@@ -75,6 +77,17 @@ public class UserServiceImpl implements UserService {
       u.setPassword(passwordEncoder.encode(newPassword));
     } else {
       throw new RuntimeException("密码不匹配");
+    }
+  }
+
+  @Override
+  @Transactional
+  public void resetPassword(String username, String newPassword) {
+    User u = JpaUtil.getOne(User.class, username);
+    if (ContextUtils.getLoginUser().isAdministrator()) {
+      u.setPassword(passwordEncoder.encode(newPassword));
+    }else {
+      throw new RuntimeException("您不是系统管理员");
     }
   }
 
