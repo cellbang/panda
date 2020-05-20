@@ -51,8 +51,15 @@ public class DirtyTreeSavePolicy implements SavePolicy {
 					generatorPolicies = getNeedGeneratorFields(entity);
 				}
 				applyPersistentEntity(context, generatorPolicies);
-				savePolicy.apply(context);
-				applyPersistentPropertyValue(context, fields);
+				
+				boolean processDefault = true;
+				if (savePolicy instanceof DynamicSavePolicy) {
+				  processDefault = ((DynamicSavePolicy) savePolicy).beforeApply(context);
+				}
+				if (processDefault) {
+                  savePolicy.apply(context);
+                  applyPersistentPropertyValue(context, fields);
+				}
 			}
 		}
 	}
