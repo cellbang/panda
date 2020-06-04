@@ -85,23 +85,35 @@ dialogUser.show()
             <Property name="iconClass">fa fa-pencil</Property>
           </ToolBarButton>
           <ToolBarButton>
-            <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">var user = dsUser.getData(&quot;#&quot;);
+            <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">function generatePassword(){
+    var pass = '';
+    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 'abcdefghijklmnopqrstuvwxyz0123456789@#$';
+    
+    for (i = 1; i &lt;= 15; i++) {
+        var char = Math.floor(Math.random() * str.length + 1);
+        pass += str.charAt(char)
+    }
+    return pass;
+}
+
+var user = dsUser.getData(&quot;#&quot;);
 if (user) {
-	dorado.MessageBox.confirm(&quot;您确定要重置【&quot; + user.get(&quot;nickname&quot;) + &quot;】的密码吗？&quot;, function() {
-		var newPassword = &quot;${configure['panda.resetPassword']}&quot;;
-		if (!newPassword) {
-			newPassword = Math.round(Math.random()*1000000) + &quot;&quot;;
-		} 
-		ajaxActionResetPassword.set(&quot;parameter&quot;, {
-			username: user.get(&quot;username&quot;),
-			newPassword: newPassword
-		}).execute(function() {
-			dorado.MessageBox.alert(&quot;新的密码为：&quot; + newPassword);
-		});
-	});
-	
-} else {
-	dorado.MessageBox.alert(&quot;请先选择用户。&quot;);
+    dorado.MessageBox.confirm(&quot;您确定要重置【&quot; + user.get(&quot;nickname&quot;) + &quot;】的密码吗？&quot;, function(){
+        var newPassword = &quot;${configure['panda.resetPassword']}&quot;;
+        if (!newPassword) {
+            newPassword = generatePassword();
+        }
+        ajaxActionResetPassword.set(&quot;parameter&quot;, {
+            username: user.get(&quot;username&quot;),
+            newPassword: newPassword
+        }).execute(function(){
+            dorado.MessageBox.alert( user.get(&quot;username&quot;) + &quot;新的密码为：&quot; + newPassword);
+        });
+    });
+    
+}
+else {
+    dorado.MessageBox.alert(&quot;请先选择用户。&quot;);
 }
 </ClientEvent>
             <Property name="caption">重置密码</Property>
