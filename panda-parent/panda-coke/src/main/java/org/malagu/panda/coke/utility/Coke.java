@@ -71,7 +71,7 @@ public class Coke {
   }
   
   public static void save(Object entityOrEntityList,SavePolicy savePolicy) {
-    JpaUtil.save(entityOrEntityList, new CokeSavePolicyAdapter());
+    JpaUtil.save(entityOrEntityList, savePolicy);
   }
 
   public static void persist(Iterable<?> entities) {
