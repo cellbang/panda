@@ -38,6 +38,9 @@ public class DoradoWebSecurityConfigurer extends WebSecurityConfigurer {
 		@Value("${panda.customAnonymous}")
 		private String customAnonymous;
 
+		@Value("${panda.maximumSessions:}")
+		private Integer maximumSessions;
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			
@@ -56,6 +59,10 @@ public class DoradoWebSecurityConfigurer extends WebSecurityConfigurer {
 					.permitAll()
 				.and()
 					.rememberMe();
+					
+			if (maximumSessions!=null) {
+			  http.sessionManagement().maximumSessions(maximumSessions);
+			}
 			
 			super.configure(http);
 
