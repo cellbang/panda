@@ -318,13 +318,9 @@
           <Fill/>
           <TextEditor>
             <ClientEvent name="onKeyDown" signature="self,arg,dgRole">if (arg.keyCode === 13) {
-	return;
-}
-window.clearTimeout(self.urlQueryTimeout);
-self.urlQueryTimeout = window.setTimeout(function() {
 	var key = self.get(&quot;value&quot;);
 	if (!key) {
-		dgUser.filter();
+		dgRole.filter();
 	} else {
 		dgRole.filter([{
 			junction: &quot;or&quot;,
@@ -339,7 +335,9 @@ self.urlQueryTimeout = window.setTimeout(function() {
 			}]
 		}]);
 	}
-}, 250);</ClientEvent>
+	return;
+}
+</ClientEvent>
             <Property name="trigger">triggerClear</Property>
             <Property name="blankText">按角色名或描述</Property>
           </TextEditor>
@@ -386,28 +384,25 @@ self.urlQueryTimeout = window.setTimeout(function() {
             <Fill/>
             <TextEditor>
               <ClientEvent name="onKeyDown" signature="self,arg,userSource">if (arg.keyCode === 13) {
-	return;
+    var key = self.get(&quot;value&quot;);
+    if (!key) {
+        userSource.filter();
+    } else {
+        userSource.filter([{
+            junction: &quot;or&quot;,
+            criterions: [{
+                property: &quot;username&quot;,
+                operator: &quot;like&quot;,
+                value: key
+            }, {
+                property: &quot;nickname&quot;,
+                operator: &quot;like&quot;,
+                value: key
+            }]
+        }]);
+    }
 }
-window.clearTimeout(self.urlQueryTimeout);
-self.urlQueryTimeout = window.setTimeout(function() {
-	var key = self.get(&quot;value&quot;);
-	if (!key) {
-		userSource.filter();
-	} else {
-		userSource.filter([{
-			junction: &quot;or&quot;,
-			criterions: [{
-				property: &quot;username&quot;,
-				operator: &quot;like&quot;,
-				value: key
-			}, {
-				property: &quot;nickname&quot;,
-				operator: &quot;like&quot;,
-				value: key
-			}]
-		}]);
-	}
-}, 250);</ClientEvent>
+</ClientEvent>
               <Property name="trigger">triggerClear</Property>
               <Property name="blankText">按用户名或昵称</Property>
             </TextEditor>
@@ -468,10 +463,6 @@ self.urlQueryTimeout = window.setTimeout(function() {
             <Fill/>
             <TextEditor>
               <ClientEvent name="onKeyDown" signature="self,arg,userTarget">if (arg.keyCode === 13) {
-	return;
-}
-window.clearTimeout(self.urlQueryTimeout);
-self.urlQueryTimeout = window.setTimeout(function() {
 	var key = self.get(&quot;value&quot;);
 	if (!key) {
 		userTarget.filter();
@@ -489,7 +480,8 @@ self.urlQueryTimeout = window.setTimeout(function() {
 			}]
 		}]);
 	}
-}, 250);</ClientEvent>
+	return;
+}</ClientEvent>
               <Property name="trigger">triggerClear</Property>
               <Property name="blankText">按用户名或昵称</Property>
             </TextEditor>
