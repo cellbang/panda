@@ -15,5 +15,6 @@
     </ClientEvent>
     <Property name="packages">CokeAction</Property>
    	<@my.Entity entity=entity/>
+   	<@my.UpdateAction entity=entity/>
   </View>
 </ViewConfig>

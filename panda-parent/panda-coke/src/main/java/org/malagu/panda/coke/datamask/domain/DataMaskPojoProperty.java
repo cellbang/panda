@@ -1,8 +1,10 @@
 package org.malagu.panda.coke.datamask.domain;
 
+import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.malagu.panda.coke.model.CokeDetailModel;
 import com.bstek.dorado.annotation.PropertyDef;
 
@@ -31,6 +33,9 @@ public class DataMaskPojoProperty extends CokeDetailModel {
 
   @Column(name = "DATAMASK_RULE_ID", length = 255)
   private Long dataMaskRuleId;
+
+
+  private Collection<DataMaskPojo> subPojoList;
 
   public String getName() {
     return name;
@@ -72,5 +77,13 @@ public class DataMaskPojoProperty extends CokeDetailModel {
     this.dataMaskRuleId = dataMaskRuleId;
   }
 
+  @Transient
+  public Collection<DataMaskPojo> getSubPojoList() {
+    return subPojoList;
+  }
+
+  public void setSubPojoList(Collection<DataMaskPojo> subPojoList) {
+    this.subPojoList = subPojoList;
+  }
 
 }

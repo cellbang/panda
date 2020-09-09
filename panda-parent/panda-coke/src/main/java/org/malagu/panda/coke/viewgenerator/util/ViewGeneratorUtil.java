@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,10 @@ import com.google.common.collect.ImmutableSet;
 
 public class ViewGeneratorUtil {
   public static EntityDef build(Class<?> clazz) {
+    return build(clazz, Collections.emptySet());
+  }
+
+  public static EntityDef build(Class<?> clazz, Set<String> queryPropNameSet) {
     List<Field> filedList = BeanReflectionUtil.loadClassFields(clazz);
 
     EntityDef entityDef = new EntityDef();
@@ -27,6 +32,7 @@ public class ViewGeneratorUtil {
     entityDef.setDataSet("dataSet" + clazz.getSimpleName());
 
     List<Property> propertyList = new ArrayList<Property>(filedList.size());
+    List<Property> queryPropertyList = new ArrayList<Property>(filedList.size());
     entityDef.setProps(propertyList);
 
     for (Field field : filedList) {
@@ -51,6 +57,10 @@ public class ViewGeneratorUtil {
       if (propertyDef != null) {
         property.setLabel(propertyDef.label());
         property.setDescription(propertyDef.description());
+      }
+
+      if (queryPropNameSet.contains(property)) {
+        queryPropertyList.add(property);
       }
     }
 
@@ -113,7 +123,7 @@ public class ViewGeneratorUtil {
     return entityDefs;
   }
 
-  private static Set<String> SUPPORT_DATATYPE_SET = ImmutableSet.of("Float", "BigDecimal", "long",
-      "Integer", "byte", "Short", "Time", "boolean", "DateTime", "short", "Date", "char", "Boolean",
-      "float", "String", "Calendar", "Double", "Byte", "double", "int", "Long", "Character");
+  private static Set<String> SUPPORT_DATATYPE_SET = ImmutableSet.of("Float", "BigDecimal", "long", "Integer", "byte",
+      "Short", "Time", "boolean", "DateTime", "short", "Date", "char", "Boolean", "float", "String", "Calendar",
+      "Double", "Byte", "double", "int", "Long", "Character");
 }

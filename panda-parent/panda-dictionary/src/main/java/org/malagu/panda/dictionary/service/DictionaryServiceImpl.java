@@ -46,8 +46,11 @@ public class DictionaryServiceImpl implements DictionaryService {
   @Override
   @Cacheable(value = CACHE_KEY, key = "methodName + ':' + #p0")
   public List<DictionaryItem> getDictionaryItemsBy(String code) {
-    List<DictionaryItem> list = JpaUtil.linq(DictionaryItem.class).isTrue("enabled").exists(Dictionary.class)
-        .equal("code", code).equalProperty("id", "dictionaryId").isNull("parentId").end().asc("order").list();
+    List<DictionaryItem> list = JpaUtil.linq(DictionaryItem.class).isTrue("enabled")
+        .exists(Dictionary.class)
+          .equal("code", code)
+          .equalProperty("id", "dictionaryId")
+        .end().asc("order").list();
     Map<String, List<DictionaryItem>> map = JpaUtil.classify(list, "parentId");
     List<DictionaryItem> top = map.get(null);
     if (top != null) {

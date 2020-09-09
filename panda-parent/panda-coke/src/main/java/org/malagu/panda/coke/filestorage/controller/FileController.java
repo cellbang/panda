@@ -136,7 +136,28 @@ public class FileController {
     }
     doDownload(cokeFileInfo, request, response);
   }
+  @RequestMapping(value = "/view/{fileNo}.k")
+  public void view(@PathVariable("fileNo") String fileNo, HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
 
+    Map<String, Object> tmpfileInfo = getTmpfileInfo(request, fileNo);
+    if (tmpfileInfo != null) {
+      String path = MapUtils.getString(tmpfileInfo, "path");
+      String filename = MapUtils.getString(tmpfileInfo, "filename");
+
+      try (FileInputStream fis = new FileInputStream(path)) {
+        doDownload(filename, fis, request, response);
+        return;
+      }
+    }
+
+    CokeFileInfo cokeFileInfo = fileService.get(fileNo);
+    if (cokeFileInfo == null) {
+      findNotFound(response, fileNo);
+      return;
+    }
+    doDownload(cokeFileInfo, request, response);
+  }
 
   protected void doDownload(CokeFileInfo cokeFileInfo, HttpServletRequest request,
       HttpServletResponse response) throws IOException {

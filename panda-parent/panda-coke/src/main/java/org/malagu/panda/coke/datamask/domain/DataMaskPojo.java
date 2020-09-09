@@ -26,6 +26,9 @@ public class DataMaskPojo extends CokeBaseModel {
   @Column(name = "CLAZZ_", length = 64)
   private String clazz;
 
+  @PropertyDef(label = "方法签名")
+  private String signature;
+
   public String getName() {
     return name;
   }

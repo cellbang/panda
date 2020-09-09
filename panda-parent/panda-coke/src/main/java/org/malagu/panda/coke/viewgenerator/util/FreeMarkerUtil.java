@@ -34,7 +34,7 @@ public class FreeMarkerUtil {
 
   }
 
-  private static Configuration cfg = new Configuration(Configuration.VERSION_2_3_30);
+  private static Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
   static {
     cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);

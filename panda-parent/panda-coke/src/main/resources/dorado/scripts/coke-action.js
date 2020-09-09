@@ -390,6 +390,8 @@ coke.autoAction = function(view, config) {
 	var listPath, defaultListPath;
 	var dataSetQueryId = "dataSet" + config.name + "Query";
 	var autoformQueryId = "autoform" + config.name + "Query";
+	var tree = config.tree;
+	var caption = config.caption;
 
 	if (config.parentName) {
 		dateSetId = "dataSet" + config.parentName;
@@ -403,6 +405,11 @@ coke.autoAction = function(view, config) {
 		defaultCurrentPath = "#";
 		defaultListPath = "";
 	}
+	
+	if (config.currentPath && !config.listPath){
+		config.listPath = config.currentPath.replace(/#([^#]*)$/, '$1');
+	}
+	
 	currentPath = config.currentPath || defaultCurrentPath;
 	listPath = config.listPath || defaultListPath;
 
@@ -429,6 +436,10 @@ coke.autoAction = function(view, config) {
 	listPath = config.listPath || listPath;
 
 	view["insert" + config.name] = view["insert" + config.name] || function(args) {
+		if (tree){
+			view["insertBrother" + config.name]();
+			return;
+		}
 		var insertedEntity;
 		if (args && typeof args.insertData == "function") {
 			insertedEntity = coke.insertItem(dataSet, listPath, dialog, args.insertData());
@@ -549,8 +560,19 @@ coke.autoAction = function(view, config) {
 
 	var actions = {
 		"Insert": {
-			"iconClass": "fa fa-plus",
+			"iconClass" : "fa fa-plus ck-outline-primary",
+			"exClassName": "ck-outline-primary",
 			"caption": "添加"
+		},
+		"InsertChild": {
+			"iconClass": "fa fa-plus ck-outline-primary",
+			"exClassName": "ck-outline-primary",
+			"caption": "添加(子)"
+		},
+		"InsertBrother": {
+			"iconClass": "fa fa-plus ck-icon-primary",
+			"exClassName": "ck-btn-primary",
+			"caption": "添加(平)"
 		},
 		"Edit": {
 			"iconClass": "fa fa-pencil",
@@ -565,7 +587,8 @@ coke.autoAction = function(view, config) {
 			"caption": "删除"
 		},
 		"Save": {
-			"iconClass": "fa fa-check",
+			"iconClass": "fa fa-check ck-icon-primary",
+			"exClassName": "ck-btn-primary",
 			"caption": "保存"
 		},
 		"Cancel": {
@@ -635,7 +658,7 @@ coke.autoAction = function(view, config) {
 	if (dataGrid && dialog) {
 		if (config.onDataRowDoubleClick === undefined) {
 			dataGrid.bind("onDataRowDoubleClick", function(self, arg) {
-				coke.editItem(dataSet, currentPath, dialog, buttonEdit);
+				view["edit" + config.name](self, arg);
 			});
 		} else if (jQuery.isFunction(config.onDataRowDoubleClick)) {
 			dataGrid.bind("onDataRowDoubleClick", config.onDataRowDoubleClick);
