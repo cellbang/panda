@@ -105,7 +105,7 @@ public class FileController {
       findNotFound(response, "shareCode: " + shareCode);
       return;
     }
-    doDownload(cokeFileInfo, request, response);
+    doDownload(cokeFileInfo, request, response, false);
 
   }
 
@@ -124,7 +124,7 @@ public class FileController {
       String filename = MapUtils.getString(tmpfileInfo, "filename");
 
       try (FileInputStream fis = new FileInputStream(path)) {
-        doDownload(filename, fis, request, response);
+        doDownload(filename, fis, request, response, false);
         return;
       }
     }
@@ -134,8 +134,9 @@ public class FileController {
       findNotFound(response, fileNo);
       return;
     }
-    doDownload(cokeFileInfo, request, response);
+    doDownload(cokeFileInfo, request, response, true);
   }
+
   @RequestMapping(value = "/view/{fileNo}.k")
   public void view(@PathVariable("fileNo") String fileNo, HttpServletRequest request,
       HttpServletResponse response) throws IOException {
@@ -146,7 +147,7 @@ public class FileController {
       String filename = MapUtils.getString(tmpfileInfo, "filename");
 
       try (FileInputStream fis = new FileInputStream(path)) {
-        doDownload(filename, fis, request, response);
+        doDownload(filename, fis, request, response, false);
         return;
       }
     }
@@ -156,29 +157,31 @@ public class FileController {
       findNotFound(response, fileNo);
       return;
     }
-    doDownload(cokeFileInfo, request, response);
+    doDownload(cokeFileInfo, request, response, false);
   }
 
   protected void doDownload(CokeFileInfo cokeFileInfo, HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
+      HttpServletResponse response, boolean attachment) throws IOException {
     String filename = cokeFileInfo.getFilename();
     InputStream inputStream = fileService.getInputStream(cokeFileInfo);
     if (inputStream == null) {
       findNotFound(response, cokeFileInfo.getId().toString());
     }
-    doDownload(filename, inputStream, request, response);
+    doDownload(filename, inputStream, request, response, attachment);
   }
 
   protected void doDownload(String filename, InputStream inputStream, HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
+      HttpServletResponse response, boolean attachment) throws IOException {
 
     HttpSession session = request.getSession();
 
     response.setContentType(session.getServletContext().getMimeType(filename));
     String encodFilename = URLEncoder.encode(filename, "utf-8");
     response.setHeader("Cache-Control", "max-age=31556926");
-    response.setHeader("Content-Disposition",
-        String.format("attachment; filename=\"%1$s\"; filename*=utf-8''%1$s", encodFilename));
+    if (attachment) {
+      response.setHeader("Content-Disposition",
+          String.format("attachment; filename=\"%1$s\"; filename*=utf-8''%1$s", encodFilename));
+    }
 
     OutputStream outputStream = null;
     try {
