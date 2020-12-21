@@ -124,7 +124,7 @@ public class FileController {
       String filename = MapUtils.getString(tmpfileInfo, "filename");
 
       try (FileInputStream fis = new FileInputStream(path)) {
-        doDownload(filename, fis, request, response, false);
+        doDownload(filename, fis, request, response, true);
         return;
       }
     }
