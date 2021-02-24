@@ -29,7 +29,7 @@ public class User implements UserDetails, OrganizationSupport {
 	@Column(name = "NICKNAME_", length = 64)
 	private String nickname;
 	
-	@Column(name = "PASSWORD_", length = 125)
+	@Column(name = "PASSWORD_", length = 125, updatable = false)
 	private String password;
 	
 	@Column(name = "ADMINISTRATOR_")

@@ -87,7 +87,7 @@ dialogUser.show()
           <ToolBarButton>
             <ClientEvent name="onClick" signature="self,arg,ajaxActionResetPassword,dsUser">function generatePassword(){
     var pass = '';
-    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 'abcdefghijklmnopqrstuvwxyz0123456789@#$';
+    var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' + 'abcdefghijklmnopqrstuvwxyz0123456789@#';
     
     for (i = 1; i &lt;= 15; i++) {
         var char = Math.floor(Math.random() * str.length + 1);
