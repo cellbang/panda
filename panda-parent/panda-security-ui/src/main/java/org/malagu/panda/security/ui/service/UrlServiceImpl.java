@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.Query;
 
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.malagu.panda.dorado.linq.policy.SaveContext;
@@ -14,10 +11,15 @@ import org.malagu.panda.dorado.linq.policy.impl.SmartSavePolicyAdapter;
 import org.malagu.panda.security.cache.SecurityCacheEvict;
 import org.malagu.panda.security.orm.Permission;
 import org.malagu.panda.security.orm.Url;
+import org.malagu.panda.security.ui.events.PandaUrlUpdatedEvent;
 import org.malagu.panda.security.ui.utils.SecurityUiConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 
 
@@ -91,28 +93,20 @@ public class UrlServiceImpl implements UrlService {
 				super.apply(context);
 			}	
 		});
+		
+		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization(){
+		    public void afterCommit() {
+		        applicationEventPublisher.publishEvent(new PandaUrlUpdatedEvent(urls));
+		    }
+		});
 	}
 
-	@Override
-	  public Boolean checkUrlAuthority(Set<String> urls, String userName) {
-	    String sql = " select 1 from panda_url u " 
-	        + " where u.path_ in (:urls) "
-	        + " and exists ( select 1 "
-	        + " from panda_role_granted_authority a "
-	        + " inner join panda_permission p on a.role_id_ = p.role_id_"
-	        + " where p.resource_id_ = u.id_ and a.actor_id_ =:userName "
-	        + " and p.resource_type_ = 'URL') ";
-	    Query query = JpaUtil.nativeQuery(sql);
-	    query.setParameter("userName", userName);
-	    query.setParameter("urls", urls);
-	    return query.getResultList().isEmpty() ? Boolean.FALSE : Boolean.TRUE;
-	  }
+    @Override
+    public List<Url> findAll() {
+      return JpaUtil.linq(Url.class).list();
+    }
 
-  @Override
-  public List<Url> findAll() {
-    return JpaUtil.linq(Url.class).list();
-  }
-
-
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
 }
