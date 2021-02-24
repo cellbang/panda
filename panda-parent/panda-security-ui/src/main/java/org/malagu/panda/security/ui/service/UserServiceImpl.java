@@ -74,18 +74,24 @@ public class UserServiceImpl implements UserService {
   public void changePassword(String username, String oldPassword, String newPassword) {
     User u = findUserByUsername(username);
     if (passwordEncoder.matches(oldPassword, u.getPassword())) {
-      u.setPassword(passwordEncoder.encode(newPassword));
+      changePassword(username, newPassword);
     } else {
       throw new RuntimeException("密码不匹配");
     }
   }
+  
+  @Transactional
+  public void changePassword(String username, String newPassword) {
+    JpaUtil.linu(User.class).set("password", passwordEncoder.encode(newPassword))
+        .equal("username", username).equal("deleted", false).update();
+  }
+
 
   @Override
   @Transactional
   public void resetPassword(String username, String newPassword) {
-    User u = JpaUtil.getOne(User.class, username);
     if (ContextUtils.getLoginUser().isAdministrator()) {
-      u.setPassword(passwordEncoder.encode(newPassword));
+      this.changePassword(username, newPassword);
     }else {
       throw new RuntimeException("您不是系统管理员");
     }
