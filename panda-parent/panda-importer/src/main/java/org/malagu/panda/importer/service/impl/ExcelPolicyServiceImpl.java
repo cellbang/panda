@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.malagu.panda.dorado.linq.JpaUtil;
@@ -24,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.xobo.toolkit.model.ExcelHeader;
 
 /**
  * @author xobo
@@ -40,7 +43,7 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
    */
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
-  public boolean parse(InputStream inpuStream, Map<String, Object> parameter) {
+  public boolean parse(InputStream inputStream, Map<String, Object> parameter) {
     String name = MapUtils.getString(parameter, "filename");
     String importerSolutionId = MapUtils.getString(parameter, "importerSolutionId");
     int startRow = MapUtils.getInteger(parameter, "startRow", 1);
@@ -49,17 +52,21 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
       if (excelPolicy.support(name)) {
         Context context = excelPolicy.createContext();
         context.setImporterSolutionId(importerSolutionId);
+
         initContext(context);
-        context.setInputStream(new BufferedInputStream(inpuStream));
+
+        context.setInputStream(new BufferedInputStream(inputStream));
         context.setStartRow(startRow);
         context.setFileName(name);
         context.setFileSize(fileSize);
-        context.setImporterSolutionId(importerSolutionId);
         context.setParams(parameter);
+
+        reMappingRuleByLabel(context);
+
         try {
           excelPolicy.apply(context);
         } catch (Exception e) {
-          e.printStackTrace();
+          throw new RuntimeException(e);
         }
         break;
       }
@@ -67,7 +74,7 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
     return false;
   }
 
-  protected void initContext(Context context)  {
+  protected void initContext(Context context) {
     ImporterSolution importerSolution = getImporterSolution(context.getImporterSolutionId());
     Class<?> entityClass = null;
     try {
@@ -90,13 +97,42 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
         (PostProcessPolicy) applicationContext.getBean(postProcessPolicyBeanId));
   }
 
+  @SuppressWarnings("unchecked")
+  private void reMappingRuleByLabel(Context context) {
+    Map<String, Object> params = context.getParams();
+
+    if (!ExcelPolicyService.MATCH_BY_LABEL.equals(context.getImporterSolution().getMatchType())) {
+      return;
+    }
+
+    List<ExcelHeader> excelHeaderList =
+        (List<ExcelHeader>) params.get(ExcelPolicyService.EXCEL_HEADER_LIST);
+
+    if (excelHeaderList == null) {
+      return;
+    }
+
+    Map<String, Integer> excelHeaderIndexMap =
+        excelHeaderList.stream().collect(Collectors.toMap(x -> x.getLabel(), x -> x.getIndex()));
+
+    List<MappingRule> mappingRulesList = context.getMappingRules();
+    for (MappingRule mappingRule : mappingRulesList) {
+      String excelTitle = mappingRule.getExcelTitle();
+      if (StringUtils.isNotEmpty(excelTitle)) {
+        Integer index = excelHeaderIndexMap.get(excelTitle);
+        if (index != null) {
+          mappingRule.setExcelColumn(index);
+        }
+      }
+    }
+  }
+
   private ImporterSolution getImporterSolution(String importerSolutionId) {
     ImporterSolution importerSolution = JpaUtil.getOne(ImporterSolution.class, importerSolutionId);
-    List<MappingRule> mappingRules = JpaUtil
-        .linq(MappingRule.class)
-        .equal("importerSolutionId", importerSolutionId)
-        .list();
+    List<MappingRule> mappingRules =
+        JpaUtil.linq(MappingRule.class).equal("importerSolutionId", importerSolutionId).list();
     importerSolution.setMappingRules(mappingRules);
+    JpaUtil.getEntityManager(MappingRule.class).clear();
     return importerSolution;
 
   }

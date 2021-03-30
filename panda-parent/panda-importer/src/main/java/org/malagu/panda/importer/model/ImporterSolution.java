@@ -28,6 +28,10 @@ public class ImporterSolution implements java.io.Serializable {
   @Column(name = "NAME_", length = 60)
   private String name;
 
+  @PropertyDef(label = "匹配方式", description = "1.列优先; 2.表头优先")
+  @Column(name = "match_type_")
+  private Integer matchType;
+
   @PropertyDef(label = "Sheet页名称")
   @Column(name = "EXCEL_SHEET_NAME_", length = 60)
   private String excelSheetName;
@@ -126,6 +130,14 @@ public class ImporterSolution implements java.io.Serializable {
 
   public void setPostProcessBean(String postProcessBean) {
     this.postProcessBean = postProcessBean;
+  }
+
+  public Integer getMatchType() {
+    return matchType;
+  }
+
+  public void setMatchType(Integer matchType) {
+    this.matchType = matchType;
   }
 
 }
