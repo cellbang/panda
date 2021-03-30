@@ -503,6 +503,10 @@ coke.autoAction = function(view, config) {
 			}
 		}
 	};
+	
+	view["getCurrent" + config.name] = view["getCurrent" + config.name] || function() {
+		return dataSet.getData(currentPath);;
+	}
 
 
 	view["edit" + config.name] = view["edit" + config.name] || function() {
