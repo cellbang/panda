@@ -5,6 +5,7 @@ package org.malagu.panda.importer.service.impl;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -116,14 +117,27 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
         excelHeaderList.stream().collect(Collectors.toMap(x -> x.getLabel(), x -> x.getIndex()));
 
     List<MappingRule> mappingRulesList = context.getMappingRules();
+    List<String> unMappedList = new ArrayList<String>();
     for (MappingRule mappingRule : mappingRulesList) {
       String excelTitle = mappingRule.getExcelTitle();
       if (StringUtils.isNotEmpty(excelTitle)) {
-        Integer index = excelHeaderIndexMap.get(excelTitle);
-        if (index != null) {
-          mappingRule.setExcelColumn(index);
+        String[] titles = excelTitle.split(",");
+        boolean matched = false;
+        for (int i = 0; i < titles.length && !matched; i++) {
+          Integer index = excelHeaderIndexMap.get(titles[i]);
+          if (index != null) {
+            mappingRule.setExcelColumn(index);
+            matched = true;
+          }
+        }
+        if (!matched) {
+          unMappedList.add(excelTitle);
         }
       }
+    }
+
+    if (!unMappedList.isEmpty()) {
+      throw new RuntimeException("未匹配的列:" + unMappedList);
     }
   }
 

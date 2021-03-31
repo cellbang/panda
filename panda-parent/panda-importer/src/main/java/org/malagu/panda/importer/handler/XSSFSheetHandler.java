@@ -37,6 +37,9 @@ public class XSSFSheetHandler extends DefaultHandler {
 
             String cellType = attributes.getValue("t");
             String cellStyleStr = attributes.getValue("s");
+            
+            System.out.println(cellType);
+            System.out.println(cellStyleStr);
             if ("b".equals(cellType))
                 context.setNextDataType(XSSFDataType.BOOL);
             else if ("e".equals(cellType))

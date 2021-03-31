@@ -100,7 +100,7 @@ public class DictionaryServiceImpl implements DictionaryService {
   @Override
   @Cacheable(value = CACHE_KEY, key = "methodName + ':' + #p0")
   public Map<String, String> getDictionaryValueKeyMap(String code) {
-    List<DictionaryItem> dictionaryItemList = getDictionaryItemsBy(code);
+    List<DictionaryItem> dictionaryItemList = getAllDictionaryItemsBy(code);
     Map<String, String> dictValueMap =
         dictionaryItemList.stream().filter(x -> !StringUtils.isEmpty(x.getValue())).collect(
             Collectors.toMap(DictionaryItem::getValue, DictionaryItem::getKey, (x, y) -> x));
