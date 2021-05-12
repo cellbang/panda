@@ -76,6 +76,14 @@ if (postProcessPolicy) {
         </Property>
         <Property name="defaultValue">1</Property>
       </PropertyDef>
+      <PropertyDef name="startRowHeader">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">表头起始行</Property>
+      </PropertyDef>
+      <PropertyDef name="startRowData">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">数据起始行</Property>
+      </PropertyDef>
     </DataType>
     <DataType name="MappingRule">
       <Property name="creationType">org.malagu.panda.importer.model.MappingRule</Property>
@@ -399,6 +407,12 @@ var data = dorado.JSON.parse(decodeBase64(arg.returnValue));
 var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
 dataSetPojoInfo.setData(data);
 dorado.widget.NotifyTipManager.notify(&quot;Excel表头解析完成。&quot;);</ClientEvent>
+                <ClientEvent name="beforeFileUploaded">var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);
+var startRowHeader = dsImporterSolution.getData(&quot;#.startRowHeader&quot;);
+self.set(&quot;parameter&quot;, {
+	startRowHeader: startRowHeader
+});
+</ClientEvent>
                 <Property name="fileResolver">importer.excelUploadFileProcessor#uploadTemplate</Property>
                 <Filters>
                   <Filter>
@@ -549,49 +563,59 @@ if (entity) {
       <Children>
         <AutoForm>
           <Property name="dataSet">dsImporterSolution</Property>
-          <Property name="cols">*</Property>
+          <Property name="cols">*,*</Property>
           <Property name="labelWidth">100</Property>
-          <AutoFormElement id="id">
+          <AutoFormElement id="id" layoutConstraint="colSpan:2">
             <Property name="name">id</Property>
             <Property name="property">id</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">name</Property>
             <Property name="property">name</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">matchType</Property>
             <Property name="property">matchType</Property>
             <Property name="editorType">RadioGroup</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">entityManagerFactoryName</Property>
             <Property name="property">entityManagerFactoryName</Property>
             <Property name="trigger">ddEntityManagerFactoryName</Property>
             <Property name="editable">false</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">entityClassName</Property>
             <Property name="property">entityClassName</Property>
             <Property name="trigger">ddEntityClassName</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">excelSheetName</Property>
             <Property name="property">excelSheetName</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
+            <Property name="name">startRowHeader</Property>
+            <Property name="property">startRowHeader</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">startRowData</Property>
+            <Property name="property">startRowData</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">desc</Property>
             <Property name="property">desc</Property>
             <Property name="editorType">TextArea</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">postProcessBeanCaption</Property>
             <Property name="property">postProcessBeanCaption</Property>
             <Property name="trigger">postProcessPolicyDropDown</Property>

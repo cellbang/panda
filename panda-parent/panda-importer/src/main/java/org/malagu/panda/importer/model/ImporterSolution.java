@@ -36,6 +36,14 @@ public class ImporterSolution implements java.io.Serializable {
   @Column(name = "EXCEL_SHEET_NAME_", length = 60)
   private String excelSheetName;
 
+  @PropertyDef(label = "表头起始行")
+  @Column(name = "START_ROW_HEADER_", length = 60)
+  private Integer startRowHeader;
+
+  @PropertyDef(label = "数据起始行")
+  @Column(name = "START_ROW_DATA_", length = 60)
+  private Integer startRowData;
+
   @Column(name = "ENTITY_CLASS_NAME_", length = 255)
   @PropertyDef(label = "实体类")
   private String entityClassName;
@@ -138,6 +146,22 @@ public class ImporterSolution implements java.io.Serializable {
 
   public void setMatchType(Integer matchType) {
     this.matchType = matchType;
+  }
+
+  public Integer getStartRowHeader() {
+    return startRowHeader;
+  }
+
+  public void setStartRowHeader(Integer startRowHeader) {
+    this.startRowHeader = startRowHeader;
+  }
+
+  public Integer getStartRowData() {
+    return startRowData;
+  }
+
+  public void setStartRowData(Integer startRowData) {
+    this.startRowData = startRowData;
   }
 
 }

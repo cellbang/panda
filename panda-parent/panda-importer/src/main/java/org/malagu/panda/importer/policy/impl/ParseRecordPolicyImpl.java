@@ -40,7 +40,7 @@ public class ParseRecordPolicyImpl implements ParseRecordPolicy, ApplicationCont
     List<Object> resultList = new ArrayList<>(records.size());
     context.setResultList(resultList);
 
-    for (int i = context.getStartRow(); i < records.size(); i++) {
+    for (int i = 0; i < records.size(); i++) {
       Record record = records.get(i);
       Object entity = BeanUtils.newInstance(context.getEntityClass());
       context.setCurrentEntity(entity);

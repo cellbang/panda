@@ -33,7 +33,7 @@ public class ExcelUploadFileProcessor implements ApplicationContextAware {
   @FileResolver
   @Transactional
   public String upload(UploadFile file, Map<String, Object> parameter) throws Exception {
-    int startRow = MapUtils.getIntValue(parameter, "startRow");
+    int startRowHeader = MapUtils.getIntValue(parameter, "startRowHeader");
 
     MultipartFile multipartFile = file.getMultipartFile();
     String name = multipartFile.getOriginalFilename();
@@ -43,7 +43,7 @@ public class ExcelUploadFileProcessor implements ApplicationContextAware {
     File tempFile = File.createTempFile(name, null);
     multipartFile.transferTo(tempFile);
 
-    List<ExcelHeader> excelHeaderList = ExcelReaderUtil.loadExcelHeadList(tempFile, startRow);
+    List<ExcelHeader> excelHeaderList = ExcelReaderUtil.loadExcelHeadList(tempFile, startRowHeader);
     parameter.put(ExcelPolicyService.EXCEL_HEADER_LIST, excelHeaderList);
 
     try (InputStream inputStream = new BufferedInputStream(new FileInputStream(tempFile))) {
@@ -60,11 +60,12 @@ public class ExcelUploadFileProcessor implements ApplicationContextAware {
   @Transactional
   public Object uploadTemplate(UploadFile file, Map<String, Object> parameter) throws Exception {
     MultipartFile multipartFile = file.getMultipartFile();
-    int startRow = MapUtils.getIntValue(parameter, "startRow");
+    int startRowHeader = MapUtils.getIntValue(parameter, "startRowHeader", 1);
 
     List<ExcelHeader> excelHeaderList = null;
     try {
-      excelHeaderList = ExcelReaderUtil.loadExcelHeadList(multipartFile.getInputStream(), startRow);
+      excelHeaderList =
+          ExcelReaderUtil.loadExcelHeadList(multipartFile.getInputStream(), startRowHeader - 1);
     } finally {
       IOUtils.closeQuietly(multipartFile.getInputStream());
     }

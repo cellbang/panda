@@ -47,7 +47,6 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
   public boolean parse(InputStream inputStream, Map<String, Object> parameter) {
     String name = MapUtils.getString(parameter, "filename");
     String importerSolutionId = MapUtils.getString(parameter, "importerSolutionId");
-    int startRow = MapUtils.getInteger(parameter, "startRow", 1);
     long fileSize = MapUtils.getInteger(parameter, "fileSize", 0);
     for (ExcelPolicy excelPolicy : excelPolicies) {
       if (excelPolicy.support(name)) {
@@ -57,7 +56,6 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
         initContext(context);
 
         context.setInputStream(new BufferedInputStream(inputStream));
-        context.setStartRow(startRow);
         context.setFileName(name);
         context.setFileSize(fileSize);
         context.setParams(parameter);
@@ -89,6 +87,12 @@ public class ExcelPolicyServiceImpl implements ExcelPolicyService, ApplicationCo
     context.setImporterSolution(importerSolution);
     context.setMappingRules(mappingRules);
     context.setEntityClass(entityClass);
+
+    Integer startRowData = importerSolution.getStartRowData();
+    if (startRowData == null) {
+      startRowData = 1;
+    }
+    context.setStartRow(startRowData);
 
     String postProcessPolicyBeanId = importerSolution.getPostProcessBean();
     if (StringUtils.isEmpty(postProcessPolicyBeanId)) {

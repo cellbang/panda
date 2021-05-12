@@ -32,10 +32,8 @@ public class EasyExcelPolicy implements ExcelPolicy<Context> {
   @Override
   public void apply(Context context) throws Exception {
 
-    // EeayExcel 会自动忽略表头
-    context.setStartRow(0);
-
-    List<Object> dataList = EasyExcel.read(context.getInputStream()).sheet(0).doReadSync();
+    List<Object> dataList = EasyExcel.read(context.getInputStream()).sheet(0)
+        .headRowNumber(context.getStartRow() - 1).doReadSync();
     for (int i = 0; i < dataList.size(); i++) {
       Object object = dataList.get(i);
 
