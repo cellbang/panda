@@ -15,6 +15,7 @@ public class PandaDoradoExposedServiceWhiteListProvider
   public PandaDoradoExposedServiceWhiteListProvider() {
     whiteList.add("templateController#loadGlobal");
     whiteList.add("noticeController#connectServer");
+    whiteList.add("frameworkController#loadUrlForLoginUser");
   }
 
 

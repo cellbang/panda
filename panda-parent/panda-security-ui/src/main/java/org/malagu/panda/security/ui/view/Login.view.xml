@@ -36,7 +36,7 @@
         <FloatPanel id="floatPanel">
           <Property name="width">350</Property>
           <Property name="center">true</Property>
-          <Property name="height">450</Property>
+          <Property name="height">500</Property>
           <Property name="floating">false</Property>
           <Property name="visible">true</Property>
           <Property name="exClassName">login</Property>
@@ -61,34 +61,31 @@
               <AutoForm id="autoFormLogin">
                 <Property name="dataType">User</Property>
                 <Property name="createPrivateDataSet">true</Property>
-                <Property name="showLabel">false</Property>
                 <Property name="showHint">false</Property>
                 <Property name="rowPadding">10</Property>
                 <Property name="cols">25,*</Property>
+                <Property name="labelPosition">top</Property>
                 <AutoFormElement layoutConstraint="align:right;colSpan:2">
                   <Property name="name">username</Property>
                   <Property name="property">username</Property>
-                  <Property name="labelAlign">right</Property>
+                  <Property name="labelAlign">left</Property>
                   <Editor>
-                    <TextEditor>
-                      <Property name="blankText">用户名</Property>
-                    </TextEditor>
+                    <TextEditor/>
                   </Editor>
                 </AutoFormElement>
                 <AutoFormElement layoutConstraint="colSpan:2">
                   <Property name="name">password</Property>
                   <Property name="property">password</Property>
-                  <Property name="labelAlign">right</Property>
+                  <Property name="labelAlign">left</Property>
                   <Property name="editorType">PasswordEditor</Property>
                   <Editor>
-                    <PasswordEditor>
-                      <Property name="blankText">密码</Property>
-                    </PasswordEditor>
+                    <PasswordEditor/>
                   </Editor>
                 </AutoFormElement>
                 <AutoFormElement>
                   <Property name="property">remember-me</Property>
                   <Property name="name">remember-me</Property>
+                  <Property name="showLabel">false</Property>
                   <Editor/>
                 </AutoFormElement>
                 <Label>
