@@ -11,13 +11,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import javax.annotation.Resource;
-import org.malagu.panda.coke.querysupporter.model.OrMap;
+
+import org.malagu.panda.coke.querysupporter.model.JunctionAndParam;
+import org.malagu.panda.coke.querysupporter.model.JunctionOrParam;
 import org.malagu.panda.coke.querysupporter.model.PropertyWrapper;
 import org.malagu.panda.coke.querysupporter.service.DoradoCriteriaBuilder;
 import org.malagu.panda.coke.querysupporter.service.QueryPropertyWrapperService;
 import org.malagu.panda.coke.utility.DoradoOrderHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.bstek.dorado.data.provider.And;
 import com.bstek.dorado.data.provider.Criteria;
 import com.bstek.dorado.data.provider.Criterion;
 import com.bstek.dorado.data.provider.Or;
@@ -92,12 +96,20 @@ public class DoradoCriteriaBuilderImpl implements DoradoCriteriaBuilder {
       }
 
       Criterion newCriterion = null;
-      if (value instanceof OrMap) {
+      if (value instanceof JunctionOrParam) {
         Or or = new Or();
         List<Criterion> orCriterions =
-            extractQueryParameter(entityClass, ((OrMap) value).getConditions(), propertyOperatorMap);
+            extractQueryParameter(entityClass, ((JunctionOrParam) value).getQueryParameter(),
+                propertyOperatorMap);
         or.setCriterions(orCriterions);
         newCriterion = or;
+      } else if (value instanceof JunctionAndParam) {
+        And and = new And();
+        List<Criterion> orCriterions =
+            extractQueryParameter(entityClass, ((JunctionAndParam) value).getQueryParameter(),
+                propertyOperatorMap);
+        and.setCriterions(orCriterions);
+        newCriterion = and;
       } else {
         PropertyWrapper propertyWrapper =
             propertyWrapperService.find(entityClass, property, propertyOperatorMap);
