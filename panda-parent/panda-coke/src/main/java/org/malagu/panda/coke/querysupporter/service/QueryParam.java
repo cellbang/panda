@@ -59,7 +59,7 @@ public class QueryParam {
     return this;
   }
 
-  boolean beforeMethodInvoke() {
+  boolean shouldContinue() {
     for (Boolean value : ifStack) {
       if (!Boolean.TRUE.equals(value)) {
         return false;
@@ -69,7 +69,7 @@ public class QueryParam {
   }
 
   public QueryParam or() {
-    if (!beforeMethodInvoke()) {
+    if (!shouldContinue()) {
       return this;
     }
     JunctionOrParam or = JunctionOrParam.create(count++);
@@ -79,7 +79,7 @@ public class QueryParam {
   }
 
   public QueryParam and() {
-    if (!beforeMethodInvoke()) {
+    if (!shouldContinue()) {
       return this;
     }
     JunctionAndParam and = JunctionAndParam.create(count++);
@@ -89,21 +89,34 @@ public class QueryParam {
   }
 
   public QueryParam endOr() {
+    if (!shouldContinue()) {
+      return this;
+    }
     queryParamStack.pop();
     return this;
   }
 
   public QueryParam endAnd() {
+    if (!shouldContinue()) {
+      return this;
+    }
+
     queryParamStack.pop();
     return this;
   }
 
   public QueryParam add(String property, Object value) {
+    if (!shouldContinue()) {
+      return this;
+    }
     queryParamStack.peek().add(property, value);
     return this;
   }
 
   public QueryParam remove(String property) {
+    if (!shouldContinue()) {
+      return this;
+    }
     queryParamStack.peek().remove(property);
     return this;
   }
