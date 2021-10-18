@@ -391,7 +391,7 @@ coke.autoAction = function(view, config) {
 	var dataSetQueryId = "dataSet" + config.name + "Query";
 	var autoformQueryId = "autoform" + config.name + "Query";
 	var tree = config.tree;
-	var caption = config.caption;
+	var caption = config.caption || "";
 
 	if (config.parentName) {
 		dateSetId = "dataSet" + config.parentName;
@@ -562,46 +562,46 @@ coke.autoAction = function(view, config) {
 		"Insert": {
 			"iconClass" : "fa fa-plus ck-outline-primary",
 			"exClassName": "ck-outline-primary",
-			"caption": "添加"
+			"caption": "添加" + caption
 		},
 		"InsertChild": {
 			"iconClass": "fa fa-plus ck-outline-primary",
 			"exClassName": "ck-outline-primary",
-			"caption": "添加(子)"
+			"caption": "添加(子)" + caption
 		},
 		"InsertBrother": {
 			"iconClass": "fa fa-plus ck-icon-primary",
 			"exClassName": "ck-btn-primary",
-			"caption": "添加(平)"
+			"caption": "添加(平)" + caption
 		},
 		"Edit": {
 			"iconClass": "fa fa-pencil",
-			"caption": "编辑"
+			"caption": "编辑" + caption
 		},
 		"View": {
 			"iconClass": "fa fa-eye",
-			"caption": "查看"
+			"caption": "查看" + caption
 		},
 		"Del": {
 			"iconClass": "fa fa-minus",
-			"caption": "删除"
+			"caption": "删除" + caption
 		},
 		"Save": {
 			"iconClass": "fa fa-check ck-icon-primary",
 			"exClassName": "ck-btn-primary",
-			"caption": "保存"
+			"caption": "保存" + caption
 		},
 		"Cancel": {
 			"iconClass": "fa fa-times",
-			"caption": "取消"
+			"caption": "取消" + caption
 		},
 		"Query": {
 			"iconClass": "fa fa-search",
-			"caption": "查询"
+			"caption": "查询" + caption
 		},
 		"QueryReset": {
 			"iconClass": "fa fa-undo",
-			"caption": "重置"
+			"caption": "重置" + caption
 		}
 
 	};

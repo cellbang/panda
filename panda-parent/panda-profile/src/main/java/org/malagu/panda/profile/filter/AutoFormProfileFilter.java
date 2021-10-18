@@ -54,7 +54,6 @@ public class AutoFormProfileFilter implements ProfileFilter<AutoForm> {
 			if (autoFormElement != null) {
 				autoFormElement.setHideMode(hideMode);
 				autoFormElement = (AutoFormElement) autoFormElement;
-				autoFormElement.setLabel(member.getCaption());
 				Object layoutConstraint = autoFormElement.getLayoutConstraint();
 				if (layoutConstraint == null && (member.getColSpan() != 1 || member.getRowSpan() != 1)) {
 					CommonLayoutConstraint commonLayoutConstraint = new CommonLayoutConstraint();
