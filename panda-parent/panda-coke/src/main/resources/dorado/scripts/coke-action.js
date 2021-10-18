@@ -503,9 +503,14 @@ coke.autoAction = function(view, config) {
 			}
 		}
 	};
+	
+	view["getCurrent" + config.name] = view["getCurrent" + config.name] || function() {
+		return dataSet.getData(currentPath);;
+	}
 
 
 	view["edit" + config.name] = view["edit" + config.name] || function() {
+		view.get("^roE" + config.name).set("readOnly", true);
 		var entity = dataSet.getData(currentPath);
 		if (entity && jQuery.isFunction(config.beforeEdit)) {
 			config.beforeEdit(entity);
@@ -514,6 +519,7 @@ coke.autoAction = function(view, config) {
 			config.onEdit(entity);
 		}
 		coke.editItem(dataSet, currentPath, dialog);
+		view.get("^roEdit" + config.name).set("readOnly", false);
 	};
 
 	view["view" + config.name] = view["view" + config.name] || function() {

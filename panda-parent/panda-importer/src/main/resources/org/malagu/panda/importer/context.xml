@@ -5,11 +5,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	">
   <bean id="importer.excelUploadFileProcessor" class="org.malagu.panda.importer.controller.ExcelUploadFileProcessor"></bean>
-  <bean id="importer.xssfExcelPolicy" class="org.malagu.panda.importer.policy.impl.XSSFExcelPolicy">
-    <property name="sheetPolicy" ref="importer.xssfSheetPolicy"></property>
-    <property name="parseRecordPolicy" ref="importer.parseRecordPolicy"></property>
-  </bean>
-  <bean id="importer.EasyExcelPolicy" class="org.malagu.panda.importer.policy.impl.EasyExcelPolicy">
+<!--   <bean id="importer.xssfExcelPolicy" class="org.malagu.panda.importer.policy.impl.XSSFExcelPolicy"> -->
+<!--     <property name="sheetPolicy" ref="importer.xssfSheetPolicy"></property> -->
+<!--     <property name="parseRecordPolicy" ref="importer.parseRecordPolicy"></property> -->
+<!--   </bean> -->
+  <bean id="importer.easyExcelPolicy" class="org.malagu.panda.importer.policy.impl.EasyExcelPolicy">
     <property name="parseRecordPolicy" ref="importer.parseRecordPolicy"></property>
   </bean>
   <bean class="org.malagu.panda.importer.handler.XSSFSheetHandler" scope="prototype"></bean>
@@ -36,6 +36,8 @@
   <bean id="importer.elCellPostParser" class="org.malagu.panda.importer.parser.impl.ELCellPostParser">
     <property name="expressionHandler" ref="dorado.expressionHandler"></property>
   </bean>
+  <bean id="importer.paramCellPreParser" class="org.malagu.panda.importer.parser.impl.ParamCellPreParser"/>
+  <bean id="importer.fixValueCellPreParser" class="org.malagu.panda.importer.parser.impl.FixValueCellPreParser"/>
 
   <!--单元格生命周期处理器 -->
   <bean class="org.malagu.panda.importer.processor.impl.EmptyCellPreprocessor"></bean>

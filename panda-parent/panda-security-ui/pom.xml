@@ -19,5 +19,10 @@
   	  <groupId>org.malagu.panda</groupId>
       <artifactId>panda-notice-ui</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>org.xobo</groupId>
+  		<artifactId>dorado-exposedservice-security</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

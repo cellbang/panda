@@ -9,7 +9,6 @@
 		<version>0.0.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>panda-coke</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
 	<dependencies>
 
 		<dependency>
@@ -90,7 +89,7 @@
 		<dependency>
 			<groupId>org.xobo</groupId>
 			<artifactId>xobo-toolkit</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>0.0.7-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -119,7 +118,6 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.30</version>
 		</dependency>
 
 	</dependencies>

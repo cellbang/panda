@@ -57,6 +57,33 @@ if (postProcessPolicy) {
 </ClientEvent>
         <Property name="label">解析后处理器</Property>
       </PropertyDef>
+      <PropertyDef name="matchType">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">匹配方式</Property>
+        <Property name="mapping">
+          <Property name="mapValues">
+            <Collection>
+              <Entity>
+                <Property name="key">1</Property>
+                <Property name="value">列号优先</Property>
+              </Entity>
+              <Entity>
+                <Property name="key">2</Property>
+                <Property name="value">表头优先</Property>
+              </Entity>
+            </Collection>
+          </Property>
+        </Property>
+        <Property name="defaultValue">1</Property>
+      </PropertyDef>
+      <PropertyDef name="startRowHeader">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">表头起始行</Property>
+      </PropertyDef>
+      <PropertyDef name="startRowData">
+        <Property name="dataType">Integer</Property>
+        <Property name="label">数据起始行</Property>
+      </PropertyDef>
     </DataType>
     <DataType name="MappingRule">
       <Property name="creationType">org.malagu.panda.importer.model.MappingRule</Property>
@@ -122,6 +149,14 @@ if (postProcessPolicy) {
         <Property></Property>
         <Property name="label"> 注入Bean</Property>
       </PropertyDef>
+      <PropertyDef name="excelColumnName">
+        <ClientEvent name="onGet">arg.value=view.excel.toLetters(arg.entity.get(&quot;excelColumn&quot;));</ClientEvent>
+        <ClientEvent name="onSet">if (arg.value) {
+	arg.value = arg.value.toUpperCase();
+	arg.entity.set(&quot;excelColumn&quot;, view.excel.toNum(arg.value));&#xD;
+}</ClientEvent>
+        <Property name="label">Excel列号</Property>
+      </PropertyDef>
     </DataType>
     <DataType name="Entry">
       <ClientEvent name="onInsert">arg.entity.set(&quot;mappingRuleId&quot;, arg.entity.parent.parent.get(&quot;id&quot;));
@@ -155,26 +190,41 @@ if (postProcessPolicy) {
       <PropertyDef name="value">
         <Property name="label">值</Property>
       </PropertyDef>
+      <PropertyDef name="excelColumnName">
+        <ClientEvent name="onGet">arg.value=view.excel.toLetters(arg.entity.get(&quot;index&quot;));</ClientEvent>
+        <Property name="label">列号</Property>
+      </PropertyDef>
     </DataType>
   </Model>
   <View>
-    <ClientEvent name="onReady">view.loadPojoInfo = function(){
-	var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);
-	var entityClass = dsImporterSolution.getData(&quot;#.entityClass&quot;);
-	var mappingRules = dsImporterSolution.getData(&quot;mappingRules&quot;);
-	
-	var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
-	
-	dataSetPojoInfo.set(&quot;parameter&quot;, entityClass).flushAsync(function(list){
-		list.each(function(item){
-			var name = 
-			mappingRules.insert({
-				name: item.label || item.property,
-				propertyName: item.property
-			})
-		})
-	});
-};
+    <ClientEvent name="onReady">view.excel = {};&#xD;
+view.excel.toLetters = function(num){&#xD;
+  return (num >= 26 ? view.excel.toLetters(Math.floor(num / 26) - 1) : '') + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[num % 26];&#xD;
+}&#xD;
+&#xD;
+view.excel.toNum = function(letters){&#xD;
+  for (var p = 0, n = 0; p &lt; letters.length; p++) {&#xD;
+    n = letters[p].charCodeAt() - 64 + n * 26;&#xD;
+  }&#xD;
+  return n-1;&#xD;
+}&#xD;
+&#xD;
+view.loadPojoInfo = function(){&#xD;
+  var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);&#xD;
+  var entityClass = dsImporterSolution.getData(&quot;#.entityClass&quot;);&#xD;
+  var mappingRules = dsImporterSolution.getData(&quot;mappingRules&quot;);&#xD;
+  &#xD;
+  var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);&#xD;
+  &#xD;
+  dataSetPojoInfo.set(&quot;parameter&quot;, entityClass).flushAsync(function(list){&#xD;
+    list.each(function(item){&#xD;
+      var name = mappingRules.insert({&#xD;
+        name: item.label || item.property,&#xD;
+        propertyName: item.property&#xD;
+      })&#xD;
+    })&#xD;
+  });&#xD;
+};&#xD;
 </ClientEvent>
     <Property name="packages">font-awesome</Property>
     <SplitPanel>
@@ -286,6 +336,13 @@ updateActionImporterSolution.execute();
                   <Property name="property">excelColumn</Property>
                   <Property name="width">60</Property>
                   <Property name="trigger">dataSetDropDownPojoInfo</Property>
+                  <Property name="visible">false</Property>
+                </DataColumn>
+                <DataColumn>
+                  <Property name="property">excelColumnName</Property>
+                  <Property name="width">60</Property>
+                  <Property name="trigger">dataSetDropDownPojoInfo</Property>
+                  <Property name="name">excelColumnName</Property>
                 </DataColumn>
                 <DataColumn>
                   <Property name="name">excelTitle</Property>
@@ -334,12 +391,28 @@ updateActionImporterSolution.execute();
               </ToolBar>
               <UploadAction id="uploadActionTemplate">
                 <ClientEvent name="onFileUploaded">console.log(arg);
-arg.returnValue;
+function decodeBase64(base64) {
+    const text = atob(base64);
+    const length = text.length;
+    const bytes = new Uint8Array(length);
+    for (let i = 0; i &lt; length; i++) {
+        bytes[i] = text.charCodeAt(i);
+    }
+    const decoder = new TextDecoder(); // default is utf-8
+    return decoder.decode(bytes);
+}
 
-var data = dorado.JSON.parse(arg.returnValue);
+
+var data = dorado.JSON.parse(decodeBase64(arg.returnValue));
 var dataSetPojoInfo = view.id(&quot;dataSetPojoInfo&quot;);
 dataSetPojoInfo.setData(data);
 dorado.widget.NotifyTipManager.notify(&quot;Excel表头解析完成。&quot;);</ClientEvent>
+                <ClientEvent name="beforeFileUploaded">var dsImporterSolution = view.id(&quot;dsImporterSolution&quot;);
+var startRowHeader = dsImporterSolution.getData(&quot;#.startRowHeader&quot;);
+self.set(&quot;parameter&quot;, {
+	startRowHeader: startRowHeader
+});
+</ClientEvent>
                 <Property name="fileResolver">importer.excelUploadFileProcessor#uploadTemplate</Property>
                 <Filters>
                   <Filter>
@@ -490,43 +563,59 @@ if (entity) {
       <Children>
         <AutoForm>
           <Property name="dataSet">dsImporterSolution</Property>
-          <Property name="cols">*</Property>
+          <Property name="cols">*,*</Property>
           <Property name="labelWidth">100</Property>
-          <AutoFormElement id="id">
+          <AutoFormElement id="id" layoutConstraint="colSpan:2">
             <Property name="name">id</Property>
             <Property name="property">id</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">name</Property>
             <Property name="property">name</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
+            <Property name="name">matchType</Property>
+            <Property name="property">matchType</Property>
+            <Property name="editorType">RadioGroup</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">entityManagerFactoryName</Property>
             <Property name="property">entityManagerFactoryName</Property>
             <Property name="trigger">ddEntityManagerFactoryName</Property>
             <Property name="editable">false</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">entityClassName</Property>
             <Property name="property">entityClassName</Property>
             <Property name="trigger">ddEntityClassName</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">excelSheetName</Property>
             <Property name="property">excelSheetName</Property>
             <Editor/>
           </AutoFormElement>
           <AutoFormElement>
+            <Property name="name">startRowHeader</Property>
+            <Property name="property">startRowHeader</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement>
+            <Property name="name">startRowData</Property>
+            <Property name="property">startRowData</Property>
+            <Editor/>
+          </AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">desc</Property>
             <Property name="property">desc</Property>
             <Property name="editorType">TextArea</Property>
             <Editor/>
           </AutoFormElement>
-          <AutoFormElement>
+          <AutoFormElement layoutConstraint="colSpan:2">
             <Property name="name">postProcessBeanCaption</Property>
             <Property name="property">postProcessBeanCaption</Property>
             <Property name="trigger">postProcessPolicyDropDown</Property>
@@ -735,13 +824,13 @@ if(dataSetPojoInfo.getData().entityCount==0){
 }
 </ClientEvent>
       <Property name="dataSet">dataSetPojoInfo</Property>
-      <Property name="assignmentMap">excelColumn=index,excelTitle=label</Property>
-      <Property name="width">220</Property>
+      <Property name="assignmentMap">excelColumn=index,excelTitle=label,excelColumnName</Property>
+      <Property name="width">250</Property>
       <Property name="autoOpen">true</Property>
       <DataColumn>
-        <Property name="name">index</Property>
-        <Property name="property">index</Property>
-        <Property name="width">25</Property>
+        <Property name="name">excelColumnName</Property>
+        <Property name="property">excelColumnName</Property>
+        <Property name="width">30</Property>
         <Editor/>
       </DataColumn>
       <DataColumn>

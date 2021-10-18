@@ -39,10 +39,9 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
     context.setStyles(xssfReader.getStylesTable());
     context.setStrings(new ReadOnlySharedStringsTable(xlsxPackage));
 
-    initContext(context);
+    // initContext(context);
 
-    XSSFReader.SheetIterator iter = (XSSFReader.SheetIterator) xssfReader
-        .getSheetsData();
+    XSSFReader.SheetIterator iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
     while (iter.hasNext()) {
       InputStream stream = iter.next();
       context.setInputStream(stream);
@@ -59,7 +58,7 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
     }
 
     parseRecordPolicy.apply(context);
-    
+
     context.getPostProcessPolicy().apply(context);
 
   }
@@ -84,10 +83,8 @@ public class XSSFExcelPolicy implements ExcelPolicy<XSSFContext>, ApplicationCon
 
   private ImporterSolution getImporterSolution(String importerSolutionId) {
     ImporterSolution importerSolution = JpaUtil.getOne(ImporterSolution.class, importerSolutionId);
-    List<MappingRule> mappingRules = JpaUtil
-        .linq(MappingRule.class)
-        .equal("importerSolutionId", importerSolutionId)
-        .list();
+    List<MappingRule> mappingRules =
+        JpaUtil.linq(MappingRule.class).equal("importerSolutionId", importerSolutionId).list();
     importerSolution.setMappingRules(mappingRules);
     return importerSolution;
 

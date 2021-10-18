@@ -1,6 +1,8 @@
 package org.malagu.panda.dictionary.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.malagu.panda.dictionary.domain.Dictionary;
 import org.malagu.panda.dictionary.domain.DictionaryItem;
 
@@ -46,6 +48,10 @@ public interface DictionaryService {
   List<DictionaryItem> getDictionaryItemsBy(String code);
 
   List<DictionaryItem> getDictionaryItemsBy(String[] code);
+
+  Map<String, String> getDictionaryValueKeyMap(String code);
+
+  Map<String, String> getDictionaryValueKeyMap(List<String> codeList);
 
   /**
    * 根据字典项的键获取字典项
