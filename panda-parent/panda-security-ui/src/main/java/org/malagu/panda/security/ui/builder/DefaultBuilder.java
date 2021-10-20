@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.malagu.panda.security.ui.utils.ControlUtils;
 import org.springframework.beans.factory.annotation.Value;
 import com.bstek.dorado.view.AbstractViewElement;
+import com.bstek.dorado.view.manager.ViewConfig;
 
 /**
  * @author Kevin.yang
@@ -15,7 +16,7 @@ public class DefaultBuilder implements Builder<AbstractViewElement> {
   private boolean componentPermissionFlat;
 
   @Override
-  public void build(AbstractViewElement control, ViewComponent parent, ViewComponent root) {
+  public void build(AbstractViewElement control, ViewComponent parent, ViewComponent root, ViewConfig viewConfig) {
     if (ControlUtils.isNoSecurtiy(control)) {
       return;
     }
