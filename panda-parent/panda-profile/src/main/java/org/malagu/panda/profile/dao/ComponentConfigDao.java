@@ -1,4 +1,4 @@
-package org.malagu.panda.profile.service;
+package org.malagu.panda.profile.dao;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,9 +8,10 @@ import org.malagu.panda.profile.domain.ComponentConfig;
 import com.bstek.dorado.data.variant.Record;
 
 
-public interface ComponentConfigService {
+public interface ComponentConfigDao {
 
-  ComponentConfig loadComponentConfig(String profileKey, String controlId);
+  List<String> loadControlList(String profileKey, String viewName);
+
 
   void removeComponentProfileByControlId(String profileKey, String controlId);
 
@@ -19,8 +20,7 @@ public interface ComponentConfigService {
   void saveComponentProfile(String profileKey, String controlId, String cols,
       Collection<Record> members);
 
-  List<String> loadControlList(String profileKey, String viewName);
 
-  void evictCache(String profileKey, String controlId);
+  ComponentConfig loadComponentConfig(String profileKey, String controlId);
 
 }

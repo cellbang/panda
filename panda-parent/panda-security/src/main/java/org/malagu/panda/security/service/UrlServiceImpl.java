@@ -10,6 +10,7 @@ import org.malagu.panda.security.orm.Permission;
 import org.malagu.panda.security.orm.Url;
 import org.malagu.panda.security.orm.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class UrlServiceImpl implements UrlService {
 	private GrantedAuthorityService grantedAuthorityService;
 	
 	@Override
+  @Cacheable(cacheNames = "panda:security", key = "'ALL_URL'")
 	public List<Url> findAll() {
 		List<Url> urls = JpaUtil.linq(Url.class).list();
 		List<Permission> permissions = JpaUtil.linq(Permission.class).equal("resourceType", Url.RESOURCE_TYPE).list();

@@ -3,7 +3,7 @@ package org.malagu.panda.profile.widget;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.malagu.panda.profile.Constants;
+import org.malagu.panda.profile.ProfileConstants;
 
 import com.bstek.dorado.annotation.ClientObject;
 import com.bstek.dorado.annotation.IdeProperty;
@@ -45,7 +45,7 @@ public class DataGridProfileAction extends AjaxAction {
 				metaData = new HashMap<>();
 				view.setMetaData(metaData);
 			}
-			metaData.put(Constants.NEED_PROFILE_FLAG_NAME, true);
+			metaData.put(ProfileConstants.NEED_PROFILE_FLAG_NAME, true);
 		}
 		
 	}

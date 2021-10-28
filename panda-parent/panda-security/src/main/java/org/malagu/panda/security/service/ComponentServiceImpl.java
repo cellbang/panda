@@ -6,6 +6,7 @@ import java.util.Map;
 import org.malagu.linq.JpaUtil;
 import org.malagu.panda.security.orm.Component;
 import org.malagu.panda.security.orm.Permission;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ComponentServiceImpl implements ComponentService {
 
   @Override
+  @Cacheable(cacheNames = "panda:security", key = "'component'")
   public List<Component> findAll() {
     List<Component> components = JpaUtil.linq(Component.class).list();
     List<Permission> permissions =
