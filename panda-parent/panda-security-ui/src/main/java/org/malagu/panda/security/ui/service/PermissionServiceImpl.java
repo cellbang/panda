@@ -17,6 +17,8 @@ import org.malagu.panda.security.ui.dummy.DummyRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.bstek.dorado.data.entity.EntityState;
@@ -56,11 +58,14 @@ public class PermissionServiceImpl implements PermissionService {
     ServletContext servletContext = doradoContext.getServletContext();
 
     List<ViewComponent> viewComponents = new ArrayList<>();
+    
+    SecurityContext securityContext = SecurityContextHolder.getContext();
 
     // 通过线程分离dorado context
     Thread thread = new Thread(() -> {
       String VIEWSTATE_KEY = ViewState.class.getName();
-      DoradoContext context = DoradoContext.init(servletContext, new DummyRequest());
+      DoradoContext context = DoradoContext.init(servletContext, new DummyRequest(servletContext));
+      SecurityContextHolder.setContext(securityContext);
       context.setAttribute(VIEWSTATE_KEY, ViewState.rendering);
       try {
         ViewComponent root = new ViewComponent();

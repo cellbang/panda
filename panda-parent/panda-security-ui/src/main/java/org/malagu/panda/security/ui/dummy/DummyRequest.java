@@ -5,13 +5,14 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
 public class DummyRequest extends HttpServletRequestWrapper {
-  private static final HttpServletRequest UNSUPPORTED_REQUEST = (HttpServletRequest) Proxy
-      .newProxyInstance(DummyRequest.class.getClassLoader(),
+  private static final HttpServletRequest UNSUPPORTED_REQUEST =
+      (HttpServletRequest) Proxy.newProxyInstance(DummyRequest.class.getClassLoader(),
           new Class[] {HttpServletRequest.class},
           new UnsupportedOperationExceptionInvocationHandler());
 
@@ -25,9 +26,16 @@ public class DummyRequest extends HttpServletRequestWrapper {
 
   private Hashtable<String, Object> attributes = new Hashtable<>();
 
+  public DummyRequest(ServletContext servletContext) {
+    super(UNSUPPORTED_REQUEST);
+    session = new DummySession(servletContext);
+  }
+
+
   public DummyRequest() {
     super(UNSUPPORTED_REQUEST);
   }
+
 
   public String getCharacterEncoding() {
     return "UTF-8";

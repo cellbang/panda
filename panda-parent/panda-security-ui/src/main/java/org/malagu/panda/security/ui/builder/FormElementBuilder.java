@@ -7,16 +7,15 @@ import org.apache.commons.lang.StringUtils;
 import org.malagu.panda.security.ui.utils.DoradoUtil;
 import org.malagu.panda.security.ui.utils.DoradoUtil.AutoFormDataControlWrapper;
 import org.springframework.stereotype.Component;
-import com.bstek.dorado.data.type.DataType;
 import com.bstek.dorado.data.type.EntityDataType;
 import com.bstek.dorado.data.type.property.PropertyDef;
-import com.bstek.dorado.data.util.DataUtils;
 import com.bstek.dorado.view.View;
 import com.bstek.dorado.view.ViewElement;
 import com.bstek.dorado.view.manager.ViewConfig;
 import com.bstek.dorado.view.widget.Control;
 import com.bstek.dorado.view.widget.form.FormElement;
 import com.bstek.dorado.view.widget.form.autoform.AutoForm;
+import com.bstek.dorado.view.widget.form.autoform.AutoFormElement;
 
 @Component("maintain.formElementBuilder")
 public class FormElementBuilder extends AbstractBuilder<FormElement> {
@@ -28,26 +27,50 @@ public class FormElementBuilder extends AbstractBuilder<FormElement> {
     return null;
   }
 
+  private boolean useParentId;
+
   protected String getId(FormElement element) {
     String id = element.getId();
-    if (StringUtils.isEmpty(id)) {
-      id = element.getProperty();
+    if (StringUtils.isNotEmpty(id)) {
+      return id;
     }
-    if (StringUtils.isEmpty(id)) {
-      id = element.getLabel();
+
+    ViewElement parentViewElement = element.getParent();
+
+    String prefix = "";
+    if (useParentId) {
+      String pid = parentViewElement.getId();
+      if (StringUtils.isNotEmpty(pid)) {
+        prefix = "#" + pid + ".";
+      }
     }
-    if (StringUtils.isEmpty(id)) {
-      ViewElement viewElement = element.getParent();
-      if (viewElement instanceof AutoForm) {
-        EntityDataType entityDataType = ((AutoForm) viewElement).getDataType();
+
+    String controlId = null;
+
+    if (element instanceof AutoFormElement) {
+      controlId = ((AutoFormElement) element).getName();
+    }
+
+    if (StringUtils.isEmpty(controlId)) {
+      controlId = element.getProperty();
+    }
+
+    if (StringUtils.isEmpty(controlId)) {
+      controlId = element.getLabel();
+    }
+
+    // 使用
+    if (StringUtils.isEmpty(controlId)) {
+      if (parentViewElement instanceof AutoForm) {
+        EntityDataType entityDataType = ((AutoForm) parentViewElement).getDataType();
         Map<String, PropertyDef> dataTypePropertyDefs = null;
         if (entityDataType != null) {
           dataTypePropertyDefs = entityDataType.getPropertyDefs();
         }
-        id = getFormElementLabel(element, dataTypePropertyDefs);
+        controlId = getFormElementLabel(element, dataTypePropertyDefs);
       }
     }
-    return id;
+    return prefix + controlId;
   }
 
 
@@ -67,7 +90,6 @@ public class FormElementBuilder extends AbstractBuilder<FormElement> {
   protected String getDesc(FormElement formElement, ViewConfig viewConfig) {
     String desc = super.getDesc(formElement, viewConfig);
 
-
     View view = viewConfig.getView();
     ViewElement parentViewElement = formElement.getParent();
     if (parentViewElement instanceof AutoForm) {
@@ -80,8 +102,6 @@ public class FormElementBuilder extends AbstractBuilder<FormElement> {
       if (entityDataType != null) {
         desc = DoradoUtil.getLabel(entityDataType, formElement.getProperty());
       }
-
-      System.out.println(formElement.getProperty() + " = " + desc);
     }
 
     if (desc != null) {
