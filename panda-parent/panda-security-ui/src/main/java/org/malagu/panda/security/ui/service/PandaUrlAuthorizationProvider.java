@@ -4,7 +4,7 @@ import org.malagu.panda.security.decision.manager.SecurityDecisionManager;
 import org.malagu.panda.security.orm.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xobo.dorado.exposedservice.security.service.UrlAuthorizationProvider;
+import org.xobo.dorado.exposedservice.security.api.UrlAuthorizationProvider;
 
 @Service
 public class PandaUrlAuthorizationProvider implements UrlAuthorizationProvider {

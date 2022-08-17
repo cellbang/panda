@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.stereotype.Service;
-import org.xobo.dorado.exposedservice.security.service.DoradoExposedServiceWhiteListProvider;
+import org.xobo.dorado.exposedservice.security.api.DoradoExposedServiceWhiteListProvider;
 
 @Service
 public class PandaDoradoExposedServiceWhiteListProvider

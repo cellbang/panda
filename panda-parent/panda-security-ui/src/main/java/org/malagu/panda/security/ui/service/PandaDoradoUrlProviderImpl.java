@@ -8,7 +8,7 @@ import org.malagu.panda.security.orm.Url;
 import org.malagu.panda.security.service.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xobo.dorado.exposedservice.security.service.DoradoUrlProvider;
+import org.xobo.dorado.exposedservice.security.api.DoradoUrlProvider;
 
 @Service
 public class PandaDoradoUrlProviderImpl implements DoradoUrlProvider {
