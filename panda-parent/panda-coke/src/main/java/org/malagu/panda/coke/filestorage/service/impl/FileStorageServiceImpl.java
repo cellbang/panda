@@ -15,6 +15,7 @@ import org.malagu.panda.coke.filestorage.domain.CokeFileInfo;
 import org.malagu.panda.coke.filestorage.domain.CokeFileShare;
 import org.malagu.panda.coke.filestorage.service.FileStorageProvider;
 import org.malagu.panda.coke.filestorage.service.FileStorageService;
+import org.malagu.panda.coke.filestorage.service.RelativePathGeneratorService;
 import org.malagu.panda.dorado.linq.JpaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,9 @@ public class FileStorageServiceImpl implements FileStorageService {
   @Override
   public CokeFileInfo put(String fileStorageType, InputStream inputStream, String filename)
       throws IOException {
-    String relativePath = getFileStorageProvider(fileStorageType).put(inputStream, filename);
+    String recommendRelativePath = relativePathGeneratorService.generate(inputStream, filename);
+    String relativePath =
+        getFileStorageProvider(fileStorageType).put(inputStream, filename, recommendRelativePath);
     return saveFile(fileStorageType, relativePath, filename);
   }
 
@@ -71,7 +74,7 @@ public class FileStorageServiceImpl implements FileStorageService {
   @Override
   public CokeFileInfo put(String fileStorageType, MultipartFile file)
       throws IllegalStateException, IOException {
-    String relativePath = getFileStorageProvider(fileStorageType).put(file);
+    String relativePath = getFileStorageProvider(fileStorageType).put(file, null);
     return saveFile(fileStorageType, relativePath, file.getOriginalFilename());
 
   }
@@ -188,5 +191,8 @@ public class FileStorageServiceImpl implements FileStorageService {
     JpaUtil.persist(cokeFileShare);
     return cokeFileShare;
   }
+
+  @Autowired
+  private RelativePathGeneratorService relativePathGeneratorService;
 
 }

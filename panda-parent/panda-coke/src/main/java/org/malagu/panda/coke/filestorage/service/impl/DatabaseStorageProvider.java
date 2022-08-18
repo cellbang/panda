@@ -1,13 +1,6 @@
 package org.malagu.panda.coke.filestorage.service.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import javax.annotation.Resource;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -35,7 +28,8 @@ public class DatabaseStorageProvider implements FileStorageProvider {
   }
 
   @Override
-  public String put(InputStream inputStream, String filename) throws IOException {
+  public String put(InputStream inputStream, String filename, String recommendRelativePath)
+      throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     IOUtils.copy(inputStream, baos);
     CokeBlob cokeBlob = cokeBlobService.put(baos.toByteArray());
@@ -43,8 +37,9 @@ public class DatabaseStorageProvider implements FileStorageProvider {
   }
 
   @Override
-  public String put(MultipartFile file) throws IllegalStateException, IOException {
-    return put(file.getInputStream(), null);
+  public String put(MultipartFile file, String recommendRelativePath)
+      throws IllegalStateException, IOException {
+    return put(file.getInputStream(), file.getOriginalFilename(), recommendRelativePath);
   }
 
   public String getAbsolutePath(String relativePath) throws FileNotFoundException {
@@ -69,13 +64,10 @@ public class DatabaseStorageProvider implements FileStorageProvider {
       if (!parent.exists()) {
         parent.mkdirs();
       }
-      FileOutputStream fileOutputStream = new FileOutputStream(file);
-      try {
+      try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
         IOUtils.copy(inputStream, fileOutputStream);
       } catch (IOException e) {
         throw new RuntimeException(e);
-      } finally {
-        IOUtils.closeQuietly(fileOutputStream);
       }
     } else {
       throw new FileNotFoundException("CokeBlob Record not found " + relativePath);

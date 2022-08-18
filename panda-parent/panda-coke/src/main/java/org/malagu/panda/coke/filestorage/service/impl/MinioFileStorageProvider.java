@@ -3,9 +3,7 @@ package org.malagu.panda.coke.filestorage.service.impl;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import javax.annotation.PostConstruct;
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.malagu.panda.coke.filestorage.service.FileStorageProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
-import io.minio.MinioClient;
+import io.minio.*;
 
 @Service
 @ConditionalOnClass(MinioClient.class)
@@ -36,11 +34,13 @@ public class MinioFileStorageProvider implements FileStorageProvider {
   public void init() {
     try {
       if (ClassUtils.isPresent("io.minio.MinioClient", this.getClass().getClassLoader())) {
-        minioClient = new MinioClient(endpoint, accessKey, secretKey);
-        boolean isExist = minioClient.bucketExists(bucket);
+        minioClient =
+            MinioClient.builder().endpoint(endpoint).credentials(accessKey, secretKey).build();
+        boolean isExist =
+            minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
         if (!isExist) {
           // Make a new bucket called asiatrip to hold a zip file of photos.
-          minioClient.makeBucket(bucket);
+          minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
         }
       }
     } catch (Exception e) {
@@ -55,32 +55,30 @@ public class MinioFileStorageProvider implements FileStorageProvider {
   }
 
   @Override
-  public String put(InputStream inputStream, String filename) throws IOException {
-    String relativePath = getRelativeDirectory() + filename;
+  public String put(InputStream inputStream, String filename, String recommendRelativePath)
+      throws IOException {
     try {
-      minioClient.putObject(bucket, relativePath, inputStream,
-          "application/octet-stream");
+      minioClient.putObject(PutObjectArgs.builder().bucket(bucket).object(recommendRelativePath)
+          .contentType("").build());
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    return null;
+    return recommendRelativePath;
   }
 
-  public String getRelativeDirectory() {
-    return datePath.format(new Date());
-  }
 
-  private FastDateFormat datePath = FastDateFormat.getInstance("yyyy/MM/");
 
   @Override
-  public String put(MultipartFile file) throws IllegalStateException, IOException {
-    return put(file.getInputStream(), file.getOriginalFilename());
+  public String put(MultipartFile file, String recommendRelativePath)
+      throws IllegalStateException, IOException {
+    return put(file.getInputStream(), file.getOriginalFilename(), recommendRelativePath);
   }
 
   @Override
   public InputStream getInputStream(String relativePath) throws FileNotFoundException {
     try {
-      return minioClient.getObject(bucket, relativePath);
+      return minioClient
+          .getObject(GetObjectArgs.builder().bucket(bucket).object(relativePath).build());
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -88,7 +86,7 @@ public class MinioFileStorageProvider implements FileStorageProvider {
 
   @Override
   public String getAbsolutePath(String relativePath) throws FileNotFoundException {
-    return null;
+    return relativePath;
   }
 
 }

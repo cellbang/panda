@@ -1,15 +1,7 @@
 package org.malagu.panda.coke.filestorage.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
+import java.io.*;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.malagu.panda.coke.filestorage.service.FileStorageProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,21 +15,21 @@ public class FileSystemStorageProvider implements FileStorageProvider {
   private String fileSystemStorageLocation;
 
   @Override
-  public String put(InputStream inputStream, String filename) throws IOException {
-    String relativePath = getRelativPath() + "_" + filename;
-    File targetFile = getTargetFile(fileSystemStorageLocation, relativePath);
-    OutputStream os = new FileOutputStream(targetFile);
-    IOUtils.copy(inputStream, os);
-    IOUtils.closeQuietly(os);
-    return relativePath;
+  public String put(InputStream inputStream, String filename, String recommendRelativePath)
+      throws IOException {
+    File targetFile = getTargetFile(fileSystemStorageLocation, recommendRelativePath);
+    try (OutputStream os = new FileOutputStream(targetFile)) {
+      IOUtils.copy(inputStream, os);
+    }
+    return recommendRelativePath;
   }
 
   @Override
-  public String put(MultipartFile file) throws IllegalStateException, IOException {
-    String relativePath = getRelativPath() + "_" + file.getOriginalFilename();
-    File targetFile = getTargetFile(fileSystemStorageLocation, relativePath);
+  public String put(MultipartFile file, String recommendRelativePath)
+      throws IllegalStateException, IOException {
+    File targetFile = getTargetFile(fileSystemStorageLocation, recommendRelativePath);
     file.transferTo(targetFile);
-    return relativePath;
+    return recommendRelativePath;
   }
 
   @Override
@@ -46,10 +38,6 @@ public class FileSystemStorageProvider implements FileStorageProvider {
     return new FileInputStream(targetFile);
   }
 
-  public static String getRelativPath() {
-    String[] paths = UUID.randomUUID().toString().split("-");
-    return StringUtils.join(paths, File.separatorChar);
-  }
 
   public static File getTargetFile(String location, String relativePath) {
     String absolutePath = location + relativePath;

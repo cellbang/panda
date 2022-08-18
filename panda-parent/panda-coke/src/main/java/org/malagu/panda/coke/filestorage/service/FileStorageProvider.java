@@ -9,9 +9,9 @@ public interface FileStorageProvider {
 
   String getType();
 
-  String put(InputStream inputStream, String filename) throws IOException;
+  String put(InputStream inputStream, String filename, String recommendRelativePath) throws IOException;
 
-  String put(MultipartFile file) throws IllegalStateException, IOException;
+  String put(MultipartFile file, String recommendRelativePath) throws IllegalStateException, IOException;
 
   InputStream getInputStream(String relativePath) throws FileNotFoundException;
 
