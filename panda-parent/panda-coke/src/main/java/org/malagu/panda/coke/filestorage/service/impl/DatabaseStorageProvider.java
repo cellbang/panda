@@ -1,8 +1,16 @@
 package org.malagu.panda.coke.filestorage.service.impl;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.annotation.Resource;
-import org.apache.commons.codec.digest.DigestUtils;
+
 import org.apache.commons.io.IOUtils;
 import org.malagu.panda.coke.filestorage.domain.CokeBlob;
 import org.malagu.panda.coke.filestorage.service.CokeBlobService;
@@ -19,7 +27,6 @@ public class DatabaseStorageProvider implements FileStorageProvider {
   @Value("${coke.enableDatabaseLocalCache:true}")
   private boolean enableLocalFileCache;
 
-  @Value("${coke.databaseStorageLocalCacheLocation}")
   private String databaseCachedfileSystemStorageLocation;
 
   @Override
@@ -47,11 +54,7 @@ public class DatabaseStorageProvider implements FileStorageProvider {
       return null;
     }
 
-    String path = null;
-    File file = null;
-    path = DigestUtils.md5Hex(relativePath);
-    path = rebuildString(path, File.separator, 8, 4, 4, 4);
-    file = new File(databaseCachedfileSystemStorageLocation + path);
+    File file = new File(databaseCachedfileSystemStorageLocation + relativePath);
     if (file.exists()) {
       return file.getAbsolutePath();
     }
@@ -105,8 +108,16 @@ public class DatabaseStorageProvider implements FileStorageProvider {
     return builder.toString();
   }
 
-
   @Resource
   private CokeBlobService cokeBlobService;
 
+  @Value("${coke.databaseStorageLocalCacheLocation:}")
+  public void setDatabaseCachedfileSystemStorageLocation(
+      String databaseCachedfileSystemStorageLocation) {
+    if (!databaseCachedfileSystemStorageLocation.endsWith("/")
+        && !databaseCachedfileSystemStorageLocation.endsWith("\\")) {
+      databaseCachedfileSystemStorageLocation += File.pathSeparator;
+    }
+    this.databaseCachedfileSystemStorageLocation = databaseCachedfileSystemStorageLocation;
+  }
 }

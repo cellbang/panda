@@ -1,7 +1,5 @@
 package org.malagu.panda.coke.filestorage.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collection;
 import org.malagu.panda.coke.filestorage.service.RelativePathGeneratorService;
 import org.malagu.panda.coke.filestorage.service.RelativePathGeneratorStrategy;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class RelativePathGeneratorServiceImpl implements RelativePathGeneratorService {
 
   @Override
-  public String generate(InputStream inputStream, String filename) throws IOException {
+  public String generate(String filename) {
     return relativePathGeneratorStrategy.generate(filename);
   }
 

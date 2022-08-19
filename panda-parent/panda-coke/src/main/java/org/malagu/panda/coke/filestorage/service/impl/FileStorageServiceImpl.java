@@ -31,7 +31,6 @@ public class FileStorageServiceImpl implements FileStorageService {
   @Override
   public CokeFileInfo put(InputStream inputStream, String filename) throws IOException {
     return put(defaultFileStorageProviderType, inputStream, filename);
-
   }
 
   @Override
@@ -48,7 +47,7 @@ public class FileStorageServiceImpl implements FileStorageService {
   @Override
   public CokeFileInfo put(String fileStorageType, InputStream inputStream, String filename)
       throws IOException {
-    String recommendRelativePath = relativePathGeneratorService.generate(inputStream, filename);
+    String recommendRelativePath = relativePathGeneratorService.generate(filename);
     String relativePath =
         getFileStorageProvider(fileStorageType).put(inputStream, filename, recommendRelativePath);
     return saveFile(fileStorageType, relativePath, filename);
@@ -74,9 +73,10 @@ public class FileStorageServiceImpl implements FileStorageService {
   @Override
   public CokeFileInfo put(String fileStorageType, MultipartFile file)
       throws IllegalStateException, IOException {
-    String relativePath = getFileStorageProvider(fileStorageType).put(file, null);
+    String recommendRelativePath =
+        relativePathGeneratorService.generate(file.getOriginalFilename());
+    String relativePath = getFileStorageProvider(fileStorageType).put(file, recommendRelativePath);
     return saveFile(fileStorageType, relativePath, file.getOriginalFilename());
-
   }
 
   @Override
