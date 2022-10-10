@@ -41,6 +41,12 @@ public class DoradoWebSecurityConfigurer extends WebSecurityConfigurer {
 		@Value("${panda.maximumSessions:}")
 		private Integer maximumSessions;
 
+		@Value("${panda.alwaysUseDefaultTargetUrl:true}")
+		private Boolean alwaysUseDefaultTargetUrl;
+
+		@Value("${panda.defaultTargetUrl:/}")
+		private String defaultTargetUrl;
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			
@@ -50,7 +56,7 @@ public class DoradoWebSecurityConfigurer extends WebSecurityConfigurer {
 					.anyRequest()
 					.authenticated()
 				.and()
-					.formLogin().successHandler(new CustomAuthenticationSuccessHandler())
+					.formLogin().successHandler(new CustomAuthenticationSuccessHandler(alwaysUseDefaultTargetUrl, defaultTargetUrl))
 					.loginPage(URL_PREFIX + loginPath)
 					.permitAll()
 				.and()
@@ -82,9 +88,13 @@ public class DoradoWebSecurityConfigurer extends WebSecurityConfigurer {
 		
 		class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-			private RequestCache requestCache = new HttpSessionRequestCache();
+		
+
+      private RequestCache requestCache = new HttpSessionRequestCache();
 			
-			public CustomAuthenticationSuccessHandler() {
+			public CustomAuthenticationSuccessHandler(boolean alwaysUseDefaultTargetUrl, String defaultTargetUrl) {
+			  this.setAlwaysUseDefaultTargetUrl(alwaysUseDefaultTargetUrl);
+			  this.setDefaultTargetUrl(defaultTargetUrl);
 				this.setRequestCache(requestCache);
 			}
 			
