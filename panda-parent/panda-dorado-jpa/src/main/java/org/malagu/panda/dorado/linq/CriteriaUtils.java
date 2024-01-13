@@ -181,6 +181,10 @@ public class CriteriaUtils {
     } else if (FilterOperator.in.equals(operator)) {
       if (value instanceof Set) {
         linq.in(property, (Set) value);
+      } else if (value instanceof Collection) {
+        linq.in(property, ((Collection) value).toArray());
+      } else if (value.getClass().isArray()) {
+        linq.in(property, (Object[]) value);
       } else {
         linq.in(property, value);
       }
