@@ -30,6 +30,7 @@ public class RelativePathGeneratorServiceImpl implements RelativePathGeneratorSe
     RelativePathGeneratorStrategy myRelativePathGeneratorStrategy = null;;
     if (strategy == null || strategy.isEmpty()) {
       myRelativePathGeneratorStrategy = relativePathGeneratorStrategyCollection.iterator().next();
+      return;
     }
 
     for (RelativePathGeneratorStrategy relativePathGeneratorStrategy : relativePathGeneratorStrategyCollection) {
