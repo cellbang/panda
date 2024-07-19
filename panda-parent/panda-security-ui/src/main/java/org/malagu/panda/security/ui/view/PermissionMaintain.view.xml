@@ -7,44 +7,44 @@
       <ClientEvent name="onInsert">view.get(&quot;^op&quot;).set(&quot;disabled&quot;, false)
 </ClientEvent>
       <ClientEvent name="onRemove">if (arg.entity.parent.entityCount &lt;= 0) {
-	view.get(&quot;^op&quot;).set(&quot;disabled&quot;, true);
+  view.get(&quot;^op&quot;).set(&quot;disabled&quot;, true);
 }
 </ClientEvent>
       <ClientEvent name="onCurrentChange" signature="self,arg,dsUrl">if (!arg.newCurrent) {
-	return;
+  return;
 }
 arg.newCurrent.getAsync(&quot;permissions&quot;, function(permissions) {
-	var urls = dsUrl.getData();
-	var dtUrl = view.get(&quot;@Url&quot;);
-	var cacheP = {}; 
-	var doUrls = function(urls) {
-		if (urls.entityCount &lt;= 0) {
-			return;
-		}
-		urls.each(function(url) {
-			if (url.get(&quot;checked&quot;)) {
-				url.set(&quot;checked&quot;, false);
-			}
-			if (cacheP[url.get(&quot;id&quot;)]) {
-				url.set(&quot;checked&quot;, true);
-			}
-			if (view.notFirstChange) {
-				url.reset(&quot;permissions&quot;);
-				url.reset(&quot;viewComponents&quot;);
-			}
-			doUrls(url.get(&quot;children&quot;));
-		});
-		
-	};
-	permissions.each(function(p) {
-		cacheP[p.get(&quot;resourceId&quot;)] = p
-	});
-	dtUrl.getPropertyDef(&quot;checked&quot;).disableListeners();
-	doUrls(urls);
-	dtUrl.getPropertyDef(&quot;checked&quot;).enableListeners();
-	if (!view.notFirstChange) {
-		view.notFirstChange = true
-	}
+  var urls = dsUrl.getData();
+  var dtUrl = view.get(&quot;@Url&quot;);
+  var cacheP = {}; 
+  var doUrls = function(urls) {
+    if (urls.entityCount &lt;= 0) {
+      return;
+    }
+    urls.each(function(url) {
+      if (url.get(&quot;checked&quot;)) {
+        url.set(&quot;checked&quot;, false);
+      }
+      if (cacheP[url.get(&quot;id&quot;)]) {
+        url.set(&quot;checked&quot;, true);
+      }
+      if (view.notFirstChange) {
+        url.reset(&quot;permissions&quot;);
+        url.reset(&quot;viewComponents&quot;);
+      }
+      doUrls(url.get(&quot;children&quot;));
+    });
+    
+  };
+  permissions.each(function(p) {
+    cacheP[p.get(&quot;resourceId&quot;)] = p
+  });
+  dtUrl.getPropertyDef(&quot;checked&quot;).disableListeners();
+  doUrls(urls);
+  dtUrl.getPropertyDef(&quot;checked&quot;).enableListeners();
+  if (!view.notFirstChange) {
+    view.notFirstChange = true
+  }
 });
 
 
@@ -106,40 +106,40 @@ arg.newCurrent.getAsync(&quot;permissions&quot;, function(permissions) {
       </PropertyDef>
       <PropertyDef name="checked">
         <ClientEvent name="onSet" signature="self,arg,dsRole,dsUrl,updateActionUP">if (dsUrl.cacheMap &amp;&amp; arg.entity !== dsUrl.cacheMap[arg.entity.get(&quot;id&quot;)]) {
-	dsUrl.cacheMap[arg.entity.get(&quot;id&quot;)].set(&quot;checked&quot;, arg.value);
-	return;
+  dsUrl.cacheMap[arg.entity.get(&quot;id&quot;)].set(&quot;checked&quot;, arg.value);
+  return;
 }
 
 var role = dsRole.getData(&quot;#&quot;);
 if (!role) return;
 var permissions = role.get(&quot;permissions&quot;);
 if (view.autoCheckChildren) {
-	arg.entity.get(&quot;children&quot;).each(function(item) {
-		item.set(&quot;checked&quot;, arg.value);
-		doPermission(item, arg.value);
-	});
+  arg.entity.get(&quot;children&quot;).each(function(item) {
+    item.set(&quot;checked&quot;, arg.value);
+    doPermission(item, arg.value);
+  });
 }
 
 doPermission(arg.entity, arg.value);
 updateActionUP.execute();
 
 function doPermission(url, checked) {
-	if (url.get(&quot;checked&quot;) == checked) return;
-	if (checked) {
-		permissions.insert({
-			resourceId: url.get(&quot;id&quot;),
-			roleId: role.get(&quot;id&quot;),
-			attribute: &quot;ROLE_&quot; + role.get(&quot;id&quot;),
-			url: url.toJSON()
-		});
-	} else {
-		permissions.each(function(p) {
-			if (p.get(&quot;resourceId&quot;) == url.get(&quot;id&quot;)) {
-				p.remove();
-				return false;
-			}
-		});
-	}
+  if (url.get(&quot;checked&quot;) == checked) return;
+  if (checked) {
+    permissions.insert({
+      resourceId: url.get(&quot;id&quot;),
+      roleId: role.get(&quot;id&quot;),
+      attribute: &quot;ROLE_&quot; + role.get(&quot;id&quot;),
+      url: url.toJSON()
+    });
+  } else {
+    permissions.each(function(p) {
+      if (p.get(&quot;resourceId&quot;) == url.get(&quot;id&quot;)) {
+        p.remove();
+        return false;
+      }
+    });
+  }
 }
 
 
@@ -161,12 +161,12 @@ function doPermission(url, checked) {
       <Reference name="permissions">
         <ClientEvent name="beforeLoadData" signature="self,arg,dsRole">var role = dsRole.getData(&quot;#&quot;);
 if (role) {
-	self.set(&quot;parameter&quot;, {
-		roleId: role.get(&quot;id&quot;),
-		urlId: arg.entity.get(&quot;id&quot;)
-	});
+  self.set(&quot;parameter&quot;, {
+    roleId: role.get(&quot;id&quot;),
+    urlId: arg.entity.get(&quot;id&quot;)
+  });
 } else {
-	arg.processDefault = false;
+  arg.processDefault = false;
 }
 
 </ClientEvent>
@@ -233,6 +233,28 @@ if (role) {
       </PropertyDef>
     </DataType>
     <DataType name="ViewComponent">
+      <ClientEvent name="onDataChange">&#xD;
+if (arg.property == &quot;componentType&quot;) {&#xD;
+    var dtUrl = view.id(&quot;dtUrl&quot;);&#xD;
+    var dsUrl = view.id(&quot;dsUrl&quot;);&#xD;
+    var updateActionCP = view.id(&quot;updateActionCP&quot;);&#xD;
+    &#xD;
+    var url = dtUrl.get(&quot;currentEntity&quot;);&#xD;
+    var permissions = url.get(&quot;permissions&quot;);&#xD;
+    if (dsUrl.cacheMap) {&#xD;
+        permissions = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;permissions&quot;);&#xD;
+    }&#xD;
+    permissions.each(function(p){&#xD;
+        if (p.get(&quot;component.componentId&quot;) == arg.entity.get(&quot;id&quot;)) {&#xD;
+            p.set(&quot;attribute&quot;, &quot;ROLE_&quot; + p.get(&quot;roleId&quot;) + &quot;_&quot; + arg.value);&#xD;
+            p.setCurrent();&#xD;
+            updateActionCP.execute();&#xD;
+            return false;&#xD;
+        }&#xD;
+    });&#xD;
+}&#xD;
+&#xD;
+</ClientEvent>
       <Property name="creationType">org.malagu.panda.security.ui.builder.ViewComponent</Property>
       <Property name="acceptUnknownProperty">true</Property>
       <PropertyDef name="id">
@@ -265,12 +287,12 @@ if (role) {
         <ClientEvent name="onSet" signature="self,arg,dsUrl,dtUrl,dtVC,dsRole,updateActionCP">var url = dtUrl.get(&quot;currentEntity&quot;);
 var permissions = url.get(&quot;permissions&quot;);
 if (dtVC.cacheMap &amp;&amp; dtVC.cacheMap[arg.entity.get(&quot;id&quot;)] != arg.entity) {
-	url.reset(&quot;viewComponents&quot;);
-	dtVC.cacheMap[arg.entity.get(&quot;id&quot;)].set(&quot;checked&quot;, arg.value);
-	return;
+  url.reset(&quot;viewComponents&quot;);
+  dtVC.cacheMap[arg.entity.get(&quot;id&quot;)].set(&quot;checked&quot;, arg.value);
+  return;
 }
 if (dsUrl.cacheMap) {
-	permissions = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;permissions&quot;);
+  permissions = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;permissions&quot;);
 }
 var role = dsRole.getData(&quot;#&quot;);
 
@@ -281,57 +303,44 @@ pd.disableListeners()
 arg.entity.set(&quot;componentType&quot;, &quot;ReadWrite&quot;);
 pd.enableListeners()
 function doPermission(c, checked) {
-	if (c.get(&quot;checked&quot;) == checked) return;
-	if (checked) {
-		var p = permissions.insert({
-			attribute: &quot;ROLE_&quot; + role.get(&quot;id&quot;) + &quot;_ReadWrite&quot;,
-			roleId: role.get(&quot;id&quot;),
-			resourceType: &quot;COMPONENT&quot;,
-			component: {
-				componentId: c.get(&quot;id&quot;),
-				name: c.get(&quot;name&quot;),
-				description: c.get(&quot;desc&quot;),
-				urlId: url.get(&quot;id&quot;),
-				path: url.get(&quot;path&quot;),
-				componentType: &quot;ReadWrite&quot;
-			}
-		});
-		p.setCurrent();
-		updateActionCP.execute();
-		
-	} else {
-		permissions.each(function(p) {
-			if (p.get(&quot;component.componentId&quot;) == c.get(&quot;id&quot;)) {
-				p.setCurrent();
-				updateActionCP.execute(function() {
-					p.remove();
-				});
-				return false;
-			}
-		});
-	}
+  if (c.get(&quot;checked&quot;) == checked) return;
+  if (checked) {
+    var p = permissions.insert({
+      attribute: &quot;ROLE_&quot; + role.get(&quot;id&quot;) + &quot;_ReadWrite&quot;,
+      roleId: role.get(&quot;id&quot;),
+      resourceType: &quot;COMPONENT&quot;,
+      component: {
+        componentId: c.get(&quot;id&quot;),
+        name: c.get(&quot;name&quot;),
+        description: c.get(&quot;desc&quot;),
+        urlId: url.get(&quot;id&quot;),
+        path: url.get(&quot;path&quot;),
+        componentType: &quot;ReadWrite&quot;
+      }
+    });
+    p.setCurrent();
+    updateActionCP.execute();
+    
+  } else {
+    permissions.each(function(p) {
+      if (p.get(&quot;component.componentId&quot;) == c.get(&quot;id&quot;)) {
+        p.setCurrent();
+        updateActionCP.execute(function() {
+          p.remove();
+        });
+        return false;
+      }
+    });
+  }
 }
 
 </ClientEvent>
         <Property name="dataType">boolean</Property>
       </PropertyDef>
       <PropertyDef name="componentType">
-        <ClientEvent name="onSet" signature="self,arg,dsUrl,dtUrl,updateActionCP">var url = dtUrl.get(&quot;currentEntity&quot;);
-var permissions = url.get(&quot;permissions&quot;);
-if (dsUrl.cacheMap) {
-	permissions = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;permissions&quot;);
-}
-permissions.each(function(p){
-	if (p.get(&quot;component.componentId&quot;) == arg.entity.get(&quot;id&quot;)) {
-		p.set(&quot;attribute&quot;, &quot;ROLE_&quot; + p.get(&quot;roleId&quot;) + &quot;_&quot; + arg.value);
-		updateActionCP.execute();
-		return false;
-	}
-});
-</ClientEvent>
         <ClientEvent name="onGet">var attribute = arg.entity.get(&quot;attribute&quot;);
 if (attribute) {
-	arg.value = attribute.substring(attribute.lastIndexOf(&quot;_&quot;) + 1);
+  arg.value = attribute.substring(attribute.lastIndexOf(&quot;_&quot;) + 1);
 }
 </ClientEvent>
         <Property></Property>
@@ -390,7 +399,7 @@ if (attribute) {
     </DataSet>
     <DataSet id="dsRole">
       <ClientEvent name="onLoadData" signature="self,arg,dsUrl">if (self.get(&quot;data&quot;).entityCount &lt;= 0) {
-	view.get(&quot;^op&quot;).set(&quot;disabled&quot;, true)
+  view.get(&quot;^op&quot;).set(&quot;disabled&quot;, true)
 }
 </ClientEvent>
       <Property name="dataType">[Role]</Property>
@@ -416,49 +425,49 @@ if (attribute) {
                         <Fill/>
                         <TextEditor>
                           <ClientEvent name="onKeyDown" signature="self,arg,dsUrl,dsQueryC,dtUrl,dtVC">if (arg.keyCode === 13) {
-	return;
+  return;
 }
 window.clearTimeout(self.CQueryTimeout);
 self.CQueryTimeout = window.setTimeout(function() {
-	var key = self.get(&quot;value&quot;);
-	var url = dtUrl.get(&quot;currentEntity&quot;);
-	var cs = url.get(&quot;viewComponents&quot;);
-	if (dsUrl.cacheMap) {
-		cs = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;viewComponents&quot;);
-	}
-	var result = [];
-	dtVC.cacheMap = {};
-	var parse = function(cs, result) {
-		if (cs.entityCount &lt;= 0) {
-			return;
-		}
-		cs.each(function(c) {
-			var id = c.get(&quot;id&quot;) || &quot;&quot;;
-			var name = c.get(&quot;name&quot;) || &quot;&quot;;
-			var desc = c.get(&quot;desc&quot;) || &quot;&quot;;
-			if (id.indexOf(key) != -1 || name.indexOf(key) != -1 || desc.indexOf(key) != -1) {
-				result.push(c.toJSON());
-			}
-			if (id) {
-				dtVC.cacheMap[id] = c;
-			}
-			parse(c.get(&quot;children&quot;), result);
-		});
-	};
-	if (!key) {
-		dtVC.set({
-			dataSet: dtUrl.get(&quot;dataSet&quot;),
-			dataPath: &quot;!currentNode.viewComponents&quot;
-		});
-		dtVC.cacheMap = null;
-		return;
-	}
-	parse(cs, result);
-	dsQueryC.setData(result);
-	dtVC.set({
-		dataSet: dsQueryC,
-		dataPath: &quot;*&quot;
-	});
+  var key = self.get(&quot;value&quot;);
+  var url = dtUrl.get(&quot;currentEntity&quot;);
+  var cs = url.get(&quot;viewComponents&quot;);
+  if (dsUrl.cacheMap) {
+    cs = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;viewComponents&quot;);
+  }
+  var result = [];
+  dtVC.cacheMap = {};
+  var parse = function(cs, result) {
+    if (cs.entityCount &lt;= 0) {
+      return;
+    }
+    cs.each(function(c) {
+      var id = c.get(&quot;id&quot;) || &quot;&quot;;
+      var name = c.get(&quot;name&quot;) || &quot;&quot;;
+      var desc = c.get(&quot;desc&quot;) || &quot;&quot;;
+      if (id.indexOf(key) != -1 || name.indexOf(key) != -1 || desc.indexOf(key) != -1) {
+        result.push(c.toJSON());
+      }
+      if (id) {
+        dtVC.cacheMap[id] = c;
+      }
+      parse(c.get(&quot;children&quot;), result);
+    });
+  };
+  if (!key) {
+    dtVC.set({
+      dataSet: dtUrl.get(&quot;dataSet&quot;),
+      dataPath: &quot;!currentNode.viewComponents&quot;
+    });
+    dtVC.cacheMap = null;
+    return;
+  }
+  parse(cs, result);
+  dsQueryC.setData(result);
+  dtVC.set({
+    dataSet: dsQueryC,
+    dataPath: &quot;*&quot;
+  });
 }, 150);</ClientEvent>
                           <Property name="trigger">triggerClear</Property>
                           <Property name="blankText">搜索</Property>
@@ -472,50 +481,50 @@ var desc = data.get(&quot;desc&quot;);
 var cheched = arg.node.get(&quot;checked&quot;);
 $(arg.dom).empty();
 if(id){
-	if (desc &amp;&amp; desc != id) {
-		id = id + &quot; [&quot; + desc + &quot;]&quot;;
-	}
-	if(cheched){
-		var span = $(&quot;&lt;span/>&quot;).css({
-			&quot;color&quot;:&quot;rgb(193, 13, 213)&quot;
-		});
-		span.append(id+&quot;&lt;span style='color:#ccc'>－&quot; + name + &quot;&lt;/span>&quot;);
-		$(arg.dom).append(span);
-	}else{
-		$(arg.dom).append(id+&quot;&lt;span style='color:#777'>－&quot; + name + &quot;&lt;/span>&quot;);
-	}
+  if (desc &amp;&amp; desc != id) {
+    id = id + &quot; [&quot; + desc + &quot;]&quot;;
+  }
+  if(cheched){
+    var span = $(&quot;&lt;span/>&quot;).css({
+      &quot;color&quot;:&quot;rgb(193, 13, 213)&quot;
+    });
+    span.append(id+&quot;&lt;span style='color:#ccc'>－&quot; + name + &quot;&lt;/span>&quot;);
+    $(arg.dom).append(span);
+  }else{
+    $(arg.dom).append(id+&quot;&lt;span style='color:#777'>－&quot; + name + &quot;&lt;/span>&quot;);
+  }
 }else{
-	$(arg.dom).text(name);
+  $(arg.dom).text(name);
 }</ClientEvent>
                         <ClientEvent name="onDataNodeCreate" signature="self,arg,dsUrl,dtUrl">var data = arg.data;
 var url = dtUrl.get(&quot;currentEntity&quot;);
 var permissions = url.get(&quot;permissions&quot;);
 if (dsUrl.cacheMap) {
-	permissions = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;permissions&quot;);
+  permissions = dsUrl.cacheMap[url.get(&quot;id&quot;)].get(&quot;permissions&quot;);
 }
 var enabled = data.get(&quot;enabled&quot;);
 if (enabled &amp;&amp; permissions) {
-	arg.node.set(&quot;checkable&quot;, true);
-	permissions.each(function(p) {
-		if (p.get(&quot;component.componentId&quot;) == data.get(&quot;id&quot;)) {
-			var dtViewComponent = view.get(&quot;@ViewComponent&quot;);
-			var pdChecked = dtViewComponent.getPropertyDef(&quot;checked&quot;);
-			var pdAttribute = dtViewComponent.getPropertyDef(&quot;componentType&quot;);
+  arg.node.set(&quot;checkable&quot;, true);
+  permissions.each(function(p) {
+    if (p.get(&quot;component.componentId&quot;) == data.get(&quot;id&quot;)) {
+      var dtViewComponent = view.get(&quot;@ViewComponent&quot;);
+      var pdChecked = dtViewComponent.getPropertyDef(&quot;checked&quot;);
+      var pdAttribute = dtViewComponent.getPropertyDef(&quot;componentType&quot;);
 
-			pdChecked.disableListeners();
-			pdAttribute.disableListeners();
-			data.set({
-				checked: true,
-				attribute: p.get(&quot;attribute&quot;)
-			});
-			pdChecked.enableListeners();
-			pdAttribute.enableListeners();
-			return false;
-		}
-	});
-	
+      pdChecked.disableListeners();
+      pdAttribute.disableListeners();
+      data.set({
+        checked: true,
+        attribute: p.get(&quot;attribute&quot;)
+      });
+      pdChecked.enableListeners();
+      pdAttribute.enableListeners();
+      return false;
+    }
+  });
+  
 } else {
-	arg.node.set(&quot;checkable&quot;, false);
+  arg.node.set(&quot;checkable&quot;, false);
 }</ClientEvent>
                         <Property name="showLines">true</Property>
                         <Property name="dataPath">!currentNode.viewComponents</Property>
@@ -538,13 +547,13 @@ if (enabled &amp;&amp; permissions) {
                         <Columns>
                           <DataColumn>
                             <ClientEvent name="onGetCellEditor">if (!arg.data.get(&quot;checked&quot;)) {
-	arg.cellEditor = null;
+  arg.cellEditor = null;
 }
 </ClientEvent>
                             <ClientEvent name="onRenderCell">if (arg.data.get(&quot;checked&quot;)) {
-	$(arg.dom).empty().append(&quot;&lt;span style='cursor: pointer;color:rgb(193, 13, 213)'>&quot;+ arg.data.getText(&quot;componentType&quot;) +&quot;&lt;/span>&quot;);
+  $(arg.dom).empty().append(&quot;&lt;span style='cursor: pointer;color:rgb(193, 13, 213)'>&quot;+ arg.data.getText(&quot;componentType&quot;) +&quot;&lt;/span>&quot;);
 } else {
-	$(arg.dom).empty().append(&quot;&lt;span style='cursor: not-allowed;font-style:italic;color:#777'>公共&lt;/span>&quot;);
+  $(arg.dom).empty().append(&quot;&lt;span style='cursor: not-allowed;font-style:italic;color:#777'>公共&lt;/span>&quot;);
 }
 </ClientEvent>
                             <Property name="name">componentType</Property>
@@ -587,45 +596,45 @@ if (enabled &amp;&amp; permissions) {
                         <Fill/>
                         <TextEditor>
                           <ClientEvent name="onKeyDown" signature="self,arg,dsUrl,dsQuery,dtUrl,dtVC">if (arg.keyCode === 13) {
-	return;
+  return;
 }
 window.clearTimeout(self.urlQueryTimeout);
 self.urlQueryTimeout = window.setTimeout(function() {
-	var key = self.get(&quot;value&quot;);
-	var urls = dsUrl.getData();
-	var result = [];
-	dsUrl.cacheMap = {};
-	var parseUrls = function(urls, result) {
-		if (urls.entityCount &lt;= 0) {
-			return;
-		}
-		urls.each(function(url) {
-			var name = url.get(&quot;name&quot;) || &quot;&quot;;
-			var description = url.get(&quot;description&quot;) || &quot;&quot;;
-			if (name.indexOf(key) != -1 || description.indexOf(key) != -1) {
-				result.push(url.toJSON());
-			}
-			dsUrl.cacheMap[url.get(&quot;id&quot;)] = url;
-			parseUrls(url.get(&quot;children&quot;), result);
-		});
-	};
-	if (!key) {
-		dtUrl.set(&quot;dataSet&quot;, dsUrl);
-		dtVC.set({
-			dataSet: dsUrl,
-			dataPath: &quot;!currentNode.viewComponents&quot;
-		});
-		dsUrl.cacheMap = null;
-		return;
-	}
-	parseUrls(urls, result);
-	dsQuery.setData(result);
-	dtUrl.set(&quot;dataSet&quot;, dsQuery);
-	dtVC.set(&quot;dataSet&quot;, dsQuery);
-	dtVC.set({
-		dataSet: dsQuery,
-		dataPath: &quot;!currentNode.viewComponents&quot;
-	});
+  var key = self.get(&quot;value&quot;);
+  var urls = dsUrl.getData();
+  var result = [];
+  dsUrl.cacheMap = {};
+  var parseUrls = function(urls, result) {
+    if (urls.entityCount &lt;= 0) {
+      return;
+    }
+    urls.each(function(url) {
+      var name = url.get(&quot;name&quot;) || &quot;&quot;;
+      var description = url.get(&quot;description&quot;) || &quot;&quot;;
+      if (name.indexOf(key) != -1 || description.indexOf(key) != -1) {
+        result.push(url.toJSON());
+      }
+      dsUrl.cacheMap[url.get(&quot;id&quot;)] = url;
+      parseUrls(url.get(&quot;children&quot;), result);
+    });
+  };
+  if (!key) {
+    dtUrl.set(&quot;dataSet&quot;, dsUrl);
+    dtVC.set({
+      dataSet: dsUrl,
+      dataPath: &quot;!currentNode.viewComponents&quot;
+    });
+    dsUrl.cacheMap = null;
+    return;
+  }
+  parseUrls(urls, result);
+  dsQuery.setData(result);
+  dtUrl.set(&quot;dataSet&quot;, dsQuery);
+  dtVC.set(&quot;dataSet&quot;, dsQuery);
+  dtVC.set({
+    dataSet: dsQuery,
+    dataPath: &quot;!currentNode.viewComponents&quot;
+  });
 }, 150);</ClientEvent>
                           <Property name="trigger">triggerClear</Property>
                           <Property name="blankText">搜索</Property>
@@ -635,34 +644,34 @@ self.urlQueryTimeout = window.setTimeout(function() {
                         <ClientEvent name="onRenderNode">var data = arg.node.get(&quot;data&quot;);
 var icon = data.get(&quot;icon&quot;) || &quot;&quot;;
 if (icon.indexOf(&quot;.png&quot;) == -1 &amp;&amp; icon.indexOf(&quot;.svg&quot;) == -1) {
-	if (icon != arg.node.get(&quot;iconClass&quot;)) {
-		arg.node.set(&quot;iconClass&quot;, icon);
-	}
+  if (icon != arg.node.get(&quot;iconClass&quot;)) {
+    arg.node.set(&quot;iconClass&quot;, icon);
+  }
 } else {
-	if (icon != arg.node.get(&quot;icon&quot;)) {
-		arg.node.set(&quot;icon&quot;, icon);
-	}
+  if (icon != arg.node.get(&quot;icon&quot;)) {
+    arg.node.set(&quot;icon&quot;, icon);
+  }
 }
 $(arg.dom).text(data.get(&quot;name&quot;) || &quot;&quot;);
 </ClientEvent>
                         <ClientEvent name="onDataNodeCreate">var data = arg.node.get(&quot;data&quot;);
 var icon = data.get(&quot;icon&quot;) || &quot;&quot;;
 if (icon.indexOf(&quot;.png&quot;) == -1 &amp;&amp; icon.indexOf(&quot;.svg&quot;) == -1) {
-	if (icon != arg.node.get(&quot;iconClass&quot;)) {
-		arg.node.set(&quot;iconClass&quot;, icon);
-	}
+  if (icon != arg.node.get(&quot;iconClass&quot;)) {
+    arg.node.set(&quot;iconClass&quot;, icon);
+  }
 } else {
-	if (icon != arg.node.get(&quot;icon&quot;)) {
-		arg.node.set(&quot;icon&quot;, icon);
-	}
+  if (icon != arg.node.get(&quot;icon&quot;)) {
+    arg.node.set(&quot;icon&quot;, icon);
+  }
 }
 $(arg.dom).text(data.get(&quot;name&quot;) || &quot;&quot;);
 </ClientEvent>
                         <ClientEvent name="onCurrentChange" signature="self,arg,dtVC">if (self.get(&quot;dataSet&quot;) != dtVC.get(&quot;dataSet&quot;)) {
-	dtVC.set({
-		dataSet: self.get(&quot;dataSet&quot;),
-		dataPath: &quot;!currentNode.viewComponents&quot;
-	});
+  dtVC.set({
+    dataSet: self.get(&quot;dataSet&quot;),
+    dataPath: &quot;!currentNode.viewComponents&quot;
+  });
 }</ClientEvent>
                         <Property name="dataSet">dsUrl</Property>
                         <Property name="currentNodeDataPath">currentNode</Property>
@@ -702,13 +711,13 @@ $(arg.dom).text(data.get(&quot;name&quot;) || &quot;&quot;);
               <ToolBar>
                 <DataPilot>
                   <ClientEvent name="onSubControlAction" signature="self,arg,dialogRole,dsRole,updateActionRole">if (arg.code == &quot;+&quot;) {
-	dialogRole.show();
+  dialogRole.show();
 } else if (arg.code == &quot;-&quot;) {
-	dorado.MessageBox.confirm(&quot;确认要删除当前记录吗？&quot;, function() {
-		dsRole.getData(&quot;#&quot;).remove();
-		updateActionRole.execute();
-	});
-	arg.processDefault = false;
+  dorado.MessageBox.confirm(&quot;确认要删除当前记录吗？&quot;, function() {
+    dsRole.getData(&quot;#&quot;).remove();
+    updateActionRole.execute();
+  });
+  arg.processDefault = false;
 }
 </ClientEvent>
                   <Property name="dataSet">dsRole</Property>
@@ -723,27 +732,27 @@ $(arg.dom).text(data.get(&quot;name&quot;) || &quot;&quot;);
                 <Fill/>
                 <TextEditor>
                   <ClientEvent name="onKeyDown" signature="self,arg,dgRole">if (arg.keyCode === 13) {
-	return;
+  return;
 }
 window.clearTimeout(self.urlQueryTimeout);
 self.urlQueryTimeout = window.setTimeout(function() {
-	var key = self.get(&quot;value&quot;);
-	if (!key) {
-		dgRole.filter();
-	} else {
-		dgRole.filter([{
-			junction: &quot;or&quot;,
-			criterions: [{
-				property: &quot;name&quot;,
-				operator: &quot;like&quot;,
-				value: key
-			}, {
-				property: &quot;description&quot;,
-				operator: &quot;like&quot;,
-				value: key
-			}]
-		}]);
-	}
+  var key = self.get(&quot;value&quot;);
+  if (!key) {
+    dgRole.filter();
+  } else {
+    dgRole.filter([{
+      junction: &quot;or&quot;,
+      criterions: [{
+        property: &quot;name&quot;,
+        operator: &quot;like&quot;,
+        value: key
+      }, {
+        property: &quot;description&quot;,
+        operator: &quot;like&quot;,
+        value: key
+      }]
+    }]);
+  }
 }, 250);</ClientEvent>
                   <Property name="trigger">triggerClear</Property>
                   <Property name="blankText">按角色名或描述</Property>
@@ -829,7 +838,7 @@ self.urlQueryTimeout = window.setTimeout(function() {
     <UpdateAction id="updateActionCP">
       <ClientEvent name="onGetUpdateData" signature="self,arg,dtUrl,dsUrl">var url = dtUrl.get(&quot;currentEntity&quot;);
 if (dsUrl.cacheMap &amp;&amp; url !== dsUrl.cacheMap[url.get(&quot;id&quot;)]) {
-	url = dsUrl.cacheMap[url.get(&quot;id&quot;)];
+  url = dsUrl.cacheMap[url.get(&quot;id&quot;)];
 }
 arg.data = url.get(&quot;permissions&quot;).current;
 </ClientEvent>

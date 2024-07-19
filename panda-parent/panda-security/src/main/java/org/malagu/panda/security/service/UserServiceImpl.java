@@ -12,27 +12,31 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2017年6月6日
  */
 @Service
-@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-	@Override
-	public boolean isAdministrator(String username) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof User) {
-			if (((User) principal).getUsername().equals(username)) {
-				return ((User) principal).isAdministrator();
-			} 
-			if (username == null) {
-				return ((User) principal).isAdministrator();
-			}
-		}
-		User user = JpaUtil.linq(User.class).idEqual(username).findOne();
-		return user.isAdministrator();
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isAdministrator(String username) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            if (((User) principal).getUsername().equals(username)) {
+                return ((User) principal).isAdministrator();
+            }
+            if (username == null) {
+                return ((User) principal).isAdministrator();
+            }
+        }
+        User user = JpaUtil.linq(User.class).idEqual(username).findOne();
+        return user.isAdministrator();
+    }
 
-	@Override
-	public boolean isAdministrator() {
-		return isAdministrator(null);
-	}
+    @Override
+    public boolean isAdministrator() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return ((User) principal).isAdministrator();
+        }
+        return false;
+    }
 
 }
